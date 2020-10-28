@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Medical Gateway</string>
+    <string name="buttonLogin">Login</string>
+    <string name="buttonRegister">Register</string>
 </resources>
