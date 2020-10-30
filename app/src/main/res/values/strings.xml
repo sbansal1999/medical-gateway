@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Medical Gateway</string>
+    <string name="password">Password - </string>
+    <string name="name">Name - </string>
+    <string name="dob">D.O.B - </string>
+    <string name="ph.no">Ph.No - </string>
+    <string name="email">Email - </string>
+    <string name="Address">Address - </string>
 </resources>
