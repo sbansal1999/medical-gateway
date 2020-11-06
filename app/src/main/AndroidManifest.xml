@@ -10,9 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MedicalGateway">
         <activity android:name=".SplashActivity" />
-        <activity android:name=".RegisterActivity"></activity>
+
         <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".RegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
