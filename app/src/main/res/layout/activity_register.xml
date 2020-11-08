@@ -6,4 +6,183 @@
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+
+                app:layout_constraintGuide_percent="0.38" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_name"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="25dp"
+                app:boxStrokeColor="#00008B"
+                app:boxStrokeWidth="3dp"
+                app:endIconMode="clear_text"
+                app:layout_constraintBottom_toTopOf="@+id/text_dob"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name"
+                    android:textSize="18sp"
+
+                    android:textStyle="bold" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_dob"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                app:boxStrokeColor="#00008B"
+                app:boxStrokeWidth="3dp"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/dob"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_residential_address"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                app:boxStrokeColor="#00008B"
+                app:boxStrokeWidth="3dp"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="@+id/text_email_address"
+                app:layout_constraintStart_toStartOf="@+id/text_email_address"
+                app:layout_constraintTop_toBottomOf="@+id/text_email_address">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="117dp"
+                    android:hint="@string/Address"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_email_address"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                app:boxStrokeColor="#00008B"
+                app:boxStrokeWidth="3dp"
+                app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="@+id/text_ppassword"
+                app:layout_constraintStart_toStartOf="@+id/text_ppassword"
+                app:layout_constraintTop_toBottomOf="@+id/text_ppassword">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_ppassword"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                app:boxStrokeColor="#00008B"
+                app:boxStrokeWidth="3dp"
+                app:endIconMode="password_toggle"
+                app:layout_constraintEnd_toEndOf="@+id/text_dob"
+                app:layout_constraintStart_toStartOf="@+id/text_dob"
+                app:layout_constraintTop_toBottomOf="@+id/text_dob">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <Button
+                android:id="@+id/button_register"
+                android:layout_width="251dp"
+                android:layout_height="62dp"
+                android:layout_marginTop="55dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="Register"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/text_residential_address"
+                app:layout_constraintStart_toStartOf="@+id/text_residential_address"
+                app:layout_constraintTop_toBottomOf="@+id/text_residential_address" />
+
+            <CheckBox
+                android:id="@+id/checkBox_tc"
+                android:layout_width="wrap_content"
+                android:layout_height="59dp"
+                android:text="I accept the Terms and Condtions"
+                app:layout_constraintStart_toStartOf="@+id/text_residential_address"
+                app:layout_constraintTop_toBottomOf="@+id/text_residential_address" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
