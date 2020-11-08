@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Medical Gateway</string>
+
+    <string-array name="image_slider">
+        <!--        TODO Update Hospital Name-->
+        <item>Here in __________  we offer world class diagnosis and treatments</item>
+        <item>We have one of the world\'s best Doctors at your service.</item>
+        <item>We provide class leading </item>
+    </string-array>
+
+
+    <!--    Main Activity-->
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="welcome">Welcome!</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+
+
 </resources>
