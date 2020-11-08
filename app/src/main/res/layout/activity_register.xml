@@ -21,19 +21,14 @@
             android:layout_height="wrap_content">
 
 
-            <Button
-                android:id="@+id/button_register"
-                android:layout_width="251dp"
-                android:layout_height="62dp"
-                android:layout_marginTop="55dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:text="Register"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/text_residential_address"
-                app:layout_constraintStart_toStartOf="@+id/text_residential_address"
-                app:layout_constraintTop_toBottomOf="@+id/text_residential_address" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+
+                app:layout_constraintGuide_percent="0.38" />
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_name"
@@ -42,7 +37,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="400dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="25dp"
@@ -52,7 +46,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/text_dob"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="@+id/guideline">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -166,6 +160,19 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </com.google.android.material.textfield.TextInputLayout>
+            <Button
+                android:id="@+id/button_register"
+                android:layout_width="251dp"
+                android:layout_height="62dp"
+                android:layout_marginTop="55dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="Register"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/text_residential_address"
+                app:layout_constraintStart_toStartOf="@+id/text_residential_address"
+                app:layout_constraintTop_toBottomOf="@+id/text_residential_address" />
 
             <CheckBox
                 android:id="@+id/checkBox_tc"
