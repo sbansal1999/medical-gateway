@@ -29,9 +29,9 @@
     <Button
         android:id="@+id/button_loginMain"
         style="@style/buttonMainActivity"
-        android:drawableLeft="@drawable/ic_login"
         android:text="@string/login"
         android:textSize="24sp"
+        app:icon="@drawable/ic_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline_center" />
@@ -39,9 +39,9 @@
     <Button
         android:id="@+id/button_registerMain"
         style="@style/buttonMainActivity"
-        android:drawableLeft="@drawable/ic_register"
         android:text="@string/register"
         android:textSize="25sp"
+        app:icon="@drawable/ic_register"
         app:layout_constraintEnd_toEndOf="@id/button_loginMain"
         app:layout_constraintStart_toStartOf="@+id/button_loginMain"
         app:layout_constraintTop_toBottomOf="@id/button_loginMain" />
