@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="buttonMainActivity" >
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">8dp</item>
-    </style>
-
     <style name="style_slider_dots">
         <item name="android:scaleType">fitXY</item>
         <item name="android:layout_width">wrap_content</item>
@@ -24,7 +18,7 @@
         <item name="android:layout_marginRight">8dp</item>
     </style>
 
-    <style name="text_register" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="textStyle_register" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">16dp</item>
