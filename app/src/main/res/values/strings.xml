@@ -7,6 +7,7 @@
     <string name="ph.no">Ph.No  </string>
     <string name="email">Email Address  </string>
     <string name="Address">Residential Address  </string>
+    <string name="Phone">Phone </string>
 
 
     <string-array name="image_slider">
