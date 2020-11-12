@@ -26,4 +26,7 @@
     <string name="terms_and_conditions">I accept the Terms and Conditions</string>
     <string name="help">Help</string>
 
+    <!--    Login Activity-->
+    <string name="user_id">User ID</string>
+
 </resources>
