@@ -7,13 +7,12 @@
     tools:context=".MainActivity">
 
     <TextView
-        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/standard"
         android:layout_marginLeft="@dimen/standard"
-        android:layout_marginBottom="8dp"
         android:text="@string/welcome"
+        android:textSize="@dimen/standard_heading_size"
         app:layout_constraintBottom_toTopOf="@id/guideline_center"
         app:layout_constraintStart_toStartOf="parent" />
 
