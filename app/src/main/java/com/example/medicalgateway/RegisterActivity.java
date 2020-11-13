@@ -48,11 +48,19 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                if(!checknum)
                {
-                   Toast.makeText(RegisterActivity.this, "Invalid phone number", Toast.LENGTH_SHORT).show();
+                   binding.textNumber.setError("Invalid Number");
                }
+                if(checknum)
+                {
+                    binding.textNumber.setError(null);
+                }
                if(!check)
                {
-                   Toast.makeText(RegisterActivity.this, "Invalid email", Toast.LENGTH_SHORT).show();
+                   binding.textEmailAddress.setError("Invalid Email");
+               }
+               if(check)
+               {
+                   binding.textEmailAddress.setError(null);
                }
 
             }
