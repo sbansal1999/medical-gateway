@@ -14,7 +14,6 @@ public class ImageSliderActivity extends AppCompatActivity {
     private final static int NUMBER_OF_IMAGES = 3;
     private ActivityImageSliderBinding binding;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
