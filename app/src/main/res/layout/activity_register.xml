@@ -76,7 +76,9 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/textStyle_register_editText"
-                    android:hint="@string/dob" />
+                    android:hint="@string/dob"
+                    android:focusableInTouchMode="false"
+                    android:onClick="openDOB" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -130,8 +132,8 @@
                 style="@style/textStyle_register_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/register"
                 android:onClick="doRegister"
+                android:text="@string/register"
                 android:textAllCaps="false"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"

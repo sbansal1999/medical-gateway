@@ -2,6 +2,7 @@ package com.example.medicalgateway;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +10,17 @@ import com.example.medicalgateway.databinding.ActivityRegisterBinding;
 
 public class RegisterActivity extends AppCompatActivity {
     private ActivityRegisterBinding binding;
+
+    /**
+     * Returns month NAME for the provided month NUMBER
+     *
+     * @param month the number pf the month
+     * @return the name of the month
+     */
+    public static String theMonth(int month) {
+        String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        return monthNames[month];
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,5 +86,24 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    public void openDOB(View view) {
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public void processDatePickerResult(int year, int month, int day) {
+        String inputYear = String.valueOf(year);
+        String inputMonth = theMonth(month);
+        String inputDay = String.valueOf(day);
+
+        String message = inputDay + "/" + inputMonth + "/" + inputYear;
+
+        if (binding.textDob.getEditText() != null) {
+            binding.textDob.getEditText().setText(message);
+        }
+
+
     }
 }
