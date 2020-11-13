@@ -11,7 +11,7 @@
         android:theme="@style/Theme.MedicalGateway">
         <activity
             android:name=".PortalActivity"
-            android:label="@string/title_activity_portal"></activity>
+            android:label="@string/title_activity_portal" />
         <activity android:name=".ImageSliderActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
