@@ -20,7 +20,14 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                                                                 this,
+                                                                 year,
+                                                                 month,
+                                                                 day);
+        datePickerDialog.setCancelable(false);
+        return datePickerDialog;
+        //TODO remove cancel button smh
     }
 
     @Override
