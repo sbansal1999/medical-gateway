@@ -8,12 +8,11 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.medicalgateway.databinding.ActivityMainBinding;
-import com.example.medicalgateway.databinding.ActivityRegisterBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    //activity for the user to decide if he will login or register
     private ActivityMainBinding binding;
+    //activity for the user to decide if he will login or register
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,5 +34,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 }
