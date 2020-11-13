@@ -35,4 +35,5 @@
 
     <!--    Login Activity-->
     <string name="user_id">User ID</string>
+    <string name="forgot_password">Forgot Password?</string>
 </resources>
