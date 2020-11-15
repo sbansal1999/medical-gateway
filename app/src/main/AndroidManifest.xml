@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MedicalGateway">
-        <activity
-            android:name=".PortalActivity"
-            android:label="@string/title_activity_portal"></activity>
+        <activity android:name=".DoctorPortalActivity"></activity>
+        <activity android:name=".StaffPortalActivity" />
+        <activity android:name=".PatientPortalActivity" />
         <activity android:name=".ImageSliderActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
