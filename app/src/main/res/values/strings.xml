@@ -11,6 +11,7 @@
     <string name="Home">Home </string>
     <string name="pharmacy">Pharmacy </string>
     <string name="profile">Profile </string>
+    <string name="camera">Camera</string>
 
 
     <string-array name="image_slider">
