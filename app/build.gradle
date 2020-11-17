@@ -1,5 +1,7 @@
 plugins {
     id 'com.android.application'
+    //Firebase Implementation
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -26,7 +28,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding true
     }
 }
@@ -44,4 +46,8 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    //Firebase Implementation
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-database'
 }
