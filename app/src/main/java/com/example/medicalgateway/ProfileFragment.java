@@ -22,6 +22,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
 
+    private static final int IMAGE_DIMEN = 400;
     private FragmentProfilePatientBinding binding;
 
     @Override
@@ -44,9 +45,9 @@ public class ProfileFragment extends Fragment {
      */
     private void uploadImage() {
         CropImage.activity()
+                 .setMinCropResultSize(IMAGE_DIMEN/2, IMAGE_DIMEN/2)
+                 .setMaxCropResultSize(IMAGE_DIMEN, IMAGE_DIMEN)
                  .start(getContext(), this);
-
-        //TODO add image picker
     }
 
     @Override
