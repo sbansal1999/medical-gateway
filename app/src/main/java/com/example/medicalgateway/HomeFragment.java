@@ -1,64 +1,101 @@
 package com.example.medicalgateway;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.example.medicalgateway.adapters.SlidingImageHomeAdapter;
+import com.example.medicalgateway.databinding.FragmentHomePatientBinding;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class HomeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private final static int NUMBER_OF_IMAGES = 3;
+    private static final long SCROLL_DELAY = 5000;
+    private FragmentHomePatientBinding binding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    @Override
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentHomePatientBinding.inflate(inflater);
 
-    public HomeFragment() {
-        // Required empty public constructor
+        //Set Default Image Level
+        binding.imageDotFirst.setImageLevel(1);
+
+        SlidingImageHomeAdapter imageHomeAdapter = new SlidingImageHomeAdapter(
+                getChildFragmentManager(),
+                FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
+                NUMBER_OF_IMAGES);
+
+        binding.viewPagerImages.setAdapter(imageHomeAdapter);
+
+        binding.viewPagerImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                highlightDot(position);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
+        //TODO add something to make sure to stop on user touch
+
+        Handler handler = new Handler();
+        Runnable update = () -> {
+            int current = binding.viewPagerImages.getCurrentItem();
+            if (current == 2) {
+                binding.viewPagerImages.setCurrentItem(0, true);
+            } else {
+                binding.viewPagerImages.setCurrentItem(++current, true);
+            }
+        };
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(update);
+            }
+        }, SCROLL_DELAY, SCROLL_DELAY);
+
+        return binding.getRoot();
+
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * Method to change the dots below the viewPager according to the {@code position}
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
+     * @param position the index of the image currently on the screen
      */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    private void highlightDot(int position) {
+        binding.imageDotFirst.setImageLevel(0);
+        binding.imageDotSecond.setImageLevel(0);
+        binding.imageDotThird.setImageLevel(0);
+        switch (position) {
+            case 0:
+                binding.imageDotFirst.setImageLevel(1);
+                break;
+            case 1:
+                binding.imageDotSecond.setImageLevel(1);
+                break;
+            case 2:
+                binding.imageDotThird.setImageLevel(1);
+                break;
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_patient, container, false);
     }
 }

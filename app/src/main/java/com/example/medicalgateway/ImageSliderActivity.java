@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.medicalgateway.adapters.SlidingImageAdapter;
 import com.example.medicalgateway.databinding.ActivityImageSliderBinding;
 
 public class ImageSliderActivity extends AppCompatActivity {
@@ -29,7 +30,6 @@ public class ImageSliderActivity extends AppCompatActivity {
         //Set Default Image Level
         binding.imageDotFirst.setImageLevel(1);
 
-
         SlidingImageAdapter imageAdapter = new SlidingImageAdapter(getSupportFragmentManager(),
                                                                    FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
                                                                    NUMBER_OF_IMAGES);
@@ -43,16 +43,12 @@ public class ImageSliderActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
-
-
     }
 
     /**

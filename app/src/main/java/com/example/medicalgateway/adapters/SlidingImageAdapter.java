@@ -1,4 +1,4 @@
-package com.example.medicalgateway;
+package com.example.medicalgateway.adapters;
 
 import android.util.Log;
 
@@ -6,6 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+
+import com.example.medicalgateway.slidingimagesfragment.sliding_activity.SlidingImageFirstFragment;
+import com.example.medicalgateway.slidingimagesfragment.sliding_activity.SlidingImageSecondFragment;
+import com.example.medicalgateway.slidingimagesfragment.sliding_activity.SlidingImageThirdFragment;
 
 public class SlidingImageAdapter extends FragmentStatePagerAdapter {
     private int mNumOfTabs;
@@ -27,8 +31,8 @@ public class SlidingImageAdapter extends FragmentStatePagerAdapter {
                 return new SlidingImageThirdFragment();
             default:
                 Log.d("TAG", "Something unexpected");
-                return null;
         }
+        return new SlidingImageFirstFragment();
     }
 
     @Override
