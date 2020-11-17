@@ -2,10 +2,10 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <resources>
 
-    <color name="primaryColor">#f49da3</color>
-    <color name="primaryLightColor">#ffcfd4</color>
-    <color name="primaryDarkColor">#bf6e74</color>
-    <color name="secondaryColor">#00e676</color>
+    <color name="primaryColor">#89CFF0</color>
+    <color name="primaryLightColor">#89CFF0</color>
+    <color name="primaryDarkColor">#73C2FB</color>
+    <color name="secondaryColor">#9A9F9D</color>
     <color name="secondaryLightColor">#66ffa6</color>
     <color name="secondaryDarkColor">#00b248</color>
     <color name="primaryTextColor">#000000</color>

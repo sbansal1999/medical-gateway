@@ -9,14 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MedicalGateway">
+
         <activity
             android:name=".PortalActivity"
             android:label="@string/title_activity_portal" />
+        <activity android:name=".DoctorPortalActivity"/>
+        <activity android:name=".StaffPortalActivity" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".ImageSliderActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SplashActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".PatientPortalActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
