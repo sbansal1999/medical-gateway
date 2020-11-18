@@ -22,45 +22,46 @@ import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
 
-    private static final int IMAGE_DIMEN = 400;
+    private static final int IMAGE_DIMEN = 1000;
     private FragmentProfilePatientBinding binding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentProfilePatientBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
 
-        binding.buttonUploadImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uploadImage();
-            }
-        });
+        binding.buttonUploadImage.setOnClickListener(v -> uploadImage());
 
-        return view;
+        return binding.getRoot();
     }
 
     /**
      * Performs Uploading of the Image
      */
     private void uploadImage() {
-        CropImage.activity()
-                 .setMinCropResultSize(IMAGE_DIMEN/2, IMAGE_DIMEN/2)
-                 .setMaxCropResultSize(IMAGE_DIMEN, IMAGE_DIMEN)
-                 .start(getContext(), this);
+        if (getContext() != null) {
+            CropImage.activity()
+                     .setMinCropResultSize(IMAGE_DIMEN / 2, IMAGE_DIMEN / 2)
+                     .setMaxCropResultSize(IMAGE_DIMEN, IMAGE_DIMEN)
+                     .start(getContext(), this);
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode ,data);
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult activityResult = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                Uri resultUri = activityResult.getUri();
-                binding.circularImageView.setImageURI(resultUri);
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Toast.makeText(getContext(), "ERROR", Toast.LENGTH_SHORT)
-                     .show();
+        super.onActivityResult(requestCode, resultCode, data);
+        if (getContext() != null) {
+            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                CropImage.ActivityResult activityResult = CropImage.getActivityResult(data);
+                if (resultCode == RESULT_OK) {
+                    Uri resultUri = null;
+                    if (activityResult != null) {
+                        resultUri = activityResult.getUri();
+                    }
+                    binding.circularImageView.setImageURI(resultUri);
+                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Toast.makeText(getContext(), "ERROR", Toast.LENGTH_SHORT)
+                         .show();
+                }
             }
         }
     }

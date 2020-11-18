@@ -39,7 +39,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     }
 
-    private class CustomDatePickerDialog extends DatePickerDialog {
+    private static class CustomDatePickerDialog extends DatePickerDialog {
 
 
         public CustomDatePickerDialog(@NonNull Context context, @Nullable OnDateSetListener listener, int year, int month, int dayOfMonth) {
