@@ -11,21 +11,18 @@
         android:theme="@style/Theme.MedicalGateway">
         <activity android:name=".DoctorPortalActivity" />
         <activity android:name=".StaffPortalActivity" />
-        <activity android:name=".PatientPortalActivity">
+        <activity android:name=".PatientPortalActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-
-        </activity>
         <activity android:name=".ImageSliderActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SplashActivity" />
-
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
     </application>
 

@@ -1,14 +1,26 @@
 package com.example.medicalgateway;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medicalgateway.databinding.ActivityRegisterBinding;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+
+import org.jetbrains.annotations.NotNull;
 
 public class RegisterActivity extends AppCompatActivity {
+    //TODO add OTP verification
+    public final static String TAG = "LogTag";
+    private UserInfo userInfo;
     private ActivityRegisterBinding binding;
+
 
     /**
      * Returns month NAME for the provided month NUMBER
@@ -38,55 +50,104 @@ public class RegisterActivity extends AppCompatActivity {
      * @param view The Button that was clicked
      */
     public void doRegister(View view) {
-        {
-            String email = binding.textEmailAddress.getEditText()
-                                                   .getText()
-                                                   .toString();
-            String phone = binding.textNumber.getEditText()
-                                             .getText()
-                                             .toString();
-            String password = binding.textPassword.getEditText()
-                                                  .getText()
-                                                  .toString();
-            String regexLowerCase = ".*[a-z].*";
-            String regexUpperCase = ".*[A-Z].*";
-            String regexNum = ".*[0-9].*";
-            String regexSymbol = ".*[! @#$%^&*].*";
-            String regexEMail = "^[a-zA-Z0-9._]+[0-9._]+@[a-zA-Z]+[.]+[a-z]+$";
-            String regexPhone = "[0-9]{10}";
-
-
-            boolean checkPass = password.matches(regexLowerCase) && password.matches(regexUpperCase) && password.matches(
-                    regexNum) && password.matches(regexSymbol);
-            boolean checkEMail = email.matches(regexEMail);
-            boolean checkNum = phone.matches(regexPhone);
-
-
-            if (!checkPass || password.length() < 6) {
-                binding.textPassword.setError("Password must be - \n" + "1 - At Least 6 characters long \n" + "2 - Must contain a uppercase alphabet \n" + "3 - Must contain a lowercase alphabet \n" + "4 - Must contain a number \n" + "5 - Must contain a symbol - !,@,#,$,%,^,&,*");
-            }
-
-            if (checkPass) {
-                binding.textPassword.setError(null);
-            }
-
-            if (!checkNum) {
-                binding.textNumber.setError("Invalid Number");
-            }
-
-            if (checkNum) {
-                binding.textNumber.setError(null);
-            }
-
-            if (!checkEMail) {
-                binding.textEmailAddress.setError("Invalid Email");
-            }
-
-            if (checkEMail) {
-                binding.textEmailAddress.setError(null);
-            }
-
+        if (performValidation()) {
+            storeData();
         }
+    }
+
+    private boolean performValidation() {
+        //TODO add something on password field to show exactly what's wrong with it
+        String email = getTextFromTextInputLayout(binding.textEmailAddress);
+        String phone = getTextFromTextInputLayout(binding.textPhoneNumber);
+        String password = getTextFromTextInputLayout(binding.textPassword);
+
+        String regexLowerCase = ".*[a-z].*";
+        String regexUpperCase = ".*[A-Z].*";
+        String regexNum = ".*[0-9].*";
+        String regexSymbol = ".*[!@#$%^&*].*";
+        String regexEMail = "^[a-zA-Z0-9._]+@[a-zA-Z]+[.]+[a-z]+$";
+        String regexPhone = "[0-9]{10}";
+
+
+        boolean checkPass = password.matches(regexLowerCase) &&
+                            password.matches(regexUpperCase) &&
+                            password.matches(regexNum) &&
+                            password.matches(regexSymbol);
+        boolean checkEMail = email.matches(regexEMail);
+        boolean checkNum = phone.matches(regexPhone);
+
+
+        if (!checkPass || password.length() < 6) {
+            binding.textPassword.setError("Password must be - \n" +
+                                          "1 - At Least 6 characters long \n" +
+                                          "2 - Must contain a uppercase alphabet \n" +
+                                          "3 - Must contain a lowercase alphabet \n" +
+                                          "4 - Must contain a number \n" +
+                                          "5 - Must contain a symbol - !,@,#,$,%,^,&,*");
+        }
+
+        if (checkPass) {
+            binding.textPassword.setError(null);
+        }
+
+        if (!checkNum) {
+            binding.textPhoneNumber.setError("Invalid Number");
+        }
+
+        if (checkNum) {
+            binding.textPhoneNumber.setError(null);
+        }
+
+        if (!checkEMail) {
+            binding.textEmailAddress.setError("Invalid Email");
+        }
+
+        if (checkEMail) {
+            binding.textEmailAddress.setError(null);
+        }
+
+        return checkPass || password.length() >= 6 && checkNum && checkEMail;
+    }
+
+    private void storeData() {
+        String name = getTextFromTextInputLayout(binding.textName);
+        String phone = getTextFromTextInputLayout(binding.textPhoneNumber);
+        String DOB = getTextFromTextInputLayout(binding.textDob);
+        String password = getTextFromTextInputLayout(binding.textPassword);
+        String emailAddress = getTextFromTextInputLayout(binding.textEmailAddress);
+        String residentialAddress = getTextFromTextInputLayout(binding.textResidentialAddress);
+
+        userInfo = new UserInfo(name, phone, DOB, password, emailAddress, residentialAddress);
+
+        performFirebaseOperations(userInfo);
+    }
+
+    private void performFirebaseOperations(@NotNull UserInfo userInfo) {
+        FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
+
+        //create account on firebase for a particular user
+        mFirebaseAuth.createUserWithEmailAndPassword(userInfo.getEmailAddress(),
+                                                     userInfo.getPassword())
+                     .addOnCompleteListener(this, task -> {
+                         if (task.isSuccessful()) {
+                             Log.d(TAG, "User Created Successfully");
+                             showPopUp();
+
+                         } else {
+                             Log.d(TAG, "Failure");
+                             displayMessage("Registration Failure");
+                         }
+                     });
+    }
+
+    private void showPopUp() {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+
+    }
+
+    private void displayMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT)
+             .show();
     }
 
     public void openDOB(View view) {
@@ -107,5 +168,11 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    public String getTextFromTextInputLayout(@NotNull TextInputLayout textInputLayout) {
+        return textInputLayout.getEditText()
+                              .getText()
+                              .toString();
     }
 }
