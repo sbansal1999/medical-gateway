@@ -36,4 +36,9 @@
         <item name="android:textStyle">bold</item>
         <item name="android:maxLines">1</item>
     </style>
+
+    <style name="otp_dialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="windowMinWidthMajor">70%</item>
+        <item name="windowMinWidthMinor">70%</item>
+    </style>
 </resources>

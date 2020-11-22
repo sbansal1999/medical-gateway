@@ -52,8 +52,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/textStyle_register_editText"
-                    
-                    android:hint="@string/Phone" />
+                    android:hint="@string/Phone"
+                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -100,6 +100,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/textStyle_register_editText"
                     android:hint="@string/Address"
+                    android:inputType="textPostalAddress"
                     android:maxLines="3" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -116,7 +117,8 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/textStyle_register_editText"
-                    android:hint="@string/email" />
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -135,6 +137,7 @@
 
             <CheckBox
                 android:id="@+id/checkBox_tc"
+                android:focusable="false"
                 style="@style/textStyle_register_input"
                 android:text="@string/terms_and_conditions"
                 app:layout_constraintStart_toStartOf="@+id/text_residential_address"
