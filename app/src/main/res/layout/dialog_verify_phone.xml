@@ -1,48 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/text_otp_heading"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/standard"
+        android:paddingHorizontal="@dimen/standard"
         android:text="@string/otp_heading"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/text_mobile_number"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="9876543210"
-        app:layout_constraintStart_toStartOf="@id/text_otp_heading"
-        app:layout_constraintTop_toBottomOf="@id/text_otp_heading" />
 
     <EditText
         android:id="@+id/edit_otp"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:autofillHints="otp"
         android:ems="6"
+        android:gravity="center_horizontal"
         android:hint="@string/enter_here"
         android:inputType="number"
-        app:layout_constraintStart_toStartOf="@id/text_mobile_number"
-        app:layout_constraintTop_toBottomOf="@id/text_mobile_number" />
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/text_otp_heading"
+        app:layout_constraintStart_toStartOf="@id/text_otp_heading"
+        app:layout_constraintTop_toBottomOf="@id/text_otp_heading" />
 
     <Button
-        android:onClick="verifyOTP"
         android:id="@+id/button_verify"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="verifyOTP"
         android:text="@string/verify"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/edit_otp"
+        app:layout_constraintStart_toStartOf="@+id/edit_otp"
         app:layout_constraintTop_toBottomOf="@id/edit_otp" />
 
 

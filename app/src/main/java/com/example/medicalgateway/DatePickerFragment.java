@@ -26,7 +26,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
                                                                        year,
                                                                        month,
                                                                        day);
-        datePickerDialog.setCancelable(false);
         return datePickerDialog;
     }
 
@@ -41,12 +40,10 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     private static class CustomDatePickerDialog extends DatePickerDialog {
 
-
         public CustomDatePickerDialog(@NonNull Context context, @Nullable OnDateSetListener listener, int year, int month, int dayOfMonth) {
             super(context, listener, year, month, dayOfMonth);
             this.setButton(BUTTON_POSITIVE, "OK", this);
             this.setButton(BUTTON_NEGATIVE, "", this);
-
         }
     }
 }

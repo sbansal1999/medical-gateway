@@ -137,8 +137,8 @@
 
             <CheckBox
                 android:id="@+id/checkBox_tc"
-                android:focusable="false"
                 style="@style/textStyle_register_input"
+                android:focusable="false"
                 android:text="@string/terms_and_conditions"
                 app:layout_constraintStart_toStartOf="@+id/text_residential_address"
                 app:layout_constraintTop_toBottomOf="@+id/text_residential_address" />
