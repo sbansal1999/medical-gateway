@@ -1,7 +1,11 @@
 package com.example.medicalgateway;
 
+import android.app.ActivityOptions;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -34,16 +38,16 @@ public class RegisterActivity extends AppCompatActivity {
     //TODO add OTP verification
     public final static String TAG = "Log";
     private final static String COUNTRY_CODE = "+91";
+    private final static String CHILD_NAME = "patients";
     private UserInfo userInfo;
     private ActivityRegisterBinding binding;
     private FirebaseAuth mFirebaseAuth;
     private String mVerificationId;
-    private String CHILD_NAME = "patients";
     private EditText editTextOTP;
-
-
+    private PhoneAuthProvider.ForceResendingToken mToken;
+    private AlertDialog alertDialog;
     //Callback for PhoneAuthProvider
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+    private final PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
         public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
             displayLog("Automatically Verified");
@@ -56,6 +60,8 @@ public class RegisterActivity extends AppCompatActivity {
             if (e instanceof FirebaseAuthInvalidCredentialsException) {
                 binding.textPhoneNumber.setError("Invalid phone number");
             }
+            Toast.makeText(RegisterActivity.this, "Phone Number Verification Failed", Toast.LENGTH_SHORT)
+                 .show();
         }
 
         @Override
@@ -64,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
             displayLog("OTP Sent");
 
             mVerificationId = s;
+            mToken = forceResendingToken;
             showPopUp();
         }
     };
@@ -85,6 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
         mFirebaseAuth.signInWithCredential(phoneAuthCredential)
                      .addOnCompleteListener(this, task -> {
                          if (task.isSuccessful()) {
+                             //Correct OTP entered
                              FirebaseUser firebaseUser = task.getResult()
                                                              .getUser();
                              DatabaseReference databaseReference = FirebaseDatabase.getInstance()
@@ -92,8 +100,17 @@ public class RegisterActivity extends AppCompatActivity {
                              databaseReference.child(CHILD_NAME)
                                               .child(userInfo.getPhone())
                                               .setValue(userInfo);
-                         } else {
 
+                             Intent intent = new Intent(this, PatientPortalActivity.class);
+
+                             Bundle bundle = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? ActivityOptions.makeSceneTransitionAnimation(this)
+                                                                                                                    .toBundle() : null;
+
+                             startActivity(intent, bundle);
+                         } else {
+                             //Incorrect OTP entered
+                             alertDialog.findViewById(R.id.text_otp_warning)
+                                        .setVisibility(View.VISIBLE);
                          }
                      });
 
@@ -132,45 +149,22 @@ public class RegisterActivity extends AppCompatActivity {
      * false
      */
     private boolean performValidation() {
-        //TODO add something on password field to show exactly what's wrong with it
         String name = getTextFromTextInputLayout(binding.textName);
-        String email = getTextFromTextInputLayout(binding.textEmailAddress);
         String phone = getTextFromTextInputLayout(binding.textPhoneNumber);
-        String password = getTextFromTextInputLayout(binding.textPassword);
-        String address = getTextFromTextInputLayout(binding.textResidentialAddress);
-        String dob = getTextFromTextInputLayout(binding.textDob);
+        String DOB = getTextFromTextInputLayout(binding.textDob);
+        String emailAddress = getTextFromTextInputLayout(binding.textEmailAddress);
+        String residentialAddress = getTextFromTextInputLayout(binding.textResidentialAddress);
 
-        String regexLowerCase = ".*[a-z].*";
-        String regexUpperCase = ".*[A-Z].*";
-        String regexNum = ".*[0-9].*";
-        String regexSymbol = ".*[!@#$%^&*].*";
         String regexEMail = "^[a-zA-Z0-9._]+@[a-zA-Z]+[.]+[a-z]+$";
         String regexPhone = "[0-9]{10}";
 
 
-        boolean checkPass = password.matches(regexLowerCase) &&
-                            password.matches(regexUpperCase) &&
-                            password.matches(regexNum) &&
-                            password.matches(regexSymbol);
-        boolean checkEMail = email.matches(regexEMail);
+        boolean checkEMail = emailAddress.matches(regexEMail);
         boolean checkNum = phone.matches(regexPhone);
-        boolean checkAddress = !address.isEmpty();
+        boolean checkAddress = !residentialAddress.isEmpty();
         boolean checkName = !name.isEmpty();
-        boolean checkDOB = !dob.isEmpty();
+        boolean checkDOB = !DOB.isEmpty();
         boolean checkTC = binding.checkBoxTc.isChecked();
-
-        if (!checkPass || password.length() < 6) {
-            binding.textPassword.setError("Password must be - \n" +
-                                          "1 - At Least 6 characters long \n" +
-                                          "2 - Must contain a uppercase alphabet \n" +
-                                          "3 - Must contain a lowercase alphabet \n" +
-                                          "4 - Must contain a number \n" +
-                                          "5 - Must contain a symbol - !,@,#,$,%,^,&,*");
-        }
-
-        if (checkPass) {
-            binding.textPassword.setError(null);
-        }
 
         if (!checkNum) {
             binding.textPhoneNumber.setError("Invalid phone number");
@@ -216,13 +210,8 @@ public class RegisterActivity extends AppCompatActivity {
         if (checkDOB) {
             binding.textDob.setError(null);
         }
-        return (checkPass || password.length() >= 6) &&
-               checkNum &&
-               checkEMail &&
-               checkTC &&
-               checkAddress;
+        return checkNum && checkEMail && checkTC && checkAddress;
     }
-
 
     /**
      * Method to create an instance of {@link UserInfo}
@@ -231,11 +220,10 @@ public class RegisterActivity extends AppCompatActivity {
         String name = getTextFromTextInputLayout(binding.textName);
         String phone = getTextFromTextInputLayout(binding.textPhoneNumber);
         String DOB = getTextFromTextInputLayout(binding.textDob);
-        String password = getTextFromTextInputLayout(binding.textPassword);
         String emailAddress = getTextFromTextInputLayout(binding.textEmailAddress);
         String residentialAddress = getTextFromTextInputLayout(binding.textResidentialAddress);
 
-        userInfo = new UserInfo(name, phone, DOB, password, emailAddress, residentialAddress);
+        userInfo = new UserInfo(name, phone, DOB, emailAddress, residentialAddress);
         performFirebaseOperations(userInfo);
     }
 
@@ -252,19 +240,26 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void showPopUp() {
-        AlertDialog dialog = new AlertDialog.Builder(this).create();
-
-        dialog.setView(getLayoutInflater().inflate(R.layout.dialog_verify_phone, null));
-        dialog.setCancelable(false);
-
-        Toast.makeText(this,
-                       "An OTP has been sent to " +
-                       getTextFromTextInputLayout(binding.textPhoneNumber),
-                       Toast.LENGTH_SHORT)
+        Toast.makeText(this, "An OTP has been sent to " + getTextFromTextInputLayout(binding.textPhoneNumber), Toast.LENGTH_SHORT)
              .show();
-        dialog.show();
 
-        editTextOTP = dialog.findViewById(R.id.edit_otp);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setView(getLayoutInflater().inflate(R.layout.dialog_verify_phone, null))
+               .setCancelable(false)
+               .setPositiveButton("Verify OTP", null)
+               .setNeutralButton("Resend OTP", null);
+
+        alertDialog = builder.create();
+        alertDialog.show();
+
+        //To avoid closing the dialog after the button is clicked.
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)
+                   .setOnClickListener(v -> verifyOTP());
+        alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL)
+                   .setOnClickListener(v -> resendOTP());
+
+        editTextOTP = alertDialog.findViewById(R.id.edit_otp);
 
 //        int[] dimens = getScreenDimens();
 
@@ -276,8 +271,7 @@ public class RegisterActivity extends AppCompatActivity {
              .show();
 
         PhoneAuthOptions authOptions = PhoneAuthOptions.newBuilder(mFirebaseAuth)
-                                                       .setPhoneNumber(COUNTRY_CODE +
-                                                                       userInfo.getPhone())
+                                                       .setPhoneNumber(COUNTRY_CODE + userInfo.getPhone())
                                                        .setTimeout(60L, TimeUnit.SECONDS)
                                                        .setActivity(this)
                                                        .setCallbacks(mCallBacks)
@@ -321,26 +315,34 @@ public class RegisterActivity extends AppCompatActivity {
      * @param day   the date selected by the user
      */
     public void processDatePickerResult(int year, int month, int day) {
-        //close the opened keyboard
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        View view = getCurrentFocus();
-        if (view == null) {
-            view = new View(this);
-        }
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        closeSoftKeyboard();
 
         String inputYear = String.valueOf(year);
         String inputMonth = getMonthName(month);
         String inputDay = String.valueOf(day);
 
-        String message = inputDay + "/" + inputMonth + "/" + inputYear;
+        String message = inputDay + "/ " + inputMonth + "/ " + inputYear;
 
         if (binding.textDob.getEditText() != null) {
             binding.textDob.getEditText()
                            .setText(message);
         }
+    }
 
+    /**
+     * Method that closes any opened soft Keyboard
+     */
+    private void closeSoftKeyboard() {
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            View view = getCurrentFocus();
+            if (view == null) {
+                view = new View(this);
+            }
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        } catch (NullPointerException ignored) {
 
+        }
     }
 
     /**
@@ -357,14 +359,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * Called when "VERIFY" is tapped in the pop-up displayed by on the screen
-     *
-     * @param view the button that was clicked
      */
-    public void verifyOTP(View view) {
-        String enteredOTP = editTextOTP.getText()
-                                       .toString();
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId,
-                                                                         enteredOTP);
+    public void verifyOTP() {
+        String enteredOTP = "1";
+        if(!editTextOTP.getText().toString().isEmpty()) {
+            enteredOTP = editTextOTP.getText()
+                                           .toString();
+        }
+
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, enteredOTP);
 
         signInWithPhoneAuthCredential(credential);
     }
@@ -375,12 +378,26 @@ public class RegisterActivity extends AppCompatActivity {
      * @return true if online else false
      */
     public boolean isOnline() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(
-                CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
         return networkInfo != null && networkInfo.isConnectedOrConnecting();
 
 
+    }
+
+    /**
+     * Resend the OTP to the entered mobile number
+     */
+    public void resendOTP() {
+        PhoneAuthOptions authOptions = PhoneAuthOptions.newBuilder(mFirebaseAuth)
+                                                       .setPhoneNumber(COUNTRY_CODE + userInfo.getPhone())
+                                                       .setTimeout(60L, TimeUnit.SECONDS)
+                                                       .setActivity(this)
+                                                       .setForceResendingToken(mToken)
+                                                       .setCallbacks(mCallBacks)
+                                                       .build();
+
+        PhoneAuthProvider.verifyPhoneNumber(authOptions);
     }
 }

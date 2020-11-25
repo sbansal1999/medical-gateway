@@ -15,6 +15,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/text_otp_warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/wrong_otp"
+        android:visibility="invisible"
+        android:textColor="@android:color/holo_red_dark"
+        android:padding="@dimen/standard"
+        app:layout_constraintStart_toStartOf="@id/text_otp_heading"
+        app:layout_constraintTop_toBottomOf="@id/text_otp_heading" />
 
     <EditText
         android:id="@+id/edit_otp"
@@ -30,17 +40,6 @@
         app:layout_constraintEnd_toEndOf="@+id/text_otp_heading"
         app:layout_constraintStart_toStartOf="@id/text_otp_heading"
         app:layout_constraintTop_toBottomOf="@id/text_otp_heading" />
-
-    <Button
-        android:id="@+id/button_verify"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="verifyOTP"
-        android:text="@string/verify"
-        app:layout_constraintEnd_toEndOf="@+id/edit_otp"
-        app:layout_constraintStart_toStartOf="@+id/edit_otp"
-        app:layout_constraintTop_toBottomOf="@id/edit_otp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

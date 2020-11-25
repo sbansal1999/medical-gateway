@@ -48,4 +48,6 @@
     <string name="otp_heading">Enter the OTP sent to the entered mobile number</string>
     <string name="enter_here">Enter here</string>
     <string name="verify">VERIFY</string>
+    <string name="resend"><u>Resend OTP?</u></string>
+    <string name="wrong_otp">Wrong OTP!</string>
 </resources>

@@ -1,13 +1,16 @@
 package com.example.medicalgateway;
 
 public class UserInfo {
-    private String name, phone, DOB, password, emailAddress, residentialAddress;
+    private String name;
+    private String phone;
+    private String DOB;
+    private String emailAddress;
+    private String residentialAddress;
 
-    public UserInfo(String name, String phone, String DOB, String password, String emailAddress, String residentialAddress) {
+    public UserInfo(String name, String phone, String DOB, String emailAddress, String residentialAddress) {
         this.name = name;
         this.phone = phone;
         this.DOB = DOB;
-        this.password = password;
         this.emailAddress = emailAddress;
         this.residentialAddress = residentialAddress;
     }
@@ -34,14 +37,6 @@ public class UserInfo {
 
     public void setDOB(String DOB) {
         this.DOB = DOB;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmailAddress() {
