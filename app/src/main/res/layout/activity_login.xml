@@ -24,7 +24,7 @@
         app:layout_constraintGuide_percent="0.60" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_user_id"
+        android:id="@+id/text_phone_number"
         style="@style/textStyle_register_input"
         app:boxStrokeWidth="@dimen/text_input_stroke_width"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,45 +33,41 @@
 
         <com.google.android.material.textfield.TextInputEditText
             style="@style/textStyle_register_editText"
-            android:hint="@string/user_id" />
-
+            android:hint="@string/phone_number" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_password"
-        style="@style/textStyle_register_input"
-        app:boxStrokeWidth="@dimen/text_input_stroke_width"
-        app:endIconMode="password_toggle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_user_id">
+    <TextView
+        android:id="@+id/text_otp_heading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/standard"
+        android:text="@string/otp_heading"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/text_phone_number"
+        app:layout_constraintTop_toBottomOf="@id/text_phone_number" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            style="@style/textStyle_register_editText"
-            android:hint="@string/password"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="6"
+        android:gravity="center_horizontal"
+        android:hint="@string/enter_here"
+        android:textAlignment="center"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/text_otp_heading"
+        app:layout_constraintTop_toBottomOf="@id/text_otp_heading" />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/standard"
         android:background="@drawable/button_selector"
         android:text="@string/login"
+        android:onClick="verifyLogin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_password" />
-
-    <TextView
-        android:id="@+id/text_forgot_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/standard"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="@string/forgot_password"
-        app:layout_constraintStart_toStartOf="@id/text_password"
-        app:layout_constraintTop_toBottomOf="@id/text_password" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

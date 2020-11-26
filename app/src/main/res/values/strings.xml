@@ -6,10 +6,9 @@
     <string name="password">Password  </string>
     <string name="name">Name  </string>
     <string name="dob">Date of Birth  </string>
-    <string name="ph.no">Ph.No  </string>
     <string name="email">Email Address  </string>
     <string name="Address">Residential Address  </string>
-    <string name="Phone">Phone </string>
+    <string name="phone_number">Phone Number </string>
     <string name="Home">Home </string>
     <string name="pharmacy">Pharmacy </string>
     <string name="profile">Profile </string>

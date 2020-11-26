@@ -19,6 +19,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medicalgateway.databinding.ActivityRegisterBinding;
+import com.google.android.gms.auth.api.credentials.Credentials;
+import com.google.android.gms.auth.api.credentials.CredentialsClient;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
@@ -92,6 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
         mFirebaseAuth.signInWithCredential(phoneAuthCredential)
                      .addOnCompleteListener(this, task -> {
                          if (task.isSuccessful()) {
+                             alertDialog.dismiss();
                              //Correct OTP entered
                              FirebaseUser firebaseUser = task.getResult()
                                                              .getUser();
@@ -111,6 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
                              //Incorrect OTP entered
                              alertDialog.findViewById(R.id.text_otp_warning)
                                         .setVisibility(View.VISIBLE);
+
                          }
                      });
 
@@ -123,6 +129,8 @@ public class RegisterActivity extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        CredentialsClient credentialsClient = Credentials.getClient(this);
     }
 
     /**
@@ -132,6 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
      */
     public void doRegister(View view) {
         if (performValidation()) {
+            closeSoftKeyboard();
             if (isOnline()) {
                 storeData();
             } else {
@@ -210,6 +219,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (checkDOB) {
             binding.textDob.setError(null);
         }
+
         return checkNum && checkEMail && checkTC && checkAddress;
     }
 
@@ -248,7 +258,8 @@ public class RegisterActivity extends AppCompatActivity {
         builder.setView(getLayoutInflater().inflate(R.layout.dialog_verify_phone, null))
                .setCancelable(false)
                .setPositiveButton("Verify OTP", null)
-               .setNeutralButton("Resend OTP", null);
+               .setNeutralButton("Resend OTP", null)
+               .setNegativeButton("Change number", null);
 
         alertDialog = builder.create();
         alertDialog.show();
@@ -267,8 +278,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void verifyPhoneNumber() {
         displayLog("Verifying Phone Number");
-        Toast.makeText(this, "Verifying Phone Number", Toast.LENGTH_SHORT)
-             .show();
+        showSnackbar("Verifying Phone Number");
 
         PhoneAuthOptions authOptions = PhoneAuthOptions.newBuilder(mFirebaseAuth)
                                                        .setPhoneNumber(COUNTRY_CODE + userInfo.getPhone())
@@ -278,6 +288,15 @@ public class RegisterActivity extends AppCompatActivity {
                                                        .build();
 
         PhoneAuthProvider.verifyPhoneNumber(authOptions);
+    }
+
+    /**
+     * Shows a {@link Snackbar} that has text sent in message
+     * @param message the text to be displayed
+     */
+    private void showSnackbar(String message) {
+        Snackbar.make(binding.getRoot(), message, BaseTransientBottomBar.LENGTH_SHORT)
+                .show();
     }
 
     /**
@@ -362,9 +381,11 @@ public class RegisterActivity extends AppCompatActivity {
      */
     public void verifyOTP() {
         String enteredOTP = "1";
-        if(!editTextOTP.getText().toString().isEmpty()) {
+        if (!editTextOTP.getText()
+                        .toString()
+                        .isEmpty()) {
             enteredOTP = editTextOTP.getText()
-                                           .toString();
+                                    .toString();
         }
 
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, enteredOTP);
@@ -390,6 +411,9 @@ public class RegisterActivity extends AppCompatActivity {
      * Resend the OTP to the entered mobile number
      */
     public void resendOTP() {
+        alertDialog.dismiss();
+        showSnackbar("Resending OTP");
+
         PhoneAuthOptions authOptions = PhoneAuthOptions.newBuilder(mFirebaseAuth)
                                                        .setPhoneNumber(COUNTRY_CODE + userInfo.getPhone())
                                                        .setTimeout(60L, TimeUnit.SECONDS)
