@@ -15,20 +15,18 @@
         <activity android:name=".StaffPortalActivity" />
         <activity android:name=".PatientPortalActivity" />
         <activity android:name=".MainActivity">
-
-        </activity>
-        <activity android:name=".ImageSliderActivity" />
-        <activity
-            android:name=".RegisterActivity"
-            android:noHistory="true">
-            <meta-data
-                android:name="com.google.android.safetynet.ATTEST_API_KEY"
-                android:value="@string/safety_net_api_key" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".ImageSliderActivity" />
+        <activity android:name=".RegisterActivity">
+            <meta-data
+                android:name="com.google.android.safetynet.ATTEST_API_KEY"
+                android:value="@string/safety_net_api_key" />
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".SplashActivity" />

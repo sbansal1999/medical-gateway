@@ -49,4 +49,5 @@
     <string name="verify">VERIFY</string>
     <string name="resend"><u>Resend OTP?</u></string>
     <string name="wrong_otp">Wrong OTP!</string>
+    <string name="open_terms_and_conditions">Open Terms and Conditions</string>
 </resources>

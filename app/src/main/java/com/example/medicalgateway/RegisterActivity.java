@@ -1,10 +1,12 @@
 package com.example.medicalgateway;
 
 import android.app.ActivityOptions;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -19,8 +21,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medicalgateway.databinding.ActivityRegisterBinding;
-import com.google.android.gms.auth.api.credentials.Credentials;
-import com.google.android.gms.auth.api.credentials.CredentialsClient;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
@@ -38,13 +38,21 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
-public class RegisterActivity extends AppCompatActivity {
-    //TODO add OTP verification
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     public final static String TAG = "Log";
     private final static String COUNTRY_CODE = "+91";
     private final static String CHILD_NAME = "patients";
-    private UserInfo userInfo;
+    private final static String LINK_TO_TERMS_AND_CONDITIONS = "https://firebasestorage.googleapis.com/v0/b/medical-gateway-296507.appspot.com/o/terms_and_conditions.txt?alt=media&token=618eaa58-dea0-4966-bd4e-d8f16048e1d8;";
+    private final static String KEY_NAME = "KEY_NAME";
+    private final static String KEY_PHONE_NUMBER = "KEY_PHONE_NUMBER";
+    private final static String KEY_DOB = "KEY_DOB";
+    private final static String KEY_EMAIL_ADDRESS = "KEY_EMAIL_ADDRESS";
+    private final static String KEY_RESIDENTIAL_ADDRESS = "KEY_RESIDENTIAL_ADDRESS";
+    private static final String KEY_ALERT_DIALOG = "KEY_ALERT_DIALOG";
+    private static final String KEY_OTP = "KEY_OTP";
+    private boolean isAlertDialogDisplayed = false;
     private ActivityRegisterBinding binding;
+    private UserInfo userInfo;
     private FirebaseAuth mFirebaseAuth;
     private String mVerificationId;
     private EditText editTextOTP;
@@ -72,7 +80,8 @@ public class RegisterActivity extends AppCompatActivity {
         public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
             displayLog("OTP Sent");
-
+            Toast.makeText(RegisterActivity.this, "An OTP has been sent to " + getTextFromTextInputLayout(binding.textPhoneNumber), Toast.LENGTH_SHORT)
+                 .show();
             mVerificationId = s;
             mToken = forceResendingToken;
             showPopUp();
@@ -90,6 +99,11 @@ public class RegisterActivity extends AppCompatActivity {
         return monthNames[monthNumber];
     }
 
+    /**
+     * /Sign in the user to the Firebase using the provided {@link PhoneAuthCredential} instance
+     *
+     * @param phoneAuthCredential this will be used to sign in the user
+     */
     private void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) {
         displayLog("signing in");
 
@@ -103,14 +117,14 @@ public class RegisterActivity extends AppCompatActivity {
                              DatabaseReference databaseReference = FirebaseDatabase.getInstance()
                                                                                    .getReference();
                              databaseReference.child(CHILD_NAME)
-                                              .child(userInfo.getPhone())
+                                              .child(firebaseUser.getUid())
                                               .setValue(userInfo);
 
                              Intent intent = new Intent(this, PatientPortalActivity.class);
 
                              Bundle bundle = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? ActivityOptions.makeSceneTransitionAnimation(this)
                                                                                                                     .toBundle() : null;
-
+                             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                              startActivity(intent, bundle);
                          } else {
                              //Incorrect OTP entered
@@ -130,18 +144,51 @@ public class RegisterActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        CredentialsClient credentialsClient = Credentials.getClient(this);
+        binding.editTextDob.setOnClickListener(this);
+
+        //Retrieve data from savedInstanceState if any
+        if (savedInstanceState != null) {
+            //Set strings in Edit Texts
+            setEditTextValueFromInstanceState(savedInstanceState, binding.textName, KEY_NAME);
+            setEditTextValueFromInstanceState(savedInstanceState, binding.textPhoneNumber, KEY_PHONE_NUMBER);
+            setEditTextValueFromInstanceState(savedInstanceState, binding.textDob, KEY_DOB);
+            setEditTextValueFromInstanceState(savedInstanceState, binding.textEmailAddress, KEY_EMAIL_ADDRESS);
+            setEditTextValueFromInstanceState(savedInstanceState, binding.textResidentialAddress, KEY_RESIDENTIAL_ADDRESS);
+
+            //Display PopUp and the entered OTP if it was already displayed
+            isAlertDialogDisplayed = savedInstanceState.getBoolean(KEY_ALERT_DIALOG);
+            if (isAlertDialogDisplayed) {
+                showPopUp();
+                EditText editTextOTP = alertDialog.findViewById(R.id.edit_otp);
+                if (editTextOTP != null) {
+                    editTextOTP.setText(savedInstanceState.getString(KEY_OTP));
+                }
+            }
+        }
+    }
+
+    /**
+     * Sets the entered text to {@link TextInputLayout} in {@link Bundle} with the given key
+     *
+     * @param savedInstanceState the {@link Bundle} in which the String is stored
+     * @param textInputLayout    the {@link TextInputLayout} in which the text is to entered
+     * @param key                the key will be used to extract value from savedInstanceState
+     */
+    private void setEditTextValueFromInstanceState(Bundle savedInstanceState, TextInputLayout textInputLayout, String key) {
+        setTextInTextInputLayout(textInputLayout, savedInstanceState.getString(key));
+
     }
 
     /**
      * Method which performs the registration process
-     *
      * @param view The Button that was clicked
      */
     public void doRegister(View view) {
+        showPopUp();
         if (performValidation()) {
             closeSoftKeyboard();
             if (isOnline()) {
+                binding.progressCircular.setVisibility(View.VISIBLE);
                 storeData();
             } else {
                 Toast.makeText(this, "Connect to Internet to continue", Toast.LENGTH_SHORT)
@@ -234,25 +281,21 @@ public class RegisterActivity extends AppCompatActivity {
         String residentialAddress = getTextFromTextInputLayout(binding.textResidentialAddress);
 
         userInfo = new UserInfo(name, phone, DOB, emailAddress, residentialAddress);
-        performFirebaseOperations(userInfo);
+        performFirebaseOperations();
     }
 
     /**
      * Method to perform Firebase Operations using the passed instance
-     *
-     * @param userInfo the instance used to create user as well as feed data into the database
      */
-    private void performFirebaseOperations(@NotNull UserInfo userInfo) {
+    private void performFirebaseOperations() {
         mFirebaseAuth = FirebaseAuth.getInstance();
-
         verifyPhoneNumber();
-
     }
 
+    /**
+     * Displays an {@link AlertDialog} which asks the user to enter the OTP
+     */
     private void showPopUp() {
-        Toast.makeText(this, "An OTP has been sent to " + getTextFromTextInputLayout(binding.textPhoneNumber), Toast.LENGTH_SHORT)
-             .show();
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setView(getLayoutInflater().inflate(R.layout.dialog_verify_phone, null))
@@ -262,6 +305,10 @@ public class RegisterActivity extends AppCompatActivity {
                .setNegativeButton("Change number", null);
 
         alertDialog = builder.create();
+
+        binding.progressCircular.setVisibility(View.INVISIBLE);
+
+        isAlertDialogDisplayed = true;
         alertDialog.show();
 
         //To avoid closing the dialog after the button is clicked.
@@ -276,6 +323,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Starts Verification of the Phone number entered by the user
+     */
     private void verifyPhoneNumber() {
         displayLog("Verifying Phone Number");
         showSnackbar("Verifying Phone Number");
@@ -292,6 +342,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     /**
      * Shows a {@link Snackbar} that has text sent in message
+     *
      * @param message the text to be displayed
      */
     private void showSnackbar(String message) {
@@ -371,9 +422,12 @@ public class RegisterActivity extends AppCompatActivity {
      * @return the retrieved text
      */
     public String getTextFromTextInputLayout(@NotNull TextInputLayout textInputLayout) {
-        return textInputLayout.getEditText()
-                              .getText()
-                              .toString();
+        if (textInputLayout.getEditText() != null) {
+            return textInputLayout.getEditText()
+                                  .getText()
+                                  .toString();
+        }
+        return null;
     }
 
     /**
@@ -424,4 +478,67 @@ public class RegisterActivity extends AppCompatActivity {
 
         PhoneAuthProvider.verifyPhoneNumber(authOptions);
     }
+
+    /**
+     * Method that opens the Terms & Conditions in a browser
+     *
+     * @param view the button that was clicked
+     */
+    public void openTC(View view) {
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(LINK_TO_TERMS_AND_CONDITIONS));
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException ex) {
+            showSnackbar("No Browser Detected");
+        }
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        openDOB(v);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        //Retrieve texts in EditTexts if it's not empty
+        storeStringInOutState(outState, binding.textName, KEY_NAME);
+        storeStringInOutState(outState, binding.textPhoneNumber, KEY_PHONE_NUMBER);
+        storeStringInOutState(outState, binding.textDob, KEY_DOB);
+        storeStringInOutState(outState, binding.textEmailAddress, KEY_EMAIL_ADDRESS);
+        storeStringInOutState(outState, binding.textResidentialAddress, KEY_RESIDENTIAL_ADDRESS);
+
+        if (isAlertDialogDisplayed) {
+            outState.putBoolean(KEY_ALERT_DIALOG, true);
+            EditText editTextOTP = alertDialog.findViewById(R.id.edit_otp);
+            if (editTextOTP != null) {
+                outState.putString(KEY_OTP, editTextOTP.getText()
+                                                       .toString());
+            }
+        }
+    }
+
+    /**
+     * Stores the entered text in {@link TextInputLayout} in {@link Bundle} with the given key
+     *
+     * @param outState        the {@link Bundle} in which the String is to be stored
+     * @param textInputLayout the {@link TextInputLayout} to which the text is to be extracted
+     * @param key             the key will be used to extract value from outState
+     */
+    private void storeStringInOutState(@NonNull Bundle outState, TextInputLayout textInputLayout, String key) {
+        if (!getTextFromTextInputLayout(textInputLayout).isEmpty()) {
+            outState.putString(key, getTextFromTextInputLayout(textInputLayout));
+        }
+    }
+
+    private void setTextInTextInputLayout(@NotNull TextInputLayout textInputLayout, String string) {
+        if (textInputLayout.getEditText() != null) {
+            textInputLayout.getEditText()
+                           .setText(string);
+        }
+    }
+
 }
