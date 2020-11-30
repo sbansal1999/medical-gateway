@@ -60,7 +60,7 @@ public class ProfileFragment extends Fragment {
                                     public void onClick(DialogInterface dialog,int id) {
                                         // get user input and set it to result
                                         // edit text
-                                        binding.textView9.setText(userInput.getText());
+                                        binding.textAddressPatient.setText(userInput.getText());
                                     }
                                 })
                         .setNegativeButton("Cancel",
