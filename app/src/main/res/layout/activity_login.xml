@@ -33,7 +33,9 @@
 
         <com.google.android.material.textfield.TextInputEditText
             style="@style/textStyle_register_editText"
-            android:hint="@string/phone_number" />
+            android:hint="@string/phone_number"
+            android:inputType="number"
+            android:maxLength="10" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -46,28 +48,116 @@
         app:layout_constraintStart_toStartOf="@id/text_phone_number"
         app:layout_constraintTop_toBottomOf="@id/text_phone_number" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
+        android:id="@+id/edit_otp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="6"
+        android:autofillHints="otp"
         android:gravity="center_horizontal"
         android:hint="@string/enter_here"
+        android:inputType="number"
+        android:maxLength="6"
         android:textAlignment="center"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@id/text_otp_heading"
         app:layout_constraintTop_toBottomOf="@id/text_otp_heading" />
 
-
-    <androidx.appcompat.widget.AppCompatButton
+    <TextView
+        android:id="@+id/text_otp_warning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/standard"
-        android:background="@drawable/button_selector"
-        android:text="@string/login"
-        android:onClick="verifyLogin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:text="@string/wrong_otp"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/edit_otp"
+        app:layout_constraintTop_toBottomOf="@id/edit_otp" />
 
+    <Button
+        android:id="@+id/button_resend_otp"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="resendOTP"
+        android:text="@string/resend_otp"
+        android:textAllCaps="false"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_otp"
+        app:layout_constraintEnd_toStartOf="@+id/button_change_number"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/edit_otp"
+        app:layout_constraintTop_toTopOf="@+id/edit_otp" />
+
+    <Button
+        android:id="@+id/button_change_number"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="changeNumber"
+        android:text="@string/change_number"
+        android:textAllCaps="false"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/button_resend_otp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button_resend_otp"
+        app:layout_constraintTop_toTopOf="@+id/button_resend_otp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/standard"
+        android:background="@drawable/button_selector"
+        android:onClick="verifyLogin"
+        android:padding="@dimen/standard"
+        android:text="@string/login"
+        app:layout_constraintEnd_toStartOf="@+id/button_verify_otp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_resend_otp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_verify_otp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_selector"
+        android:onClick="verifyOTP"
+        android:padding="@dimen/standard"
+        android:text="@string/verify_otp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button_login"
+        app:layout_constraintTop_toTopOf="@id/button_login" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/button_login"
+        app:layout_constraintEnd_toStartOf="@id/button_verify_otp"
+        app:layout_constraintStart_toEndOf="@id/button_login"
+        app:layout_constraintTop_toTopOf="@id/button_login" />
+
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/facebook_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toTopOf="@id/button_login"
+        app:layout_constraintStart_toStartOf="@id/text_phone_number"
+        app:layout_constraintTop_toBottomOf="@id/text_phone_number" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/google_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/facebook_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/facebook_login"
+        app:layout_constraintTop_toTopOf="@id/facebook_login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

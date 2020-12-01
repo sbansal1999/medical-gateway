@@ -53,6 +53,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/textStyle_register_editText"
                     android:hint="@string/phone_number"
+                    android:maxLength="10"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
