@@ -10,14 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.medicalgateway.databinding.ActivityLoginBinding;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -29,26 +23,25 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Call;
+import static com.example.medicalgateway.MedicalUtils.getTextFromTextInputLayout;
+import static com.example.medicalgateway.MedicalUtils.setTextInTextInputLayout;
 
 public class LoginActivity extends AppCompatActivity {
     //TODO enable sign in via google,facebook,etc.
 
-    public static final String EXTRA_PHONE_NUMBER = "com.example.medicalgateway.EXTRA_PHONE_NUMBER";
+    public static final String EXTRA_PHONE_NUMBER = "com.example.medicalgateway.LoginActivity.EXTRA_PHONE_NUMBER";
     private static final String TAG = "TAG";
     private ActivityLoginBinding mBinding;
     private FirebaseAuth mFirebaseAuth;
     private String mVerificationId;
     private String mPhoneNumber;
     private PhoneAuthProvider.ForceResendingToken mToken;
-    private CallbackManager mCallbackManager;
 
     //Callback for PhoneAuthProvider
     private final PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -81,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             startOTPVerificationProcess();
         }
     };
+    private DatabaseReference rootRef;
 
     /**
      * /Sign in the user to the Firebase using the provided {@link PhoneAuthCredential} instance
@@ -92,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mFirebaseAuth.signInWithCredential(phoneAuthCredential)
                      .addOnCompleteListener(this, task -> {
+                         disableViews(mBinding.progressBar);
                          if (task.isSuccessful()) {
                              //Correct OTP Entered
                              FirebaseUser firebaseUser = task.getResult()
@@ -143,74 +138,55 @@ public class LoginActivity extends AppCompatActivity {
         mBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        performFacebookLoginInitialization();
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
-    }
-
-    private void performFacebookLoginInitialization() {
-        mCallbackManager = CallbackManager.Factory.create();
-        LoginButton loginButton = mBinding.facebookLogin;
-        loginButton.setReadPermissions("email");
-
-        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-        });
+        if (getIntent().hasExtra(RegisterActivity.EXTRA_PHONE_NUMBER)) {
+            setTextInTextInputLayout(mBinding.textPhoneNumber, getIntent().getStringExtra(RegisterActivity.EXTRA_PHONE_NUMBER));
+        }
     }
 
     public void verifyLogin(View view) {
         mPhoneNumber = getTextFromTextInputLayout(mBinding.textPhoneNumber);
         if (validatePhoneNumber()) {
-            enableViews(mBinding.progressBar);
-            if (mBinding.textPhoneNumber.getEditText() != null) {
-                mBinding.textPhoneNumber.getEditText()
-                                        .setEnabled(false);
+            if (MedicalUtils.isOnline(this, true)) {
+                enableViews(mBinding.progressBar);
+                if (mBinding.textPhoneNumber.getEditText() != null) {
+                    mBinding.textPhoneNumber.getEditText()
+                                            .setEnabled(false);
+                }
+
+                rootRef = FirebaseDatabase.getInstance()
+                                          .getReference();
+
+                rootRef.child(RegisterActivity.CHILD_NAME)
+                       .orderByChild("phone")
+                       .equalTo(mPhoneNumber)
+                       .addListenerForSingleValueEvent(new ValueEventListener() {
+                           @Override
+                           public void onDataChange(@NonNull DataSnapshot snapshot) {
+                               if (snapshot.exists()) {
+                                   displayLog("Old User Detected");
+                                   verifyPhoneNumber();
+                               } else {
+                                   displayLog("New User Detected");
+                                   Toast.makeText(LoginActivity.this, "Redirecting you to the Register Page", Toast.LENGTH_SHORT)
+                                        .show();
+                                   Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                                   intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                   intent.putExtra(EXTRA_PHONE_NUMBER, mPhoneNumber);
+                                   startActivity(intent);
+                               }
+                           }
+
+                           @Override
+                           public void onCancelled(@NonNull DatabaseError error) {
+                               displayLog(error.getMessage());
+
+                           }
+                       });
+
+                displayLog("end");
             }
-
-
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-                                                                  .getReference();
-            Query query = databaseReference.child(RegisterActivity.CHILD_NAME)
-                                           .orderByChild("phone")
-                                           .equalTo(mPhoneNumber);
-            displayLog("query");
-
-            query.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        displayLog("Old User Detected");
-                        verifyPhoneNumber();
-                    } else {
-                        displayLog("New User Detected");
-                        Toast.makeText(LoginActivity.this, "Redirecting you to the Register Page", Toast.LENGTH_SHORT)
-                             .show();
-                        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                        intent.putExtra(EXTRA_PHONE_NUMBER, mPhoneNumber);
-                        startActivity(intent);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    displayLog(error.getMessage());
-
-                }
-            });
-
-            displayLog("end");
         }
 
     }
@@ -233,7 +209,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Resend the OTP to the entered mobile number
+     * Re-sends the OTP to the entered mobile number
      */
     public void resendOTP(View view) {
         showSnackbar("Resending OTP");
@@ -252,7 +228,7 @@ public class LoginActivity extends AppCompatActivity {
     public void changeNumber(View view) {
         mBinding.textPhoneNumber.getEditText()
                                 .setEnabled(true);
-        disableViews(mBinding.buttonVerifyOtp);
+        disableViews(mBinding.buttonVerifyOtp, mBinding.textOtpHeading, mBinding.editOtp, mBinding.buttonResendOtp, mBinding.buttonChangeNumber);
         enableViews(mBinding.buttonLogin);
     }
 
@@ -265,6 +241,7 @@ public class LoginActivity extends AppCompatActivity {
                                          .toString();
         }
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, enteredOTP);
+        enableViews(mBinding.progressBar);
 
         signInWithPhoneAuthCredential(credential);
     }
@@ -274,7 +251,6 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void verifyPhoneNumber() {
         showSnackbar("Verifying Phone Number");
-        mFirebaseAuth = FirebaseAuth.getInstance();
 
         //Remove Social Sign-ins
 //        disableViews(mBinding.imageButtonFacebook, mBinding.imageButtonGoogle);
@@ -292,18 +268,5 @@ public class LoginActivity extends AppCompatActivity {
         PhoneAuthProvider.verifyPhoneNumber(authOptions);
     }
 
-    /**
-     * Retrieves text from the {@link android.widget.EditText} in the passed {@code textInputLayout}
-     *
-     * @param textInputLayout the view from which the text is to be retrieved
-     * @return the retrieved text
-     */
-    private String getTextFromTextInputLayout(@NotNull TextInputLayout textInputLayout) {
-        if (textInputLayout.getEditText() != null) {
-            return textInputLayout.getEditText()
-                                  .getText()
-                                  .toString();
-        }
-        return null;
-    }
+
 }

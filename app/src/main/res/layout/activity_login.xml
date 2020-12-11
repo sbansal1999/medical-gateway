@@ -139,25 +139,4 @@
         app:layout_constraintStart_toEndOf="@id/button_login"
         app:layout_constraintTop_toTopOf="@id/button_login" />
 
-
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/facebook_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintBottom_toTopOf="@id/button_login"
-        app:layout_constraintStart_toStartOf="@id/text_phone_number"
-        app:layout_constraintTop_toBottomOf="@id/text_phone_number" />
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/google_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/facebook_login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/facebook_login"
-        app:layout_constraintTop_toTopOf="@id/facebook_login" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,12 +4,9 @@ import android.app.ActivityOptions;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -34,17 +31,28 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import static com.example.medicalgateway.MedicalUtils.getTextFromTextInputLayout;
+import static com.example.medicalgateway.MedicalUtils.setTextInTextInputLayout;
+
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
-    //TODO add onTextChanged in all fields
+    //TODO add onTextChanged in all fields and retrieve phone number automatically
+    public static final String EXTRA_PHONE_NUMBER = "com.example.medicalgateway.RegisterActivity.EXTRA_PHONE_NUMBER";
     public final static String TAG = "Log";
-    public final static String CHILD_NAME = "patients";
+    public final static String CHILD_NAME = "patients_info";
     private final static String LINK_TO_TERMS_AND_CONDITIONS = "https://firebasestorage.googleapis.com/v0/b/medical-gateway-296507.appspot.com/o/terms_and_conditions.txt?alt=media&token=618eaa58-dea0-4966-bd4e-d8f16048e1d8;";
     private final static String BUNDLE_NAME = "BUNDLE_NAME";
     private final static String BUNDLE_PHONE_NUMBER = "BUNDLE_PHONE_NUMBER";
@@ -61,6 +69,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private PhoneAuthProvider.ForceResendingToken mToken;
     private EditText editTextOTP;
     private AlertDialog alertDialog;
+    private String enteredPhoneNumber;
+    private DatabaseReference rootRef;
     //Callback for PhoneAuthProvider
     private final PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
@@ -119,10 +129,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                              Intent intent = new Intent(this, PatientPortalActivity.class);
 
+                             Toast.makeText(this, "Successfully Registered", Toast.LENGTH_SHORT)
+                                  .show();
+
                              Bundle bundle = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? ActivityOptions.makeSceneTransitionAnimation(this)
                                                                                                                     .toBundle() : null;
                              intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                              startActivity(intent, bundle);
+                             finish();
                          } else {
                              //Incorrect OTP entered
                              if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
@@ -139,13 +153,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         if (task.getResult() != null) {
             FirebaseUser firebaseUser = task.getResult()
                                             .getUser();
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-                                                                  .getReference();
 
             if (firebaseUser != null) {
-                databaseReference.child(CHILD_NAME)
-                                 .child(userInfo.getPhone())
-                                 .setValue(userInfo);
+                DatabaseReference childReference = rootRef.child(CHILD_NAME)
+                                                          .child(firebaseUser.getUid());
+                childReference.setValue(userInfo);
 
                 UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(userInfo.getName())
                                                                                                           .build();
@@ -167,6 +179,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setContentView(view);
 
         mBinding.editTextDob.setOnClickListener(this);
+
+        rootRef = FirebaseDatabase.getInstance()
+                                  .getReference();
 
         //Retrieve data from savedInstanceState if any
         if (savedInstanceState != null) {
@@ -194,9 +209,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             EditText editText = mBinding.textPhoneNumber.getEditText();
             if (editText != null) {
                 editText.setText(phoneNumber);
-                editText.setEnabled(false);
             }
         }
+
     }
 
     /**
@@ -205,17 +220,49 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * @param view The Button that was clicked
      */
     public void doRegister(View view) {
-        if (performValidation()) {
+        if (doValidation()) {
             closeSoftKeyboard();
-            if (isOnline()) {
-                mBinding.progressCircular.setVisibility(View.VISIBLE);
-                createUserInfo();
-            } else {
-                Toast.makeText(this, "Connect to Internet to continue", Toast.LENGTH_SHORT)
-                     .show();
+            if (MedicalUtils.isOnline(this, true)) {
+                doUserAlreadyRegisteredCheck();
             }
         }
 
+    }
+
+    /**
+     * Checks if the user is already registered and continues accordingly
+     */
+    private void doUserAlreadyRegisteredCheck() {
+        enteredPhoneNumber = getTextFromTextInputLayout(mBinding.textPhoneNumber);
+
+        rootRef.child(CHILD_NAME)
+               .orderByChild("phone")
+               .equalTo(enteredPhoneNumber)
+               .addListenerForSingleValueEvent(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(@NonNull DataSnapshot snapshot) {
+                       if (snapshot.exists()) {
+                           //Old User
+                           Toast.makeText(RegisterActivity.this, "You are Already Registered. Redirecting to Login", Toast.LENGTH_SHORT)
+                                .show();
+                           Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                           intent.putExtra(EXTRA_PHONE_NUMBER, enteredPhoneNumber);
+                           intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                           startActivity(intent);
+                           finish();
+                       } else {
+                           //New User
+                           mBinding.progressCircular.setVisibility(View.VISIBLE);
+                           createUserInfo();
+                           doFirebaseOperations();
+                       }
+                   }
+
+                   @Override
+                   public void onCancelled(@NonNull DatabaseError error) {
+                       displayLog(error.getMessage());
+                   }
+               });
     }
 
     /**
@@ -224,7 +271,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * @return true, if validation is successful or else
      * false
      */
-    private boolean performValidation() {
+    private boolean doValidation() {
         String name = getTextFromTextInputLayout(mBinding.textName);
         String phone = getTextFromTextInputLayout(mBinding.textPhoneNumber);
         String DOB = getTextFromTextInputLayout(mBinding.textDob);
@@ -299,14 +346,20 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String emailAddress = getTextFromTextInputLayout(mBinding.textEmailAddress);
         String residentialAddress = getTextFromTextInputLayout(mBinding.textResidentialAddress);
 
-        userInfo = new UserInfo(name, phone, DOB, emailAddress, residentialAddress);
-        performFirebaseOperations();
+        userInfo = new UserInfo(name, phone, DOB, emailAddress, residentialAddress, getID());
+    }
+
+    @NotNull
+    private String getID() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyMMdd/HHmmssSSS", Locale.US);
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return simpleDateFormat.format(new Date());
     }
 
     /**
      * Method to perform Firebase Operations using the passed instance
      */
-    private void performFirebaseOperations() {
+    private void doFirebaseOperations() {
         mFirebaseAuth = FirebaseAuth.getInstance();
         verifyPhoneNumber();
     }
@@ -317,11 +370,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void showPopUp() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setView(getLayoutInflater().inflate(R.layout.dialog_verify_phone, null))
+        builder.setView(getLayoutInflater().inflate(R.layout.dialog_verify_phone, mBinding.getRoot()))
                .setCancelable(false)
                .setPositiveButton("Verify OTP", null)
                .setNeutralButton("Resend OTP", null)
-               .setNegativeButton("Change number", null);
+               .setNegativeButton("Change number", (dialog, which) -> mBinding.textPhoneNumber.setEnabled(true));
 
         alertDialog = builder.create();
 
@@ -337,9 +390,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                    .setOnClickListener(v -> resendOTP());
 
         editTextOTP = alertDialog.findViewById(R.id.edit_otp);
-
-//        int[] dimens = getScreenDimens();
-
     }
 
     /**
@@ -367,18 +417,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void showSnackbar(String message) {
         Snackbar.make(mBinding.getRoot(), message, BaseTransientBottomBar.LENGTH_SHORT)
                 .show();
-    }
-
-    /**
-     * Method to retrieve Screen Dimensions
-     *
-     * @return an int array with first value as width, second as height (in px.)
-     */
-    private int[] getScreenDimens() {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay()
-                          .getMetrics(displayMetrics);
-        return new int[]{displayMetrics.widthPixels, displayMetrics.heightPixels};
     }
 
     private void displayLog(String message) {
@@ -410,7 +448,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String inputMonth = getMonthName(month);
         String inputDay = String.valueOf(day);
 
-        String message = inputDay + "/ " + inputMonth + "/ " + inputYear;
+        String message = inputDay + "/" + inputMonth + "/" + inputYear;
 
         if (mBinding.textDob.getEditText() != null) {
             mBinding.textDob.getEditText()
@@ -449,20 +487,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, enteredOTP);
 
         signInWithPhoneAuthCredential(credential);
-    }
-
-    /**
-     * Method that checks if the device is connected to internet.
-     *
-     * @return true if online else false
-     */
-    public boolean isOnline() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-
-        return networkInfo != null && networkInfo.isConnectedOrConnecting();
-
-
     }
 
     /**
@@ -522,34 +546,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 outState.putString(BUNDLE_OTP, editTextOTP.getText()
                                                           .toString());
             }
-        }
-    }
-
-    /**
-     * Retrieves text from the {@link android.widget.EditText} in the passed {@code textInputLayout}
-     *
-     * @param textInputLayout the view from which the text is to be retrieved
-     * @return the retrieved text
-     */
-    private String getTextFromTextInputLayout(@NotNull TextInputLayout textInputLayout) {
-        if (textInputLayout.getEditText() != null) {
-            return textInputLayout.getEditText()
-                                  .getText()
-                                  .toString();
-        }
-        return null;
-    }
-
-    /**
-     * Sets text in the  {@link android.widget.EditText} in the passed {@code textInputLayout}
-     *
-     * @param textInputLayout the view in which the text to be set
-     * @param string          the text to be set
-     */
-    private void setTextInTextInputLayout(@NotNull TextInputLayout textInputLayout, String string) {
-        if (textInputLayout.getEditText() != null) {
-            textInputLayout.getEditText()
-                           .setText(string);
         }
     }
 

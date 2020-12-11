@@ -6,13 +6,23 @@ public class UserInfo {
     private String DOB;
     private String emailAddress;
     private String residentialAddress;
+    private String patientID;
 
-    public UserInfo(String name, String phone, String DOB, String emailAddress, String residentialAddress) {
+    public UserInfo(String name, String phone, String DOB, String emailAddress, String residentialAddress, String patientID) {
         this.name = name;
         this.phone = phone;
         this.DOB = DOB;
         this.emailAddress = emailAddress;
         this.residentialAddress = residentialAddress;
+        this.patientID = patientID;
+    }
+
+    public String getPatientID() {
+        return patientID;
+    }
+
+    public void setPatientID(String patientID) {
+        this.patientID = patientID;
     }
 
     public String getName() {
