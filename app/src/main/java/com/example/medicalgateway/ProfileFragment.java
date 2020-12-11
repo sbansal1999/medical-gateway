@@ -21,6 +21,7 @@ import static android.app.Activity.RESULT_OK;
 //TODO include apache license
 
 public class ProfileFragment extends Fragment {
+    //TODO add something so that when user clicks the circular image it shows its picture in an enlarged view
 
     private static final int IMAGE_DIMEN = 1000;
     private FragmentProfilePatientBinding binding;

@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "942185062022",
-    "firebase_url": "https://medical-gateway.firebaseio.com",
-    "project_id": "medical-gateway",
-    "storage_bucket": "medical-gateway.appspot.com"
+    "project_number": "139008948636",
+    "firebase_url": "https://medical-gateway-296507.firebaseio.com",
+    "project_id": "medical-gateway-296507",
+    "storage_bucket": "medical-gateway-296507.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:942185062022:android:e28fa902e2d3073d90fb07",
+        "mobilesdk_app_id": "1:139008948636:android:da78803a9bc87e106a3059",
         "android_client_info": {
           "package_name": "com.example.medicalgateway"
         }
       },
       "oauth_client": [
         {
-          "client_id": "942185062022-hrhre3vo1rrhh5fqhccptrskjbcfbfn1.apps.googleusercontent.com",
+          "client_id": "139008948636-j7k1332lnbtltnaor16scfu893kt37t7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.medicalgateway",
+            "certificate_hash": "7dd3895d9bb0a2c065024520cf551b3fe7ca872f"
+          }
+        },
+        {
+          "client_id": "139008948636-92us3vu7u10qfgc9h2acj2ve6h2n6c1k.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCgS8tB8ufLShUpftwkpW19pnuDIfRVI1k"
+          "current_key": "AIzaSyDRY38k2M4yROLP_lE1mSp_VbChnhVhJR0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "942185062022-hrhre3vo1rrhh5fqhccptrskjbcfbfn1.apps.googleusercontent.com",
+              "client_id": "139008948636-92us3vu7u10qfgc9h2acj2ve6h2n6c1k.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

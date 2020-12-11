@@ -21,13 +21,11 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog datePickerDialog = new CustomDatePickerDialog(getActivity(),
-                                                                       this,
+        return new CustomDatePickerDialog(getActivity(), this,
                                                                        year,
                                                                        month,
                                                                        day);
-        datePickerDialog.setCancelable(false);
-        return datePickerDialog;
+
     }
 
     @Override
@@ -41,12 +39,10 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     private static class CustomDatePickerDialog extends DatePickerDialog {
 
-
         public CustomDatePickerDialog(@NonNull Context context, @Nullable OnDateSetListener listener, int year, int month, int dayOfMonth) {
             super(context, listener, year, month, dayOfMonth);
             this.setButton(BUTTON_POSITIVE, "OK", this);
             this.setButton(BUTTON_NEGATIVE, "", this);
-
         }
     }
 }

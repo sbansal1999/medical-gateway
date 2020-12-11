@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".StaffPortalActivity">
+
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -13,6 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_staff_view"
         android:layout_width="match_parent"
@@ -20,6 +22,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/botom_navigation_menu_staff"/>
+        app:menu="@menu/bottom_navigation_menu_staff" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
