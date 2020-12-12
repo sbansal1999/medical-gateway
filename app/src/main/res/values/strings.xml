@@ -1,13 +1,18 @@
 <resources>
+    <string name="safety_net_api_key">AIzaSyDRY38k2M4yROLP_lE1mSp_VbChnhVhJR0</string>
+    <string name="country_code">+91</string>
+    <string name="facebook_app_id">3789515104394576</string>
+    <string name="fb_login_protocol_scheme">fb3789515104394576</string>
+
+
     <string name="app_name">Medical Gateway</string>
 
     <string name="password">Password  </string>
     <string name="name">Name  </string>
     <string name="dob">Date of Birth  </string>
-    <string name="ph.no">Ph.No  </string>
     <string name="email">Email Address  </string>
     <string name="Address">Residential Address  </string>
-    <string name="Phone">Phone </string>
+    <string name="phone_number">Mobile Number </string>
     <string name="Home">Home </string>
     <string name="pharmacy">Pharmacy </string>
     <string name="profile">Profile </string>
@@ -54,4 +59,14 @@
     <string name="user_id">User ID</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="upload_image">Upload Image</string>
+    <string name="otp_heading">Enter the OTP sent to the entered mobile number</string>
+    <string name="enter_here">Enter here</string>
+    <string name="resend"><u>Resend OTP?</u></string>
+    <string name="wrong_otp">Wrong OTP!</string>
+    <string name="open_terms_and_conditions">Open Terms and Conditions</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="change_number">Change Number</string>
+    <string name="facebook_login">Facebook Login</string>
+    <string name="google_login">Google Login</string>
 </resources>
