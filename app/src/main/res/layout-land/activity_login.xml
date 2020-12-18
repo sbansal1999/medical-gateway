@@ -58,7 +58,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_password_landscape"
+        android:id="@+id/text_password"
         style="@style/textStyle_register_input"
         android:layout_width="448dp"
         android:layout_height="69dp"
@@ -84,8 +84,8 @@
         android:clickable="true"
         android:focusable="true"
         android:text="@string/forgot_password"
-        app:layout_constraintStart_toStartOf="@id/text_password_landscape"
-        app:layout_constraintTop_toBottomOf="@id/text_password_landscape" />
+        app:layout_constraintStart_toStartOf="@id/text_password"
+        app:layout_constraintTop_toBottomOf="@id/text_password" />
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_password_landscape" />
+        app:layout_constraintTop_toBottomOf="@+id/text_password" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
