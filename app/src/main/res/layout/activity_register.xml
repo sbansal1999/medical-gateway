@@ -68,25 +68,10 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/textStyle_register_editText"
-                    android:hint="@string/dob"
                     android:focusableInTouchMode="false"
+                    android:hint="@string/dob"
                     android:onClick="openDOB" />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_password"
-                style="@style/textStyle_register_input"
-                app:boxStrokeWidth="@dimen/text_input_stroke_width"
-                app:endIconMode="password_toggle"
-                app:layout_constraintEnd_toEndOf="@+id/text_dob"
-                app:layout_constraintStart_toStartOf="@+id/text_dob"
-                app:layout_constraintTop_toBottomOf="@+id/text_dob">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    style="@style/textStyle_register_editText"
-                    android:hint="@string/password"
-                    android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -110,9 +95,9 @@
                 app:boxStrokeWidth="@dimen/text_input_stroke_width"
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
-                app:layout_constraintEnd_toEndOf="@+id/text_password"
-                app:layout_constraintStart_toStartOf="@+id/text_password"
-                app:layout_constraintTop_toBottomOf="@+id/text_password">
+                app:layout_constraintEnd_toEndOf="@+id/text_dob"
+                app:layout_constraintStart_toStartOf="@+id/text_dob"
+                app:layout_constraintTop_toBottomOf="@+id/text_dob">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/textStyle_register_editText"
