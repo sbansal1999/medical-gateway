@@ -7,23 +7,22 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.medicalgateway.databinding.ActivityPatientportalBinding;
+import com.example.medicalgateway.databinding.ActivityPatientPortalBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class PatientPortalActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "PatientPortalActivity";
 
-    private ActivityPatientportalBinding binding;
+    private ActivityPatientPortalBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityPatientportalBinding.inflate(getLayoutInflater());
+        binding = ActivityPatientPortalBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
         binding.bottomNavigationPatientView.setOnNavigationItemSelectedListener(this);
         binding.bottomNavigationPatientView.setSelectedItemId(R.id.navigation_home);
-
     }
 
     @Override

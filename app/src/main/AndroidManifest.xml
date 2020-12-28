@@ -29,7 +29,6 @@
             <meta-data
                 android:name="com.google.android.safetynet.ATTEST_API_KEY"
                 android:value="@string/safety_net_api_key" />
-
         </activity>
         <activity
             android:name=".LoginActivity"
