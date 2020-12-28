@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.medicalgateway.adapters.SlidingImageHomeAdapter;
@@ -30,7 +31,18 @@ public class HomeFragment extends Fragment {
 
         //Set Default Image Level
         binding.imageDotFirst.setImageLevel(1);
+        binding.buttonBookAppointment.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
 
+              Fragment book_appointment_fragment=new Book_Appointment_Fragment();
+              FragmentTransaction transaction=getParentFragmentManager().beginTransaction();
+              transaction.replace(((ViewGroup) getView().getParent()).getId(),book_appointment_fragment); // give your fragment container id in first parameter
+              transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
+              transaction.commit();
+
+          }
+        });
         SlidingImageHomeAdapter imageHomeAdapter = new SlidingImageHomeAdapter(
                 getChildFragmentManager(),
                 FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
