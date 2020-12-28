@@ -57,7 +57,7 @@ public class SplashActivity extends AppCompatActivity {
                 btTryagain.setOnClickListener(view -> recreate());
                 dialog.show();
             } else {
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
