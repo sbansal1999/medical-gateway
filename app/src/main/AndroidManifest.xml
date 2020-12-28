@@ -16,7 +16,6 @@
         android:theme="@style/Theme.MedicalGateway">
 
         <activity android:name=".DoctorPortalActivity" />
-        <activity android:name=".StaffPortalActivity" />
         <activity android:name=".PatientPortalActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
