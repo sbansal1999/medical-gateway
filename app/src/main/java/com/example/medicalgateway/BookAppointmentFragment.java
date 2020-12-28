@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Book_Appointment_Fragment#newInstance} factory method to
+ * Use the {@link BookAppointmentFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Book_Appointment_Fragment extends Fragment {
+public class BookAppointmentFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +24,7 @@ public class Book_Appointment_Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Book_Appointment_Fragment() {
+    public BookAppointmentFragment() {
         // Required empty public constructor
     }
 
@@ -37,8 +37,8 @@ public class Book_Appointment_Fragment extends Fragment {
      * @return A new instance of fragment Book_Appointment_Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Book_Appointment_Fragment newInstance(String param1, String param2) {
-        Book_Appointment_Fragment fragment = new Book_Appointment_Fragment();
+    public static BookAppointmentFragment newInstance(String param1, String param2) {
+        BookAppointmentFragment fragment = new BookAppointmentFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

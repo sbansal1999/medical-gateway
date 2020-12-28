@@ -60,39 +60,27 @@
         app:layout_constraintEnd_toEndOf="@id/guidelineRight" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_text_up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_text_down"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="1.0" />
-    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_text_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.97"/>
+        app:layout_constraintGuide_percent="0.97" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_text_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.03"/>
+        app:layout_constraintGuide_percent="0.03" />
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_text_down"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_text_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_text_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_text_up">
+        app:layout_constraintTop_toTopOf="@+id/guidelineDown">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -129,9 +117,7 @@
 
             <ImageView
                 android:id="@+id/image_calendar"
-                android:layout_width="45dp"
-                android:layout_height="52dp"
-                android:layout_marginTop="29dp"
+                style="@style/style_image_profile_fragment"
                 android:src="@drawable/ic_launcher_image_dob"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_profile" />
@@ -159,9 +145,7 @@
 
             <ImageView
                 android:id="@+id/image_phone"
-                android:layout_width="45dp"
-                android:layout_height="52dp"
-                android:layout_marginTop="29dp"
+                style="@style/style_image_profile_fragment"
                 android:src="@drawable/ic_launcher_image_phone"
                 app:layout_constraintStart_toStartOf="@+id/image_calendar"
                 app:layout_constraintTop_toBottomOf="@+id/image_calendar" />
@@ -170,7 +154,7 @@
                 android:id="@+id/text_phone_patient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ph.no"
+                android:text="@string/phone_number"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/text_dob_patient_enter"
                 app:layout_constraintTop_toTopOf="@+id/image_phone" />
@@ -187,9 +171,7 @@
 
             <ImageView
                 android:id="@+id/image_email"
-                android:layout_width="48dp"
-                android:layout_height="53dp"
-                android:layout_marginTop="29dp"
+                style="@style/style_image_profile_fragment"
                 android:src="@drawable/ic_launcher_email_foreground"
                 app:layout_constraintStart_toStartOf="@+id/image_phone"
                 app:layout_constraintTop_toBottomOf="@+id/image_phone" />
@@ -216,9 +198,7 @@
 
             <ImageView
                 android:id="@+id/home_image"
-                android:layout_width="48dp"
-                android:layout_height="43dp"
-                android:layout_marginTop="29dp"
+                style="@style/style_image_profile_fragment"
                 android:src="@drawable/ic_home_black_24dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_email" />
@@ -257,9 +237,7 @@
 
             <ImageView
                 android:id="@+id/blood_image"
-                android:layout_width="64dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="15dp"
+                style="@style/style_image_profile_fragment"
                 android:src="@drawable/ic_launcher_blood"
                 app:layout_constraintStart_toStartOf="@+id/home_image"
                 app:layout_constraintTop_toBottomOf="@+id/text_address_patient_enter" />

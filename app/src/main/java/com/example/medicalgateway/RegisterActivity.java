@@ -290,47 +290,37 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if (!checkNum) {
             mBinding.textPhoneNumber.setError("Invalid phone number");
-        }
-
-        if (checkNum) {
+        } else {
             mBinding.textPhoneNumber.setError(null);
         }
 
         if (!checkEMail) {
             mBinding.textEmailAddress.setError("Invalid Email");
-        }
-
-        if (checkEMail) {
+        } else {
             mBinding.textEmailAddress.setError(null);
-        }
-
-        if (!checkTC) {
-            Toast.makeText(this, "Please Accept Terms & Conditions to continue", Toast.LENGTH_SHORT)
-                 .show();
         }
 
         if (!checkAddress) {
             mBinding.textResidentialAddress.setError("Invalid Address");
-        }
-
-        if (checkAddress) {
+        } else {
             mBinding.textResidentialAddress.setError(null);
         }
 
         if (!checkName) {
             mBinding.textName.setError("Invalid Name");
-        }
-
-        if (checkName) {
+        } else {
             mBinding.textName.setError(null);
         }
 
         if (!checkDOB) {
             mBinding.textDob.setError("Invalid Date of Birth");
+        } else {
+            mBinding.textDob.setError(null);
         }
 
-        if (checkDOB) {
-            mBinding.textDob.setError(null);
+        if (!checkTC) {
+            Toast.makeText(this, "Please Accept Terms & Conditions to continue", Toast.LENGTH_SHORT)
+                 .show();
         }
 
         return checkNum && checkEMail && checkTC && checkAddress;
@@ -370,7 +360,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void showPopUp() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setView(getLayoutInflater().inflate(R.layout.dialog_verify_phone, mBinding.getRoot()))
+        builder.setView(getLayoutInflater().inflate(R.layout.dialog_verify_phone, mBinding.getRoot(), false))
                .setCancelable(false)
                .setPositiveButton("Verify OTP", null)
                .setNeutralButton("Resend OTP", null)

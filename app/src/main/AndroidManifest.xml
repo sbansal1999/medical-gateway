@@ -17,17 +17,24 @@
 
         <activity android:name=".DoctorPortalActivity" />
         <activity android:name=".PatientPortalActivity" />
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".ImageSliderActivity" />
-        <activity android:name=".RegisterActivity">
+        <activity
+            android:name=".RegisterActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="com.google.android.safetynet.ATTEST_API_KEY"
                 android:value="@string/safety_net_api_key" />
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:noHistory="true" />
-        <activity android:name=".SplashActivity">
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

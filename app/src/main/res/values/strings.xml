@@ -66,4 +66,5 @@
     <string name="change_number">Change Number</string>
     <string name="facebook_login">Facebook Login</string>
     <string name="google_login">Google Login</string>
+    <string name="enter_your_address">Enter your Address :</string>
 </resources>
