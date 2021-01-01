@@ -6,43 +6,43 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
+        android:id="@+id/guideline_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.03" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
+        android:id="@+id/guideline_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.91" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
+        android:id="@+id/guideline_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.09" />
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
+        android:id="@+id/guideline_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.97"/>
 
     <TextView
-        android:id="@+id/Problem_textview"
+        android:id="@+id/textview_problem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Problem"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toTopOf="@+id/guideline_top" />
 
     <EditText
-        android:id="@+id/Problem_edittext"
+        android:id="@+id/edittext_problem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:minLines="7"
@@ -52,38 +52,38 @@
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:text="Describe about your problem here"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/Problem_textview" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/textview_problem" />
 
     <TextView
-        android:id="@+id/Choose_textview"
+        android:id="@+id/textview_choose"
         android:layout_width="182dp"
         android:layout_height="27dp"
         android:layout_marginTop="30dp"
         android:text="Preffered Doctor"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/Problem_edittext" />
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_problem" />
 
     <Spinner
-        android:id="@+id/Doctor_Spinner"
+        android:id="@+id/Spinner_doctor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/Choose_textview" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/textview_choose" />
 
     <TextView
-        android:id="@+id/Date_textview"
+        android:id="@+id/textview_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Date of Apppointment"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/Doctor_Spinner" />
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/Spinner_doctor" />
 
     <TextView
         android:id="@+id/Date_set_textview"
@@ -93,9 +93,9 @@
         android:onClick="openDOB"
         android:text="DD/MM/YYYY"
         android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/Date_textview" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/textview_date" />
 
     <Button
         android:id="@+id/button_book_appointment_confirm"
@@ -105,7 +105,7 @@
         android:layout_marginRight="20dp"
         android:text="Book My Appointment"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
         app:layout_constraintEnd_toEndOf="@+id/Date_set_textview"
         app:layout_constraintStart_toStartOf="@+id/Date_set_textview" />
 </androidx.constraintlayout.widget.ConstraintLayout>
