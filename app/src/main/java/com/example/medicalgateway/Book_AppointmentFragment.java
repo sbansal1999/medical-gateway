@@ -37,7 +37,7 @@ public class Book_Appointment_Fragment extends Fragment {
         binding = FragmentBookAppointmentBinding.inflate(inflater, container, false);
         adapter = ArrayAdapter.createFromResource(getContext(),R.array.Doctors,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.DoctorSpinner.setAdapter(adapter);
+        binding.spinnerDoctor.setAdapter(adapter);
         return binding.getRoot();
     }
 
