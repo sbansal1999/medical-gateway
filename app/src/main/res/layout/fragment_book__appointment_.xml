@@ -67,7 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edittext_problem" />
 
     <Spinner
-        android:id="@+id/Spinner_doctor"
+        android:id="@+id/spinner_doctor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -83,10 +83,10 @@
         android:text="Date of Apppointment"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
-        app:layout_constraintTop_toBottomOf="@+id/Spinner_doctor" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_doctor" />
 
     <TextView
-        android:id="@+id/Date_set_textview"
+        android:id="@+id/textview_Date_set"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -106,7 +106,7 @@
         android:text="Book My Appointment"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
-        app:layout_constraintEnd_toEndOf="@+id/Date_set_textview"
-        app:layout_constraintStart_toStartOf="@+id/Date_set_textview" />
+        app:layout_constraintEnd_toEndOf="@+id/textview_Date_set"
+        app:layout_constraintStart_toStartOf="@+id/textview_Date_set" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
