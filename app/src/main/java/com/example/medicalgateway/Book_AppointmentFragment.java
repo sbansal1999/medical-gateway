@@ -17,7 +17,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.medicalgateway.databinding.ActivityRegisterBinding;
-import com.example.medicalgateway.databinding.FragmentBookAppointmentBinding;
+import com.example.medicalgateway.databinding.FragmentBookappointmentBinding;
+import com.example.medicalgateway.databinding.FragmentBookappointmentBinding;
 import com.example.medicalgateway.databinding.FragmentProfilePatientBinding;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -26,15 +27,15 @@ import org.jetbrains.annotations.NotNull;
 import static android.app.Activity.RESULT_OK;
 
 
-public class Book_Appointment_Fragment extends Fragment {
+public class Book_AppointmentFragment extends Fragment {
 
     private static final int IMAGE_DIMEN = 1000;
-    private FragmentBookAppointmentBinding binding;
+    private FragmentBookappointmentBinding binding;
 
     ArrayAdapter<CharSequence> adapter;
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentBookAppointmentBinding.inflate(inflater, container, false);
+        binding = FragmentBookappointmentBinding.inflate(inflater, container, false);
         adapter = ArrayAdapter.createFromResource(getContext(),R.array.Doctors,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerDoctor.setAdapter(adapter);

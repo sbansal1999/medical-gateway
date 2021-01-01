@@ -35,7 +35,7 @@ public class HomeFragment extends Fragment {
           @Override
           public void onClick(View view) {
 
-              Fragment book_appointment_fragment=new Book_Appointment_Fragment();
+              Fragment book_appointment_fragment=new Book_AppointmentFragment();
               FragmentTransaction transaction=getParentFragmentManager().beginTransaction();
               transaction.replace(((ViewGroup) getView().getParent()).getId(),book_appointment_fragment); // give your fragment container id in first parameter
               transaction.addToBackStack(null);  // if written, this transaction will be added to backstack
