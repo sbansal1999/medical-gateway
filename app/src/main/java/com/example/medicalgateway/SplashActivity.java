@@ -20,17 +20,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.medicalgateway.databinding.ActivityRegisterBinding;
+import com.example.medicalgateway.databinding.ActivitySplashBinding;
+
 public class SplashActivity extends AppCompatActivity {
     private static int SPLASH_SCREEN =  3000;
+    private ActivitySplashBinding binding;
 
     //TODO decide in this activity what screen is to be shown next
 Animation topanim,bottomanim;
-ImageView image;
-TextView title;
 Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivitySplashBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         ConnectivityManager connectivitymanager = (ConnectivityManager)
@@ -39,10 +44,8 @@ Context context;
 
         topanim = AnimationUtils.loadAnimation(this,R.anim.top_animation);
         bottomanim = AnimationUtils.loadAnimation(this,R.anim.fade_in);
-        image=findViewById(R.id.splash_image);
-        title = findViewById(R.id.textView2);
-        image.setAnimation(topanim);
-        title.setAnimation(bottomanim);
+        binding.splashImage.setAnimation(topanim);
+        binding.title.setAnimation(bottomanim);
         context = this;
         new Handler().postDelayed(new Runnable() {
             @Override

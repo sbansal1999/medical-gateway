@@ -45,9 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
             String phone = binding.textNumber.getEditText()
                                              .getText()
                                              .toString();
-            String password = binding.textPassword.getEditText()
-                                                  .getText()
-                                                  .toString();
+
             String regexLowerCase = ".*[a-z].*";
             String regexUpperCase = ".*[A-Z].*";
             String regexNum = ".*[0-9].*";
@@ -56,19 +54,12 @@ public class RegisterActivity extends AppCompatActivity {
             String regexPhone = "[0-9]{10}";
 
 
-            boolean checkPass = password.matches(regexLowerCase) && password.matches(regexUpperCase) && password.matches(
-                    regexNum) && password.matches(regexSymbol);
+
             boolean checkEMail = email.matches(regexEMail);
             boolean checkNum = phone.matches(regexPhone);
 
 
-            if (!checkPass || password.length() < 6) {
-                binding.textPassword.setError("Password must be - \n" + "1 - At Least 6 characters long \n" + "2 - Must contain a uppercase alphabet \n" + "3 - Must contain a lowercase alphabet \n" + "4 - Must contain a number \n" + "5 - Must contain a symbol - !,@,#,$,%,^,&,*");
-            }
-
-            if (checkPass) {
-                binding.textPassword.setError(null);
-            }
+           
 
             if (!checkNum) {
                 binding.textNumber.setError("Invalid Number");
