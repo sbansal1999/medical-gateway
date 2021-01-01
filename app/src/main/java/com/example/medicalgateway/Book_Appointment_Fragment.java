@@ -1,64 +1,54 @@
 package com.example.medicalgateway;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Book_Appointment_Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.medicalgateway.databinding.ActivityRegisterBinding;
+import com.example.medicalgateway.databinding.FragmentBookAppointmentBinding;
+import com.example.medicalgateway.databinding.FragmentProfilePatientBinding;
+import com.theartofdev.edmodo.cropper.CropImage;
+
+import org.jetbrains.annotations.NotNull;
+
+import static android.app.Activity.RESULT_OK;
+
+
 public class Book_Appointment_Fragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final int IMAGE_DIMEN = 1000;
+    private FragmentBookAppointmentBinding binding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public Book_Appointment_Fragment() {
-        // Required empty public constructor
+    ArrayAdapter<CharSequence> adapter;
+    @Override
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentBookAppointmentBinding.inflate(inflater, container, false);
+        adapter = ArrayAdapter.createFromResource(getContext(),R.array.Doctors,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.DoctorSpinner.setAdapter(adapter);
+        return binding.getRoot();
     }
+
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Book_Appointment_Fragment.
+     * Performs Uploading of the Image
      */
-    // TODO: Rename and change types and number of parameters
-    public static Book_Appointment_Fragment newInstance(String param1, String param2) {
-        Book_Appointment_Fragment fragment = new Book_Appointment_Fragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_book__appointment_, container, false);
+    public void openDOB(View view) {
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+
     }
 }
