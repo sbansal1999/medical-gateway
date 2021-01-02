@@ -12,7 +12,7 @@ import com.example.medicalgateway.slidingimagesfragment.sliding_activity.Sliding
 import com.example.medicalgateway.slidingimagesfragment.sliding_activity.SlidingImageThirdFragment;
 
 public class SlidingImageAdapter extends FragmentStatePagerAdapter {
-    private int mNumOfTabs;
+    private final int mNumOfTabs;
 
     public SlidingImageAdapter(@NonNull FragmentManager fm, int behavior, int mNumOfTabs) {
         super(fm, behavior);
