@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="serif"
-        android:text="Medicare Hospital"
+        android:text="@string/hospital_name"
         android:textColor="#2196F3"
         android:textSize="40sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline13"
