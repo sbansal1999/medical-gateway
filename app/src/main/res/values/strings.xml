@@ -2,6 +2,18 @@
     <string name="app_name">Medical Gateway</string>
 
     <string name="password">Password  </string>
+    <string name="problem">Problem  </string>
+    <string name="describe">Describe about your problem here </string>
+    <string name="preffred_doctor">Preffred doctor  </string>
+    <string name="appointment_date">Date of Appointment  </string>
+    <string name="date_format">DD/MM/YYYY  </string>
+    <string name="book_button">Book My Appointment  </string>
+    <string name="internet_description">Image to show when no internet  </string>
+    <string name="no_internet_text">Check your internet Connection Try again  </string>
+    <string name="splash_image_des">Image in splash activity </string>
+    <string name="Hospital_name">Medicare Hospital </string>
+    <string name="oops">Oops!  </string>
+    <string name="try_again">Try Again  </string>
     <string name="name">Name  </string>
     <string name="dob">Date of Birth  </string>
     <string name="ph.no">Ph.No  </string>
