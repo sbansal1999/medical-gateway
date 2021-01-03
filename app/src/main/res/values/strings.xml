@@ -4,7 +4,7 @@
     <string name="password">Password  </string>
     <string name="problem">Problem  </string>
     <string name="describe">Describe about your problem here </string>
-    <string name="preffred_doctor">Preffred doctor  </string>
+    <string name="preffered_doctor">Preffered doctor  </string>
     <string name="appointment_date">Date of Appointment  </string>
     <string name="date_format">DD/MM/YYYY  </string>
     <string name="book_button">Book My Appointment  </string>

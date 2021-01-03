@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ems="10"
-
+        android:autofillHints="Problem description"
         android:gravity="start|top"
         android:hint="@string/describe"
         android:inputType="textMultiLine"
@@ -58,10 +58,10 @@
 
     <TextView
         android:id="@+id/textview_choose"
-        android:layout_width="182dp"
-        android:layout_height="27dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/preffred_doctor"
+        android:text="@string/preffered_doctor"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/edittext_problem" />
@@ -85,14 +85,11 @@
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/spinner_doctor" />
 
-    <TextView
-        android:id="@+id/textview_Date_set"
+    <Spinner
+        android:id="@+id/spinner_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:onClick="openDOB"
-        android:text="@string/date_format"
-        android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/textview_date" />
@@ -101,12 +98,10 @@
         android:id="@+id/button_book_appointment_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
         android:text="@string/book_button"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
-        app:layout_constraintEnd_toEndOf="@+id/textview_Date_set"
-        app:layout_constraintStart_toStartOf="@+id/textview_Date_set" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/spinner_date" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
