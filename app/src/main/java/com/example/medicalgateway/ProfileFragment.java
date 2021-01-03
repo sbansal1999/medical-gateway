@@ -36,9 +36,6 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = FragmentProfilePatientBinding.inflate(inflater, container, false);
 
-        UserInfo userInfo = getUserInfoFromSharedPreferences();
-        setValuesFromUserInfo(userInfo);
-
         adapter = ArrayAdapter.createFromResource(getContext(), R.array.blood_groups, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -63,6 +60,9 @@ public class ProfileFragment extends Fragment {
             alertDialog.show();
         });
         mBinding.buttonUploadImage.setOnClickListener(v -> uploadImage());
+
+        UserInfo userInfo = getUserInfoFromSharedPreferences();
+        setValuesFromUserInfo(userInfo);
 
         return mBinding.getRoot();
     }
