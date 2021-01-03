@@ -72,26 +72,10 @@
             android:src="@drawable/ic_register"
             app:backgroundTint="@color/primaryColor"
             app:fabSize="normal"
-            app:layout_constraintBottom_toBottomOf="@+id/textView4"
-            app:layout_constraintEnd_toEndOf="@+id/textView4"
-            app:layout_constraintStart_toStartOf="@+id/textView4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:rippleColor="#FFFFFF" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp"
-            android:background="#E0F2F1"
-            android:paddingLeft="12sp"
-            android:paddingRight="12sp"
-            android:text="Book Appointment"
-            android:textColor="#03A9F4"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     />
