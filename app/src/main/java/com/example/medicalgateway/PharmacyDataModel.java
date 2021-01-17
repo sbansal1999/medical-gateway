@@ -1,6 +1,6 @@
 package com.example.medicalgateway;
 
-public class PharmacyData_Model
+public class PharmacyDataModel
 {
     private String Med_name,Price_change,Mfg_change,Qty_change;
     private int img_name;

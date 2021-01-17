@@ -26,6 +26,10 @@
     <string name="camera">Camera</string>
     <string name="blood_group">Blood Group</string>
     <string name="Save">Save changes</string>
+    <string name="per">per</string>
+    <string name="mfg_by">Mfg by:</string>
+    <string name="price">Price:</string>
+    <string name="cd_pharmacy">Image of medicine</string>
     <string-array name="blood_groups">
         <item>O+</item>
         <item>O-</item>
