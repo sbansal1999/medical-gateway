@@ -13,7 +13,7 @@ import com.example.medicalgateway.slidingimagesfragment.home_portal.HomeSecondSl
 import com.example.medicalgateway.slidingimagesfragment.home_portal.HomeThirdSlidingImage;
 
 public class SlidingImageHomeAdapter extends FragmentStatePagerAdapter {
-    private int mNumOfTabs;
+    private final int mNumOfTabs;
 
     public SlidingImageHomeAdapter(@NonNull FragmentManager fm, int behavior, int mNumOfTabs) {
         super(fm, behavior);

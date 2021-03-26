@@ -4,9 +4,11 @@ import android.app.ActivityOptions;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -36,6 +38,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -54,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public final static String TAG = "Log";
     public final static String CHILD_NAME = "patients_info";
     private final static String LINK_TO_TERMS_AND_CONDITIONS = "https://firebasestorage.googleapis.com/v0/b/medical-gateway-296507.appspot.com/o/terms_and_conditions.txt?alt=media&token=618eaa58-dea0-4966-bd4e-d8f16048e1d8;";
+    //Bundle Variables for Configuration Changes
     private final static String BUNDLE_NAME = "BUNDLE_NAME";
     private final static String BUNDLE_PHONE_NUMBER = "BUNDLE_PHONE_NUMBER";
     private final static String BUNDLE_DOB = "BUNDLE_DOB";
@@ -126,6 +130,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                              alertDialog.dismiss();
                              //Correct OTP entered
                              addIntoDatabase(task);
+                             storeDataInSharedPreferences();
 
                              Intent intent = new Intent(this, PatientPortalActivity.class);
 
@@ -147,6 +152,19 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                          }
                      });
 
+    }
+
+    /**
+     * Sets user data into the Default {@link SharedPreferences} using {@link Gson}
+     */
+    private void storeDataInSharedPreferences() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(userInfo);
+        editor.putString(SharedPreferencesInfo.PREF_CURRENT_USER_INFO, json);
+        editor.apply();
     }
 
     private void addIntoDatabase(@NotNull Task<AuthResult> task) {
