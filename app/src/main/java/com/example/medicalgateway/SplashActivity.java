@@ -18,49 +18,60 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.example.medicalgateway.databinding.ActivityRegisterBinding;
+import com.example.medicalgateway.databinding.ActivitySplashBinding;
 
 public class SplashActivity extends AppCompatActivity {
-    private static final int SPLASH_SCREEN_DURATION = 3000;
+    private static int SPLASH_SCREEN =  3000;
+    private ActivitySplashBinding binding;
 
     //TODO decide in this activity what screen is to be shown next
-    Animation topanim, bottomanim;
-    ImageView image;
-    TextView title;
-
+Animation topAnim,bottomAnim;
+Context conText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        binding = ActivitySplashBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         ConnectivityManager connectivitymanager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkinfo = connectivitymanager.getActiveNetworkInfo();
 
-        topanim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
-        bottomanim = AnimationUtils.loadAnimation(this, R.anim.fade_in);
-        image = findViewById(R.id.splash_image);
-        title = findViewById(R.id.textView2);
-        image.setAnimation(topanim);
-        title.setAnimation(bottomanim);
+        topAnim = AnimationUtils.loadAnimation(this,R.anim.top_animation);
+        bottomAnim = AnimationUtils.loadAnimation(this,R.anim.fade_in);
+        binding.splashImage.setAnimation(topAnim);
+        binding.title.setAnimation(bottomAnim);
+        conText = this;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(networkinfo==null || !networkinfo.isConnected() || !networkinfo.isAvailable())
+                {
+                    Dialog diaLog = new Dialog(conText);
+                    diaLog.setContentView(R.layout.alert_dialog);
+                    diaLog.setCanceledOnTouchOutside(false);
+                    diaLog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT,
+                            WindowManager.LayoutParams.WRAP_CONTENT);
+                    diaLog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    diaLog.getWindow().getAttributes().windowAnimations =
+                            android.R.style.Animation_Dialog;
+                    Button btTryagain = diaLog.findViewById(R.id.try_again_button);
+                    btTryagain.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
 
-        new Handler().postDelayed(() -> {
-            if (networkinfo == null || !networkinfo.isConnected() || !networkinfo.isAvailable()) {
-                Dialog dialog = new Dialog(this);
-                dialog.setContentView(R.layout.alert_dialog);
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.getWindow()
-                      .setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                dialog.getWindow()
-                      .setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.getWindow()
-                      .getAttributes().windowAnimations = android.R.style.Animation_Dialog;
-                Button btTryagain = dialog.findViewById(R.id.try_again_button);
-                btTryagain.setOnClickListener(view -> recreate());
-                dialog.show();
-            } else {
-                Intent intent = checkIfUserIsAlreadySignedIn() ? new Intent(this, PatientPortalActivity.class) : new Intent(this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent);
+                            recreate();
+                        }
+                    });
+                    diaLog.show();
+                }
+                else {
+                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         }, SPLASH_SCREEN_DURATION);
     }

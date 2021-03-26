@@ -102,7 +102,7 @@
                 android:layout_marginStart="27dp"
                 android:layout_marginLeft="27dp"
                 android:text="@string/name"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/image_profile"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -130,7 +130,7 @@
                 android:layout_marginStart="27dp"
                 android:layout_marginLeft="27dp"
                 android:text="@string/dob"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/image_calendar"
                 app:layout_constraintTop_toTopOf="@+id/image_calendar" />
 
@@ -193,7 +193,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text=""
-                android:textSize="21sp"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/text_email_address_patient"
                 app:layout_constraintTop_toBottomOf="@+id/text_email_address_patient" />
 
@@ -209,7 +209,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Address"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/text_email_patient_value"
                 app:layout_constraintTop_toTopOf="@+id/home_image" />
 
@@ -217,8 +217,6 @@
                 android:id="@+id/button_change_address"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginRight="15dp"
                 android:background="@drawable/round_button"
                 android:src="@drawable/ic_launcher_edit_pencil"
                 app:layout_constraintEnd_toEndOf="parent"

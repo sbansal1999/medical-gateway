@@ -32,13 +32,11 @@ public class HomeFragment extends Fragment {
         //Set Default Image Level
         binding.imageDotFirst.setImageLevel(1);
         binding.buttonBookAppointment.setOnClickListener(view -> {
-
             Fragment book_appointment_fragment = new BookAppointmentFragment();
             FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
             transaction.replace(((ViewGroup) getView().getParent()).getId(), book_appointment_fragment); // give your fragment container id in first parameter
             transaction.addToBackStack(null);  // if written, this transaction will be added to back-stack
             transaction.commit();
-
         });
         SlidingImageHomeAdapter imageHomeAdapter = new SlidingImageHomeAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, NUMBER_OF_IMAGES);
 

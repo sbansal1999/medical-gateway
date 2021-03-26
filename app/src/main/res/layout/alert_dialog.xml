@@ -6,29 +6,33 @@
     android:padding="20dp"
     android:gravity="center"
     android:background="@drawable/bt_round">
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/no_internet"/>
+        android:contentDescription="@string/internet_description"
+        android:src="@drawable/no_internet" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/oops"
         android:textColor="@android:color/white"
-
         android:fontFamily="monospace"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+        android:text="@string/oops"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@android:color/white" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text = "No internet connection found. \n Check your internet connection."
-        android:textColor="@android:color/white"
-
-        android:fontFamily="serif"
-        android:textAlignment="center"
         android:layout_marginTop="50dp"
+        android:fontFamily="serif"
+        android:gravity="center_horizontal"
+        android:text="@string/no_internet_text"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:gravity="center_horizontal" />
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/try_again_button"
@@ -36,11 +40,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:background="@android:drawable/bottom_bar"
-        android:text="Try Again"
+        android:text="@string/try_again"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textStyle="bold" />
-
-
 
 </LinearLayout>
