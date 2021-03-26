@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/text_medicine_change"
+            android:id="@+id/textMedName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -39,7 +39,7 @@
             app:layout_constraintTop_toTopOf="@+id/image_logo" />
 
         <TextView
-            android:id="@+id/text_price"
+            android:id="@+id/textMedPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -47,11 +47,11 @@
             android:textColor="#000"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/text_medicine_change"
-            app:layout_constraintTop_toBottomOf="@+id/text_medicine_change" />
+            app:layout_constraintStart_toStartOf="@+id/textMedName"
+            app:layout_constraintTop_toBottomOf="@+id/textMedName" />
 
         <TextView
-            android:id="@+id/text_price_change"
+            android:id="@+id/textMedPriceChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -60,12 +60,12 @@
             android:textColor="#000"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/text_price"
-            app:layout_constraintStart_toEndOf="@+id/text_price"
-            app:layout_constraintTop_toTopOf="@+id/text_price" />
+            app:layout_constraintBottom_toBottomOf="@+id/textMedPrice"
+            app:layout_constraintStart_toEndOf="@+id/textMedPrice"
+            app:layout_constraintTop_toTopOf="@+id/textMedPrice" />
 
         <TextView
-            android:id="@+id/text_mfg"
+            android:id="@+id/textMedMfg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -73,11 +73,11 @@
             android:textColor="#000"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/text_price"
-            app:layout_constraintTop_toBottomOf="@+id/text_price" />
+            app:layout_constraintStart_toStartOf="@+id/textMedPrice"
+            app:layout_constraintTop_toBottomOf="@+id/textMedPrice" />
 
         <TextView
-            android:id="@+id/text_mfg_change"
+            android:id="@+id/textMedMfgChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -86,8 +86,8 @@
             android:textColor="#000"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/text_mfg"
-            app:layout_constraintStart_toEndOf="@+id/text_mfg" />
+            app:layout_constraintBottom_toBottomOf="@+id/textMedMfg"
+            app:layout_constraintStart_toEndOf="@+id/textMedMfg" />
 
         <TextView
             android:id="@+id/text_per"
@@ -99,12 +99,12 @@
             android:textColor="#000"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/text_price_change"
-            app:layout_constraintStart_toEndOf="@+id/text_price_change"
-            app:layout_constraintTop_toTopOf="@+id/text_price_change" />
+            app:layout_constraintBottom_toBottomOf="@+id/textMedPriceChange"
+            app:layout_constraintStart_toEndOf="@+id/textMedPriceChange"
+            app:layout_constraintTop_toTopOf="@+id/textMedPriceChange" />
 
         <TextView
-            android:id="@+id/text_quantity_tablets"
+            android:id="@+id/textMedQty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="7dp"

@@ -11,15 +11,15 @@ import org.jetbrains.annotations.NotNull;
 public class PharmacyViewHolder extends RecyclerView.ViewHolder
 {
 
-    ImageView Img;
-    TextView Med_name,Price_change,Mfg_change,Med_qty;
+    ImageView imageMed;
+    TextView textMedName,textMedPrice,textMedMfg,textMedQty;
     public PharmacyViewHolder(@NotNull View itemView)
     {
         super((itemView));
-        Img=(ImageView)itemView.findViewById(R.id.image_logo);
-        Med_name=(TextView)itemView.findViewById(R.id.text_medicine_change);
-        Price_change=(TextView)itemView.findViewById(R.id.text_price_change);
-        Mfg_change=(TextView)itemView.findViewById(R.id.text_mfg_change);
-        Med_qty=(TextView)itemView.findViewById(R.id.text_quantity_tablets);
+        imageMed=(ImageView)itemView.findViewById(R.id.image_logo);
+        textMedName=(TextView)itemView.findViewById(R.id.textMedName);
+        textMedPrice=(TextView)itemView.findViewById(R.id.textMedPriceChange);
+        textMedMfg=(TextView)itemView.findViewById(R.id.textMedMfgChange);
+        textMedQty=(TextView)itemView.findViewById(R.id.textMedQty);
     }
 }

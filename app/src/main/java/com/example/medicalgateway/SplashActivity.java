@@ -28,8 +28,8 @@ public class SplashActivity extends AppCompatActivity {
     private ActivitySplashBinding binding;
 
     //TODO decide in this activity what screen is to be shown next
-Animation topanim,bottomanim;
-Context context;
+Animation topAnim,bottomAnim;
+Context conText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,25 +42,25 @@ Context context;
                 getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkinfo = connectivitymanager.getActiveNetworkInfo();
 
-        topanim = AnimationUtils.loadAnimation(this,R.anim.top_animation);
-        bottomanim = AnimationUtils.loadAnimation(this,R.anim.fade_in);
-        binding.splashImage.setAnimation(topanim);
-        binding.title.setAnimation(bottomanim);
-        context = this;
+        topAnim = AnimationUtils.loadAnimation(this,R.anim.top_animation);
+        bottomAnim = AnimationUtils.loadAnimation(this,R.anim.fade_in);
+        binding.splashImage.setAnimation(topAnim);
+        binding.title.setAnimation(bottomAnim);
+        conText = this;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if(networkinfo==null || !networkinfo.isConnected() || !networkinfo.isAvailable())
                 {
-                    Dialog dialog = new Dialog(context);
-                    dialog.setContentView(R.layout.alert_dialog);
-                    dialog.setCanceledOnTouchOutside(false);
-                    dialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT,
+                    Dialog diaLog = new Dialog(conText);
+                    diaLog.setContentView(R.layout.alert_dialog);
+                    diaLog.setCanceledOnTouchOutside(false);
+                    diaLog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT,
                             WindowManager.LayoutParams.WRAP_CONTENT);
-                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    dialog.getWindow().getAttributes().windowAnimations =
+                    diaLog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    diaLog.getWindow().getAttributes().windowAnimations =
                             android.R.style.Animation_Dialog;
-                    Button btTryagain = dialog.findViewById(R.id.try_again_button);
+                    Button btTryagain = diaLog.findViewById(R.id.try_again_button);
                     btTryagain.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -68,7 +68,7 @@ Context context;
                             recreate();
                         }
                     });
-                    dialog.show();
+                    diaLog.show();
                 }
                 else {
                     Intent intent = new Intent(SplashActivity.this, LoginActivity.class);

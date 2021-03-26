@@ -22,7 +22,7 @@ public class BookAppointmentFragment extends Fragment {
 
     private static final int IMAGE_DIMEN = 1000;
     private FragmentBookappointmentBinding binding;
-    private Calendar CurrentDate = Calendar.getInstance();
+    private Calendar currentDate = Calendar.getInstance();
 
 
     ArrayAdapter<CharSequence> DateAdapter;
@@ -34,15 +34,15 @@ public class BookAppointmentFragment extends Fragment {
         DateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerDoctor.setAdapter(DateAdapter);
         List<String> spinnerArray = new ArrayList<>();
-        CurrentDate.add(Calendar.DATE, 1);
-        String CurrentDate1 = DateFormat.getDateInstance(DateFormat.FULL).format(CurrentDate.getTime());
-        spinnerArray.add(CurrentDate1);
-        CurrentDate.add(Calendar.DATE, 1);
-        String CurrentDate2 = DateFormat.getDateInstance(DateFormat.FULL).format(CurrentDate.getTime());
-        spinnerArray.add(CurrentDate2);
-        CurrentDate.add(Calendar.DATE, 1);
-        String CurrentDate3 = DateFormat.getDateInstance(DateFormat.FULL).format(CurrentDate.getTime());
-        spinnerArray.add(CurrentDate3);
+        currentDate.add(Calendar.DATE, 1);
+        String currentDate1 = DateFormat.getDateInstance(DateFormat.FULL).format(currentDate.getTime());
+        spinnerArray.add(currentDate1);
+        currentDate.add(Calendar.DATE, 1);
+        String currentDate2 = DateFormat.getDateInstance(DateFormat.FULL).format(currentDate.getTime());
+        spinnerArray.add(currentDate2);
+        currentDate.add(Calendar.DATE, 1);
+        String currentDate3 = DateFormat.getDateInstance(DateFormat.FULL).format(currentDate.getTime());
+        spinnerArray.add(currentDate3);
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
         DateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.spinnerDate.setAdapter(adapter2);

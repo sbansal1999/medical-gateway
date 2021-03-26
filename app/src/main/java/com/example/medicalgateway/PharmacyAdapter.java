@@ -30,11 +30,11 @@ ArrayList<PharmacyDataModel> data;
     @Override
     public void onBindViewHolder(@NonNull PharmacyViewHolder holder, int position)
     {
-        holder.Med_name.setText(data.get(position).getMed_name());
-        holder.Med_qty.setText(data.get(position).getQty_change());
-        holder.Price_change.setText(data.get(position).getPrice_change());
-        holder.Mfg_change.setText(data.get(position).getMfg_change());
-        holder.Img.setImageResource(data.get(position).getImg_name());
+        holder.textMedName.setText(data.get(position).getMed_name());
+        holder.textMedQty.setText(data.get(position).getQty_change());
+        holder.textMedPrice.setText(data.get(position).getPrice_change());
+        holder.textMedMfg.setText(data.get(position).getMfg_change());
+        holder.imageMed.setImageResource(data.get(position).getImg_name());
 
     }
 
