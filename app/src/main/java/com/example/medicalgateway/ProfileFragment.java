@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.medicalgateway.databinding.FragmentProfilePatientBinding;
 import com.google.gson.Gson;
-import com.theartofdev.edmodo.cropper.CropImage;
+import com.canhub.cropper.CropImage;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -61,8 +61,8 @@ public class ProfileFragment extends Fragment {
         });
         mBinding.buttonUploadImage.setOnClickListener(v -> uploadImage());
 
-        UserInfo userInfo = getUserInfoFromSharedPreferences();
-        setValuesFromUserInfo(userInfo);
+//        UserInfo userInfo = getUserInfoFromSharedPreferences();
+//        setValuesFromUserInfo(userInfo);
 
         return mBinding.getRoot();
     }
@@ -83,15 +83,14 @@ public class ProfileFragment extends Fragment {
         return gson.fromJson(json, UserInfo.class);
     }
 
-
     /**
      * Performs Uploading of the Image
      */
     private void uploadImage() {
         if (getContext() != null) {
             CropImage.activity()
-                     .setMinCropResultSize(IMAGE_DIMEN / 2, IMAGE_DIMEN / 2)
-                     .setMaxCropResultSize(IMAGE_DIMEN, IMAGE_DIMEN)
+//                     .setMinCropResultSize(IMAGE_DIMEN / 2, IMAGE_DIMEN / 2)
+//                     .setMaxCropResultSize(IMAGE_DIMEN, IMAGE_DIMEN)
                      .start(getContext(), this);
         }
     }
