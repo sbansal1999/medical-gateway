@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    tools:context=".ProfileFragment"
+    tools:ignore="ContentDescription">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineLeft"
@@ -60,39 +61,27 @@
         app:layout_constraintEnd_toEndOf="@id/guidelineRight" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_text_up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_text_down"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="1.0" />
-    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_text_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.97"/>
+        app:layout_constraintGuide_percent="0.97" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_text_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.03"/>
+        app:layout_constraintGuide_percent="0.03" />
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_text_down"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_text_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_text_left"
-        app:layout_constraintTop_toTopOf="@+id/guideline_text_up">
+        app:layout_constraintTop_toTopOf="@+id/guidelineDown">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -118,20 +107,18 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/text_name_patient_enter"
+                android:id="@+id/text_name_patient_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="fcgcjhv"
-                android:textSize="20sp"
+                android:text=""
+                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="@+id/text_name_patient"
                 app:layout_constraintTop_toBottomOf="@+id/text_name_patient" />
 
             <ImageView
                 android:id="@+id/image_calendar"
-                android:layout_width="45dp"
-                android:layout_height="52dp"
-                android:layout_marginTop="29dp"
+                style="@style/style_image_profile_fragment"
                 android:src="@drawable/ic_launcher_image_dob"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_profile" />
@@ -148,20 +135,18 @@
                 app:layout_constraintTop_toTopOf="@+id/image_calendar" />
 
             <TextView
-                android:id="@+id/text_dob_patient_enter"
+                android:id="@+id/text_dob_patient_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="dob"
-                android:textSize="20sp"
+                android:text=""
+                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="@+id/dob_patient"
                 app:layout_constraintTop_toBottomOf="@+id/dob_patient" />
 
             <ImageView
                 android:id="@+id/image_phone"
-                android:layout_width="45dp"
-                android:layout_height="52dp"
-                android:layout_marginTop="29dp"
+                style="@style/style_image_profile_fragment"
                 android:src="@drawable/ic_launcher_image_phone"
                 app:layout_constraintStart_toStartOf="@+id/image_calendar"
                 app:layout_constraintTop_toBottomOf="@+id/image_calendar" />
@@ -170,26 +155,24 @@
                 android:id="@+id/text_phone_patient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ph.no"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/text_dob_patient_enter"
+                android:text="@string/phone_number"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/text_dob_patient_value"
                 app:layout_constraintTop_toTopOf="@+id/image_phone" />
 
             <TextView
-                android:id="@+id/text_phone_patient_enter"
+                android:id="@+id/text_phone_patient_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="9140708134"
-                android:textSize="21sp"
+                android:text=""
+                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="@+id/text_phone_patient"
                 app:layout_constraintTop_toBottomOf="@+id/text_phone_patient" />
 
             <ImageView
                 android:id="@+id/image_email"
-                android:layout_width="48dp"
-                android:layout_height="53dp"
-                android:layout_marginTop="29dp"
+                style="@style/style_image_profile_fragment"
                 android:src="@drawable/ic_launcher_email_foreground"
                 app:layout_constraintStart_toStartOf="@+id/image_phone"
                 app:layout_constraintTop_toBottomOf="@+id/image_phone" />
@@ -199,26 +182,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/email"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/text_phone_patient_enter"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/text_phone_patient_value"
                 app:layout_constraintTop_toTopOf="@+id/image_email" />
 
 
             <TextView
-                android:id="@+id/text_email_patient_enter"
+                android:id="@+id/text_email_patient_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="akhand769@gmail.com"
+                android:text=""
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/text_email_address_patient"
                 app:layout_constraintTop_toBottomOf="@+id/text_email_address_patient" />
 
             <ImageView
                 android:id="@+id/home_image"
-                android:layout_width="48dp"
-                android:layout_height="43dp"
-                android:layout_marginTop="29dp"
+                style="@style/style_image_profile_fragment"
                 android:src="@drawable/ic_home_black_24dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image_email" />
@@ -229,11 +210,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/Address"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/text_email_patient_enter"
+                app:layout_constraintStart_toStartOf="@+id/text_email_patient_value"
                 app:layout_constraintTop_toTopOf="@+id/home_image" />
 
             <ImageButton
-                android:id="@+id/change_address_button"
+                android:id="@+id/button_change_address"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:background="@drawable/round_button"
@@ -242,37 +223,35 @@
                 app:layout_constraintTop_toTopOf="@+id/text_address_patient" />
 
             <TextView
-                android:id="@+id/text_address_patient_enter"
+                android:id="@+id/text_address_patient_value"
                 android:layout_width="169dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:lines="4"
                 android:maxLines="1"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"
-                android:textSize="14sp"
+                android:text=""
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/text_address_patient"
                 app:layout_constraintTop_toBottomOf="@+id/text_address_patient" />
 
             <ImageView
                 android:id="@+id/blood_image"
-                android:layout_width="64dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="15dp"
+                style="@style/style_image_profile_fragment"
                 android:src="@drawable/ic_launcher_blood"
                 app:layout_constraintStart_toStartOf="@+id/home_image"
-                app:layout_constraintTop_toBottomOf="@+id/text_address_patient_enter" />
+                app:layout_constraintTop_toBottomOf="@+id/text_address_patient_value" />
 
             <TextView
                 android:id="@+id/text_blood_patient"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/blood_group"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/text_address_patient_enter"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/text_address_patient_value"
                 app:layout_constraintTop_toTopOf="@+id/blood_image" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/spinner_blood_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -287,9 +266,9 @@
                 android:layout_marginBottom="55dp"
                 android:text="@string/Save"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/text_address_patient_enter"
-                app:layout_constraintStart_toStartOf="@+id/text_address_patient_enter"
-                app:layout_constraintTop_toBottomOf="@+id/spinner" />
+                app:layout_constraintEnd_toEndOf="@+id/text_address_patient_value"
+                app:layout_constraintStart_toStartOf="@+id/text_address_patient_value"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_blood_group" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

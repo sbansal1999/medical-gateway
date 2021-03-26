@@ -1,4 +1,7 @@
 <resources>
+    <string name="safety_net_api_key">AIzaSyDRY38k2M4yROLP_lE1mSp_VbChnhVhJR0</string>
+    <string name="country_code">+91</string>
+
     <string name="app_name">Medical Gateway</string>
 
     <string name="password">Password  </string>
@@ -14,16 +17,15 @@
     <string name="Hospital_name">Medicare Hospital </string>
     <string name="oops">Oops!  </string>
     <string name="try_again">Try Again  </string>
+
     <string name="name">Name  </string>
     <string name="dob">Date of Birth  </string>
-    <string name="ph.no">Ph.No  </string>
     <string name="email">Email Address  </string>
     <string name="Address">Residential Address  </string>
-    <string name="Phone">Phone </string>
+    <string name="phone_number">Mobile Number </string>
     <string name="Home">Home </string>
     <string name="pharmacy">Pharmacy </string>
     <string name="profile">Profile </string>
-    <string name="camera">Camera</string>
     <string name="blood_group">Blood Group</string>
     <string name="Save">Save changes</string>
     <string name="per">per</string>
@@ -40,14 +42,14 @@
         <item>B+</item>
         <item>B-</item>
     </string-array>
+
     <string-array name="Doctors">
         <item>Choose your Doctor</item>
         <item>ABC</item>
         <item>BCD</item>
         <item>DEF</item>
-
     </string-array>
-
+  
     <string-array name="image_slider">
         <!--        TODO Update Hospital Name-->
         <item>Here in __________  we offer world class diagnosis and treatments</item>
@@ -63,10 +65,6 @@
     <string name="skip">Skip</string>
     <string name="next">Next</string>
 
-    <string name="title_activity_portal">MainActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -74,7 +72,15 @@
     <string name="help">Help</string>
 
     <!--    Login Activity-->
-    <string name="user_id">User ID</string>
-    <string name="forgot_password">Forgot Password?</string>
     <string name="upload_image">Upload Image</string>
+    <string name="otp_heading">Enter the OTP sent to the entered mobile number</string>
+    <string name="enter_here">Enter here</string>
+    <string name="wrong_otp">Wrong OTP!</string>
+    <string name="open_terms_and_conditions">Open Terms and Conditions</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="change_number">Change Number</string>
+    <string name="enter_your_address">Enter your Address :</string>
+    <string name="oops">Oops !</string>
+    <string name="title_home">Home</string>
 </resources>

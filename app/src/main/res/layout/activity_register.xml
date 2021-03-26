@@ -36,13 +36,14 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/textStyle_register_editText"
-                    android:hint="@string/name" />
+                    android:hint="@string/name"
+                    android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_number"
-               style="@style/textStyle_register_input"
+                android:id="@+id/text_phoneNumber"
+                style="@style/textStyle_register_input"
                 app:boxStrokeWidth="3dp"
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -50,11 +51,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_name">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/Phone"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    style="@style/textStyle_register_editText"
+                    android:hint="@string/phone_number"
+                    android:maxLength="10"
+                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -64,13 +64,13 @@
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_number">
+                app:layout_constraintTop_toBottomOf="@+id/text_phoneNumber">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_dob"
                     style="@style/textStyle_register_editText"
                     android:focusableInTouchMode="false"
-                    android:hint="@string/dob"
-                    android:onClick="openDOB" />
+                    android:hint="@string/dob" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +85,9 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/textStyle_register_editText"
-                    android:hint="@string/Address" />
+                    android:hint="@string/Address"
+                    android:inputType="textPostalAddress"
+                    android:maxLines="3" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,8 +103,31 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/textStyle_register_editText"
-                    android:hint="@string/email" />
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
+
+
+            <CheckBox
+                android:id="@+id/checkBox_tc"
+                style="@style/textStyle_register_input"
+                android:layout_width="wrap_content"
+                android:focusable="false"
+                android:text="@string/terms_and_conditions"
+                app:layout_constraintStart_toStartOf="@+id/text_residential_address"
+                app:layout_constraintTop_toBottomOf="@+id/text_residential_address" />
+
+            <ImageButton
+                android:id="@+id/image_open_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:contentDescription="@string/open_terms_and_conditions"
+                android:onClick="openTC"
+                android:src="@drawable/ic_link_to_tc"
+                app:layout_constraintBottom_toBottomOf="@id/checkBox_tc"
+                app:layout_constraintStart_toEndOf="@id/checkBox_tc"
+                app:layout_constraintTop_toTopOf="@id/checkBox_tc" />
 
             <Button
                 android:id="@+id/button_register"
@@ -114,16 +139,20 @@
                 android:textAllCaps="false"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/checkBox_tc"
+                app:layout_constraintEnd_toEndOf="@+id/text_residential_address"
                 app:layout_constraintStart_toStartOf="@+id/checkBox_tc"
                 app:layout_constraintTop_toBottomOf="@+id/checkBox_tc" />
 
-            <CheckBox
-                android:id="@+id/checkBox_tc"
-                style="@style/textStyle_register_input"
-                android:text="@string/terms_and_conditions"
-                app:layout_constraintStart_toStartOf="@+id/text_residential_address"
-                app:layout_constraintTop_toBottomOf="@+id/text_residential_address" />
+            <ProgressBar
+                android:id="@+id/progress_circular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/button_register"
+                app:layout_constraintEnd_toStartOf="@id/button_register"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/button_register" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

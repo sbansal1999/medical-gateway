@@ -1,18 +1,16 @@
 package com.example.medicalgateway;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
+import android.preference.PreferenceManager;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -38,8 +36,7 @@ Context conText;
         setContentView(view);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
-        ConnectivityManager connectivitymanager = (ConnectivityManager)
-                getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivitymanager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkinfo = connectivitymanager.getActiveNetworkInfo();
 
         topAnim = AnimationUtils.loadAnimation(this,R.anim.top_animation);
@@ -76,6 +73,14 @@ Context conText;
                     finish();
                 }
             }
-        },SPLASH_SCREEN);
+        }, SPLASH_SCREEN_DURATION);
+    }
+
+    private boolean checkIfUserIsAlreadySignedIn() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPreferences.contains(SharedPreferencesInfo.PREF_IS_USER_SIGNED_IN)) {
+            return sharedPreferences.getBoolean(SharedPreferencesInfo.PREF_IS_USER_SIGNED_IN, false);
+        }
+        return false;
     }
 }
