@@ -37,7 +37,7 @@
             android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SplashActivity"
+            android:name= ".SplashActivity"
             android:screenOrientation="portrait">
 
         </activity>
