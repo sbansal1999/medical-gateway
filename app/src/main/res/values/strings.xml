@@ -49,7 +49,7 @@
         <item>BCD</item>
         <item>DEF</item>
     </string-array>
-  
+
     <string-array name="image_slider">
         <!--        TODO Update Hospital Name-->
         <item>Here in __________  we offer world class diagnosis and treatments</item>

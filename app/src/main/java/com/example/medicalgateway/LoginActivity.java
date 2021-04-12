@@ -59,6 +59,8 @@ public class LoginActivity extends AppCompatActivity {
             }
             Toast.makeText(LoginActivity.this, "Phone Number Verification Failed", Toast.LENGTH_SHORT)
                  .show();
+            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
             disableViews(mBinding.progressBar);
         }
 

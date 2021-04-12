@@ -75,6 +75,7 @@
         app:layout_constraintGuide_percent="0.03" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:scrollbars="none"
@@ -213,15 +214,6 @@
                 app:layout_constraintStart_toStartOf="@+id/text_email_patient_value"
                 app:layout_constraintTop_toTopOf="@+id/home_image" />
 
-            <ImageButton
-                android:id="@+id/button_change_address"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:background="@drawable/round_button"
-                android:src="@drawable/ic_launcher_edit_pencil"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/text_address_patient" />
-
             <TextView
                 android:id="@+id/text_address_patient_value"
                 android:layout_width="169dp"
@@ -273,5 +265,19 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <ImageButton
+        android:id="@+id/button_change_address"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="43dp"
+        android:layout_marginRight="43dp"
+        android:background="@drawable/round_button"
+        android:src="@drawable/ic_launcher_edit_pencil"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/scrollView2"
+        app:layout_constraintTop_toTopOf="@+id/guidelineDown"
+        app:layout_constraintVertical_bias="0.871" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

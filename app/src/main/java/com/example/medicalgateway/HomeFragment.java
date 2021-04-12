@@ -31,7 +31,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomePatientBinding.inflate(inflater);
         binding.recyclerviewhome.setLayoutManager(new LinearLayoutManager(getContext()));
-        Adapter=new HomeAdapter(dataqueue());
+        Adapter=new HomeAdapter(dataqueue(),getContext());
         binding.recyclerviewhome.setAdapter(Adapter);
 
         //Set Default Image Level
