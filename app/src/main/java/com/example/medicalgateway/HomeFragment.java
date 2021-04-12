@@ -25,13 +25,14 @@ public class HomeFragment extends Fragment {
 
     private final static int NUMBER_OF_IMAGES = 3;
     private static final long SCROLL_DELAY = 5000;
-    private FragmentHomePatientBinding binding;
     HomeAdapter Adapter;
+    private FragmentHomePatientBinding binding;
+
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomePatientBinding.inflate(inflater);
         binding.recyclerviewhome.setLayoutManager(new LinearLayoutManager(getContext()));
-        Adapter=new HomeAdapter(dataqueue(),getContext());
+        Adapter = new HomeAdapter(dataqueue(), getContext());
         binding.recyclerviewhome.setAdapter(Adapter);
 
         //Set Default Image Level
@@ -85,34 +86,33 @@ public class HomeFragment extends Fragment {
         return binding.getRoot();
 
     }
-    public ArrayList<HomeDataModel> dataqueue()
-    {
-        ArrayList<HomeDataModel> holder= new ArrayList<>();
-        HomeDataModel obj1= new HomeDataModel();
+
+    public ArrayList<HomeDataModel> dataqueue() {
+        ArrayList<HomeDataModel> holder = new ArrayList<>();
+        HomeDataModel obj1 = new HomeDataModel();
         obj1.setMed_name("Doctor");
         obj1.setImg_name(R.drawable.hospital_logo);
         holder.add(obj1);
-        HomeDataModel obj2= new HomeDataModel();
+        HomeDataModel obj2 = new HomeDataModel();
         obj2.setMed_name("Available beds");
         obj2.setImg_name(R.drawable.hospital_logo);
         holder.add(obj2);
-        HomeDataModel obj3= new HomeDataModel();
+        HomeDataModel obj3 = new HomeDataModel();
         obj3.setMed_name("About pathology");
         obj3.setImg_name(R.drawable.hospital_logo);
         holder.add(obj3);
-        HomeDataModel obj4= new HomeDataModel();
+        HomeDataModel obj4 = new HomeDataModel();
         obj4.setMed_name("Diagonostics");
         obj4.setImg_name(R.drawable.hospital_logo);
         holder.add(obj4);
-        HomeDataModel obj5= new HomeDataModel();
+        HomeDataModel obj5 = new HomeDataModel();
         obj5.setMed_name("Our specialization");
         obj5.setImg_name(R.drawable.hospital_logo);
         holder.add(obj5);
 
-
-
         return holder;
     }
+
     /**
      * Method to change the dots below the viewPager according to the {@code position}
      *

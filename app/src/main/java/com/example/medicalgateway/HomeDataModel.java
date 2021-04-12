@@ -12,8 +12,6 @@ public class HomeDataModel {
         textMedName = med_name;
     }
 
-
-
     public int getImg_name() {
         return imageMed;
     }

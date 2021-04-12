@@ -17,7 +17,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MedicalGateway">
-        <activity android:name=".Doctors_Info"></activity>
         <activity android:name=".DoctorPortalActivity" />
         <activity android:name=".PatientPortalActivity">
             <intent-filter>
