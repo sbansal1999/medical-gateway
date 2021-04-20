@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment {
     {
         ArrayList<HomeDataModel> holder= new ArrayList<>();
         HomeDataModel obj1= new HomeDataModel();
-        obj1.setMed_name("Doctor");
+        obj1.setMed_name("Our Specialized Doctors");
         obj1.setImg_name(R.drawable.hospital_logo);
         holder.add(obj1);
         HomeDataModel obj2= new HomeDataModel();
@@ -97,17 +97,21 @@ public class HomeFragment extends Fragment {
         obj2.setImg_name(R.drawable.hospital_logo);
         holder.add(obj2);
         HomeDataModel obj3= new HomeDataModel();
-        obj3.setMed_name("About pathology");
+        obj3.setMed_name("Pathology");
         obj3.setImg_name(R.drawable.hospital_logo);
         holder.add(obj3);
         HomeDataModel obj4= new HomeDataModel();
-        obj4.setMed_name("Diagonostics");
+        obj4.setMed_name("Previous appointments");
         obj4.setImg_name(R.drawable.hospital_logo);
         holder.add(obj4);
         HomeDataModel obj5= new HomeDataModel();
-        obj5.setMed_name("Our specialization");
+        obj5.setMed_name("Online Prescription");
         obj5.setImg_name(R.drawable.hospital_logo);
         holder.add(obj5);
+        HomeDataModel obj6= new HomeDataModel();
+        obj6.setMed_name("About Hospital");
+        obj6.setImg_name(R.drawable.hospital_logo);
+        holder.add(obj6);
 
 
 
