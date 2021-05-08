@@ -457,8 +457,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String inputMonth = String.valueOf(++month);
         String inputDay = String.valueOf(day);
 
-        String message = inputDay + "/" + inputMonth + "/" + inputYear;
+        String message = inputDay + "-" + inputMonth + "-" + inputYear;
 
+        //Sample Date  - 05-05-2021
         if (mBinding.textDob.getEditText() != null) {
             mBinding.textDob.getEditText()
                             .setText(message);
