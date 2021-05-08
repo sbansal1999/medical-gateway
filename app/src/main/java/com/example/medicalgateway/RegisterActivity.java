@@ -111,6 +111,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * @param monthNumber the number pf the month
      * @return the name of the month
      */
+    //TODO make the change in the DOB on the client side
     public static String getMonthName(int monthNumber) {
         String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         return monthNames[monthNumber];
@@ -453,7 +454,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         closeSoftKeyboard();
 
         String inputYear = String.valueOf(year);
-        String inputMonth = getMonthName(month);
+        String inputMonth = String.valueOf(++month);
         String inputDay = String.valueOf(day);
 
         String message = inputDay + "/" + inputMonth + "/" + inputYear;
