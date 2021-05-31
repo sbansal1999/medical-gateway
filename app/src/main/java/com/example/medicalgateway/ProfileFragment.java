@@ -16,9 +16,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import com.example.medicalgateway.databinding.FragmentProfilePatientBinding;
-import com.google.gson.Gson;
 import com.canhub.cropper.CropImage;
+import com.example.medicalgateway.databinding.FragmentProfilePatientBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,9 +31,11 @@ import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
 
+    public final static String CHILD_NAME = "patients_info";
     private static final int IMAGE_DIMEN = 1000;
     private FragmentProfilePatientBinding mBinding;
     private ArrayAdapter<CharSequence> adapter;
+    private DatabaseReference rootRef;
 
     public ProfileFragment() {
 
@@ -44,6 +49,7 @@ public class ProfileFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         mBinding.spinnerBloodGroup.setAdapter(adapter);
+
         mBinding.buttonChangeAddress.setOnClickListener((View.OnClickListener) view -> {
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
             View promptsView = layoutInflater.inflate(R.layout.prompts, null);
@@ -65,10 +71,52 @@ public class ProfileFragment extends Fragment {
         });
         mBinding.buttonUploadImage.setOnClickListener(v -> uploadImage());
 
+        mBinding.buttonSave.setOnClickListener(v -> saveChanges());
+
+
         UserInfo userInfo = getUserInfoFromSharedPreferences();
         setValuesFromUserInfo(userInfo);
 
         return mBinding.getRoot();
+    }
+
+    /**
+     * Updates the changes made by the user to the Firebase DB
+     */
+    public void saveChanges() {
+        String address = mBinding.textAddressPatientValue.getText()
+                                                         .toString();
+        String bloodGroup = mBinding.spinnerBloodGroup.getSelectedItem()
+                                                      .toString();
+
+        boolean uploadGroup = !bloodGroup.equals(getResources().getStringArray(R.array.blood_groups)[0]);
+
+        rootRef = FirebaseDatabase.getInstance()
+                                  .getReference();
+
+        String uid = FirebaseAuth.getInstance()
+                                 .getUid();
+
+        if (uid != null) {
+            rootRef.child(CHILD_NAME)
+                   .child(uid)
+                   .child("residentialAddress")
+                   .setValue(address);
+
+            if (uploadGroup) {
+                rootRef.child(CHILD_NAME)
+                       .child(uid)
+                       .child("bloodGroup")
+                       .setValue(bloodGroup);
+            }
+
+            Toast.makeText(getContext(), "Data Updated Successfully", Toast.LENGTH_SHORT)
+                 .show();
+
+        } else {
+            Toast.makeText(getContext(), "Some Error Occurred", Toast.LENGTH_SHORT)
+                 .show();
+        }
     }
 
     private void setValuesFromUserInfo(UserInfo userInfo) {

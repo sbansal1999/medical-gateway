@@ -33,6 +33,7 @@
     <string name="price">Price:</string>
     <string name="cd_pharmacy">Image of medicine</string>
     <string-array name="blood_groups">
+        <item>--</item>
         <item>O+</item>
         <item>O-</item>
         <item>AB+</item>
