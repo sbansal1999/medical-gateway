@@ -6,15 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/standard"
-        android:layout_marginLeft="@dimen/standard"
-        android:text="@string/login"
-        android:textSize="@dimen/standard_heading_size"
-        app:layout_constraintBottom_toTopOf="@id/guideline"
-        app:layout_constraintStart_toStartOf="parent" />
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="392dp"
+        android:layout_height="405dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/login2" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

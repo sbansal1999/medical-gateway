@@ -2,6 +2,7 @@ package com.example.medicalgateway;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 public class Doctors_Info_activity extends AppCompatActivity {
@@ -11,4 +12,5 @@ public class Doctors_Info_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctors__info);
     }
+
 }
