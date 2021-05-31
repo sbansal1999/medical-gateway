@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.medicalgateway.adapters.SlidingImageHomeAdapter;
@@ -16,6 +17,7 @@ import com.example.medicalgateway.databinding.FragmentHomePatientBinding;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,10 +26,13 @@ public class HomeFragment extends Fragment {
     private final static int NUMBER_OF_IMAGES = 3;
     private static final long SCROLL_DELAY = 5000;
     private FragmentHomePatientBinding binding;
-
+    HomeAdapter Adapter;
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomePatientBinding.inflate(inflater);
+        binding.recyclerviewhome.setLayoutManager(new LinearLayoutManager(getContext()));
+        Adapter=new HomeAdapter(dataqueue(),getContext());
+        binding.recyclerviewhome.setAdapter(Adapter);
 
         //Set Default Image Level
         binding.imageDotFirst.setImageLevel(1);
@@ -80,7 +85,38 @@ public class HomeFragment extends Fragment {
         return binding.getRoot();
 
     }
+    public ArrayList<HomeDataModel> dataqueue()
+    {
+        ArrayList<HomeDataModel> holder= new ArrayList<>();
+        HomeDataModel obj1= new HomeDataModel();
+        obj1.setMed_name("Our Specialized Doctors");
+        obj1.setImg_name(R.drawable.hospital_logo);
+        holder.add(obj1);
+        HomeDataModel obj2= new HomeDataModel();
+        obj2.setMed_name("Available beds");
+        obj2.setImg_name(R.drawable.hospital_logo);
+        holder.add(obj2);
+        HomeDataModel obj3= new HomeDataModel();
+        obj3.setMed_name("Pathology");
+        obj3.setImg_name(R.drawable.hospital_logo);
+        holder.add(obj3);
+        HomeDataModel obj4= new HomeDataModel();
+        obj4.setMed_name("Previous appointments");
+        obj4.setImg_name(R.drawable.hospital_logo);
+        holder.add(obj4);
+        HomeDataModel obj5= new HomeDataModel();
+        obj5.setMed_name("Online Prescription");
+        obj5.setImg_name(R.drawable.hospital_logo);
+        holder.add(obj5);
+        HomeDataModel obj6= new HomeDataModel();
+        obj6.setMed_name("About Hospital");
+        obj6.setImg_name(R.drawable.hospital_logo);
+        holder.add(obj6);
 
+
+
+        return holder;
+    }
     /**
      * Method to change the dots below the viewPager according to the {@code position}
      *
