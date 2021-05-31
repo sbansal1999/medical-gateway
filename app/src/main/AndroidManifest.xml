@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MedicalGateway">
-        <activity android:name=".Online_prescription_activity"></activity>
+        <activity android:name=".Online_prescription_activity" />
         <activity android:name=".Previous_appointments_activity" />
         <activity android:name=".About_hospital_activity" />
         <activity android:name=".Pathology_activity" />
