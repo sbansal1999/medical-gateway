@@ -1,5 +1,7 @@
 package com.example.medicalgateway;
 
+import java.util.Objects;
+
 public class UserInfo {
     private String name;
     private String phone;
@@ -64,4 +66,5 @@ public class UserInfo {
     public void setResidentialAddress(String residentialAddress) {
         this.residentialAddress = residentialAddress;
     }
+
 }
