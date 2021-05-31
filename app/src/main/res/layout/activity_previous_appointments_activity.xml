@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Doctors_Info_activity">
+    tools:context=".Previous_appointments_activity">
     <include
         layout= "@layout/toolbar_blueprint"></include>
 </androidx.constraintlayout.widget.ConstraintLayout>
