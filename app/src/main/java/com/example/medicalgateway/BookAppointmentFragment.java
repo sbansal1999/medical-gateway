@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.ArrayAdapter;
 
 import androidx.fragment.app.Fragment;
@@ -22,11 +21,11 @@ import java.util.List;
 public class BookAppointmentFragment extends Fragment {
 
     private static final int IMAGE_DIMEN = 1000;
+    ArrayAdapter<CharSequence> DateAdapter;
     private FragmentBookappointmentBinding binding;
     private Calendar currentDate = Calendar.getInstance();
 
 
-    ArrayAdapter<CharSequence> DateAdapter;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,13 +35,16 @@ public class BookAppointmentFragment extends Fragment {
         binding.spinnerDoctor.setAdapter(DateAdapter);
         List<String> spinnerArray = new ArrayList<>();
         currentDate.add(Calendar.DATE, 1);
-        String currentDate1 = DateFormat.getDateInstance(DateFormat.FULL).format(currentDate.getTime());
+        String currentDate1 = DateFormat.getDateInstance(DateFormat.FULL)
+                                        .format(currentDate.getTime());
         spinnerArray.add(currentDate1);
         currentDate.add(Calendar.DATE, 1);
-        String currentDate2 = DateFormat.getDateInstance(DateFormat.FULL).format(currentDate.getTime());
+        String currentDate2 = DateFormat.getDateInstance(DateFormat.FULL)
+                                        .format(currentDate.getTime());
         spinnerArray.add(currentDate2);
         currentDate.add(Calendar.DATE, 1);
-        String currentDate3 = DateFormat.getDateInstance(DateFormat.FULL).format(currentDate.getTime());
+        String currentDate3 = DateFormat.getDateInstance(DateFormat.FULL)
+                                        .format(currentDate.getTime());
         spinnerArray.add(currentDate3);
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
         DateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -7,12 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder>
-{
+public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
     ArrayList<HomeDataModel> data;
     int PreviousPosition = 0;
     Context context ;
@@ -28,13 +28,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder>
 
         LayoutInflater inflater=LayoutInflater.from(parent.getContext());
         View view= inflater.inflate(R.layout.singlehome_row,parent,false);
+
         return new HomeViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomeViewHolder holder, int position)
-    {
+    public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
         final HomeDataModel temp = data.get(position);
+
         holder.textMedName.setText(data.get(position).getMed_name());
         holder.imageMed.setImageResource(data.get(position).getImg_name());
         holder.textMedName.setOnClickListener(new View.OnClickListener()
@@ -73,8 +74,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder>
                 context.startActivity(intent5);
                 break;
         }
-
-
     }
 
 });
@@ -109,7 +108,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder>
                         intent5.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         context.startActivity(intent5);
                 }
-
             }
         });
 

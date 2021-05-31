@@ -25,13 +25,14 @@ public class HomeFragment extends Fragment {
 
     private final static int NUMBER_OF_IMAGES = 3;
     private static final long SCROLL_DELAY = 5000;
-    private FragmentHomePatientBinding binding;
     HomeAdapter Adapter;
+    private FragmentHomePatientBinding binding;
+
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomePatientBinding.inflate(inflater);
         binding.recyclerviewhome.setLayoutManager(new LinearLayoutManager(getContext()));
-        Adapter=new HomeAdapter(dataqueue(),getContext());
+        Adapter = new HomeAdapter(dataqueue(), getContext());
         binding.recyclerviewhome.setAdapter(Adapter);
 
         //Set Default Image Level
@@ -85,6 +86,7 @@ public class HomeFragment extends Fragment {
         return binding.getRoot();
 
     }
+
     public ArrayList<HomeDataModel> dataqueue()
     {
         ArrayList<HomeDataModel> holder= new ArrayList<>();
@@ -92,7 +94,7 @@ public class HomeFragment extends Fragment {
         obj1.setMed_name("Our Specialized Doctors");
         obj1.setImg_name(R.drawable.hospital_logo);
         holder.add(obj1);
-        HomeDataModel obj2= new HomeDataModel();
+        HomeDataModel obj2 = new HomeDataModel();
         obj2.setMed_name("Available beds");
         obj2.setImg_name(R.drawable.hospital_logo);
         holder.add(obj2);
@@ -113,10 +115,9 @@ public class HomeFragment extends Fragment {
         obj6.setImg_name(R.drawable.hospital_logo);
         holder.add(obj6);
 
-
-
         return holder;
     }
+
     /**
      * Method to change the dots below the viewPager according to the {@code position}
      *

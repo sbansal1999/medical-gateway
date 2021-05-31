@@ -22,7 +22,6 @@ public class HomeViewHolder extends RecyclerView.ViewHolder
 
         imageMed=(ImageView)itemView.findViewById(R.id.image_logo);
         textMedName=(TextView)itemView.findViewById(R.id.textMedName);
-
     }
 
 }

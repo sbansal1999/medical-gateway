@@ -32,6 +32,10 @@ public class ProfileFragment extends Fragment {
     private FragmentProfilePatientBinding mBinding;
     private ArrayAdapter<CharSequence> adapter;
 
+    public ProfileFragment() {
+
+    }
+
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = FragmentProfilePatientBinding.inflate(inflater, container, false);
@@ -61,8 +65,8 @@ public class ProfileFragment extends Fragment {
         });
         mBinding.buttonUploadImage.setOnClickListener(v -> uploadImage());
 
-//        UserInfo userInfo = getUserInfoFromSharedPreferences();
-//        setValuesFromUserInfo(userInfo);
+        UserInfo userInfo = getUserInfoFromSharedPreferences();
+        setValuesFromUserInfo(userInfo);
 
         return mBinding.getRoot();
     }
