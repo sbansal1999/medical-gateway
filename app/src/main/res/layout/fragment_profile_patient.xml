@@ -61,28 +61,24 @@
         app:layout_constraintEnd_toEndOf="@id/guidelineRight" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_text_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.97" />
-
-    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_text_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.03" />
+        app:layout_constraintGuide_percent="0.1" />
+
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_text_right"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_text_left"
-        app:layout_constraintTop_toTopOf="@+id/guidelineDown">
+        app:layout_constraintTop_toTopOf="@+id/guidelineDown"
+        app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -190,11 +186,16 @@
 
             <TextView
                 android:id="@+id/text_email_patient_value"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:lines="2"
                 android:text=""
                 android:textSize="20sp"
+                android:ellipsize="end"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/text_email_address_patient"
                 app:layout_constraintTop_toBottomOf="@+id/text_email_address_patient" />
 
@@ -219,8 +220,7 @@
                 android:layout_width="169dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:lines="4"
-                android:maxLines="1"
+                android:maxLines="4"
                 android:text=""
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/text_address_patient"
@@ -262,22 +262,20 @@
                 app:layout_constraintStart_toStartOf="@+id/text_address_patient_value"
                 app:layout_constraintTop_toBottomOf="@+id/spinner_blood_group" />
 
+            <ImageButton
+                android:id="@+id/button_change_address"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginLeft="48dp"
+                android:background="@drawable/round_button"
+                android:src="@drawable/ic_launcher_edit_pencil"
+                app:layout_constraintBottom_toBottomOf="@+id/text_address_patient_value"
+                app:layout_constraintStart_toEndOf="@+id/text_address_patient"
+                app:layout_constraintTop_toTopOf="@+id/text_address_patient" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <ImageButton
-        android:id="@+id/button_change_address"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_marginEnd="43dp"
-        android:layout_marginRight="43dp"
-        android:background="@drawable/round_button"
-        android:src="@drawable/ic_launcher_edit_pencil"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/scrollView2"
-        app:layout_constraintTop_toTopOf="@+id/guidelineDown"
-        app:layout_constraintVertical_bias="0.871" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
