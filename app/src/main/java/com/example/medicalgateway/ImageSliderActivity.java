@@ -1,5 +1,6 @@
 package com.example.medicalgateway;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -76,5 +77,11 @@ public class ImageSliderActivity extends AppCompatActivity {
                 binding.buttonNext.setVisibility(View.VISIBLE);
                 break;
         }
+    }
+
+    public void nextActivity(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent);
     }
 }

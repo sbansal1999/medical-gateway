@@ -24,6 +24,7 @@
         <activity android:name=".Available_beds_activity" />
         <activity android:name=".Doctors_Info_activity" />
         <activity android:name=".DoctorPortalActivity" />
+        <activity android:name=".ImageSliderActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

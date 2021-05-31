@@ -83,4 +83,7 @@
     <string name="enter_your_address">Enter your Address :</string>
 
     <string name="title_home">Home</string>
+    <string name="sliding_text_first">We provide world class services.</string>
+    <string name="sliding_text_second">Your Health is our concern.</string>
+    <string name="sliding_text_third">Protect Yourself</string>
 </resources>
