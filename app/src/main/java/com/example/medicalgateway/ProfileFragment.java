@@ -42,6 +42,7 @@ import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
@@ -114,11 +115,15 @@ public class ProfileFragment extends Fragment {
             fetchDataFromFirebase();
         }
 
-        Picasso.get()
-               .load(FirebaseAuth.getInstance()
-                                 .getCurrentUser()
-                                 .getPhotoUrl())
-               .into(mBinding.circularImageView);
+        Uri photoUrl = FirebaseAuth.getInstance()
+                                   .getCurrentUser()
+                                   .getPhotoUrl();
+
+        if (photoUrl != null) {
+            Picasso.get()
+                   .load(photoUrl)
+                   .into(mBinding.circularImageView);
+        }
 
         return mBinding.getRoot();
     }

@@ -107,26 +107,33 @@ public class BookAppointmentFragment extends Fragment {
                                    @Override
                                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                                        if (snapshot.exists()) {
-                                           String currentStat = String.valueOf(snapshot.child("appointmentFulfilled")
+                                           long num = snapshot.getChildrenCount();
+
+                                           String currentStat = String.valueOf(snapshot.child(num + "")
+                                                                                       .child("appointmentFulfilled")
                                                                                        .getValue());
 
                                            if (currentStat.equals("false")) {
-                                               showToast("You already have one upcoming appointment scheduled at : " + snapshot.child("dateAppoint")
+                                               showToast("You already have one upcoming appointment scheduled at : " + snapshot.child(num + "")
+                                                                                                                               .child("dateAppoint")
                                                                                                                                .getValue()
                                                                                                                                .toString());
                                            } else {
+                                               num++;
+
                                                //Previous Appointment Fulfilled
                                                rootRef.child(CHILD_NAME)
                                                       .child(uid)
+                                                      .child(num + "")
                                                       .setValue(patientAppointment)
                                                       .addOnSuccessListener(e -> showToast("Appointment Booking Request Sent. We will contact you shortly"));
                                            }
                                        } else {
                                            rootRef.child(CHILD_NAME)
                                                   .child(uid)
+                                                  .child("1")
                                                   .setValue(patientAppointment)
                                                   .addOnSuccessListener(e -> showToast("Appointment Booking Request Sent. We will contact you shortly"));
-
                                        }
                                    }
 
