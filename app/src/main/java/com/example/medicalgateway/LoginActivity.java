@@ -230,7 +230,7 @@ public class LoginActivity extends AppCompatActivity {
     public void changeNumber(View view) {
         mBinding.textPhoneNumber.getEditText()
                                 .setEnabled(true);
-        disableViews(mBinding.buttonVerifyOtp, mBinding.textOtpHeading, mBinding.editOtp, mBinding.buttonResendOtp, mBinding.buttonChangeNumber);
+        disableViews(mBinding.buttonVerifyOtp, mBinding.textOtpHeading, mBinding.editOtp, mBinding.buttonResendOtp, mBinding.buttonChangeNumber, mBinding.textOtpWarning);
         enableViews(mBinding.buttonLogin);
     }
 
