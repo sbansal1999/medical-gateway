@@ -91,6 +91,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
             Toast.makeText(RegisterActivity.this, "Phone Number Verification Failed", Toast.LENGTH_SHORT)
                  .show();
+            mBinding.progressCircular.setVisibility(View.INVISIBLE);
         }
 
         @Override

@@ -114,6 +114,12 @@ public class ProfileFragment extends Fragment {
             fetchDataFromFirebase();
         }
 
+        Picasso.get()
+               .load(FirebaseAuth.getInstance()
+                                 .getCurrentUser()
+                                 .getPhotoUrl())
+               .into(mBinding.circularImageView);
+
         return mBinding.getRoot();
     }
 
@@ -155,9 +161,6 @@ public class ProfileFragment extends Fragment {
                        @Override
                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                            if (snapshot.exists()) {
-                               String json = snapshot.getValue()
-                                                     .toString();
-
                                UserInfo userInfo = snapshot.getValue(UserInfo.class);
 
                                setValuesFromUserInfo(userInfo);
@@ -198,13 +201,6 @@ public class ProfileFragment extends Fragment {
 
                        }
                    });
-
-            Picasso.get()
-                   .load(FirebaseAuth.getInstance()
-                                     .getCurrentUser()
-                                     .getPhotoUrl())
-                   .into(mBinding.circularImageView);
-
         }
     }
 

@@ -22,11 +22,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Takes the user to the Login Activity
+     * Takes the user to the Login Activity*
      * @param view Receives the button that was clicked
      */
     public void doLogin(View view) {
         Intent myIntent = new Intent(this, LoginActivity.class);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(myIntent);
     }
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void doRegister(View view) {
         Intent myIntent = new Intent(this, RegisterActivity.class);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(myIntent);
     }
 }
