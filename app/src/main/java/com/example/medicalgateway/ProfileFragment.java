@@ -34,10 +34,13 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -47,6 +50,7 @@ public class ProfileFragment extends Fragment {
 
     public final static String CHILD_NAME = "patients_info";
     private static final int IMAGE_DIMEN = 1000;
+    private static final String CHILD_NAME_BLOOD_GRP = "blood_group";
     private FragmentProfilePatientBinding mBinding;
     private ArrayAdapter<CharSequence> adapter;
     private DatabaseReference rootRef;
@@ -98,11 +102,10 @@ public class ProfileFragment extends Fragment {
         if (sharedPreferences.contains(SharedPreferencesInfo.PREF_CURRENT_USER_INFO)) {
             UserInfo userInfo = getUserInfoFromSharedPreferences();
             setValuesFromUserInfo(userInfo);
+//            changeDOBFormat();
         } else {
             fetchDataFromFirebase();
         }
-
-        changeDOBFormat();
 
         return mBinding.getRoot();
     }
@@ -147,18 +150,39 @@ public class ProfileFragment extends Fragment {
                            if (snapshot.exists()) {
                                String json = snapshot.getValue()
                                                      .toString();
-                               Log.i("test", json);
 
-                               Gson gson = new Gson();
-                               UserInfo userInfo = gson.fromJson(json, UserInfo.class);
+                               UserInfo userInfo = snapshot.getValue(UserInfo.class);
+
                                setValuesFromUserInfo(userInfo);
 
-                               SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                               SharedPreferences.Editor editor = sharedPreferences.edit();
+                               DatabaseReference childRef = rootRef.child(CHILD_NAME_BLOOD_GRP)
+                                                                   .child(uid);
 
-                               json = gson.toJson(userInfo);
-                               editor.putString(SharedPreferencesInfo.PREF_CURRENT_USER_INFO, json);
-                               editor.apply();
+
+                               childRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                   @Override
+                                   public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                       if (snapshot.getValue() == null) {
+                                           mBinding.spinnerBloodGroup.setSelection(0);
+                                       } else {
+                                           String bloodGrp = snapshot.getValue()
+                                                                     .toString();
+
+                                           setBloodGrpSpinner(bloodGrp);
+
+                                           SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                                                                                              .edit();
+
+                                           editor.putString(SharedPreferencesInfo.PREF_CURRENT_USER_BLOOD_GROUP, bloodGrp);
+                                           editor.apply();
+                                       }
+                                   }
+
+                                   @Override
+                                   public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                                   }
+                               });
                            }
                        }
 
@@ -168,10 +192,30 @@ public class ProfileFragment extends Fragment {
                        }
                    });
 
-            mBinding.circularImageView.setImageURI(FirebaseAuth.getInstance()
-                                                               .getCurrentUser()
-                                                               .getPhotoUrl());
+            Picasso.get()
+                   .load(FirebaseAuth.getInstance()
+                                     .getCurrentUser()
+                                     .getPhotoUrl())
+                   .into(mBinding.circularImageView);
+
         }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT)
+             .show();
+    }
+
+    /**
+     * Takes blood group as param and sets the spinner accordingly
+     *
+     * @param s The Blood Group String
+     */
+    private void setBloodGrpSpinner(String s) {
+        List<String> bloodGrpList = Arrays.asList(getResources().getStringArray(R.array.blood_groups));
+        int index = bloodGrpList.indexOf(s);
+        mBinding.spinnerBloodGroup.setSelection(index);
+
     }
 
     /**
@@ -192,20 +236,28 @@ public class ProfileFragment extends Fragment {
                                  .getUid();
 
         if (uid != null) {
-            Toast.makeText(getActivity(), "Saving Changes", Toast.LENGTH_SHORT)
-                 .show();
+            showToast("Saving Changes");
+
+            final boolean[] status = {false};
 
             rootRef.child(CHILD_NAME)
                    .child(uid)
                    .child("residentialAddress")
-                   .setValue(address);
+                   .setValue(address)
+                   .addOnSuccessListener(e -> status[0] = true);
 
 
             if (uploadGroup) {
-                rootRef.child(CHILD_NAME)
+                rootRef.child(CHILD_NAME_BLOOD_GRP)
                        .child(uid)
-                       .child("bloodGroup")
-                       .setValue(bloodGroup);
+                       .setValue(bloodGroup)
+                       .addOnSuccessListener(e -> status[0] = true);
+
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                                                                   .edit();
+
+                editor.putString(SharedPreferencesInfo.PREF_CURRENT_USER_BLOOD_GROUP, bloodGroup);
+                editor.apply();
             }
 
             if (imageChanged) {
@@ -222,8 +274,7 @@ public class ProfileFragment extends Fragment {
                 byte[] data = byteArrayOutputStream.toByteArray();
 
                 UploadTask uploadTask = strRef.putBytes(data);
-                uploadTask.addOnFailureListener(e -> Toast.makeText(getContext(), "Some Error Occurred During Saving Data", Toast.LENGTH_SHORT)
-                                                          .show())
+                uploadTask.addOnFailureListener(e -> showToast("Some Error Occurred During Saving Data"))
                           .addOnSuccessListener(taskSnapshot -> strRef.getDownloadUrl()
                                                                       .addOnSuccessListener(uri -> {
                                                                           UserProfileChangeRequest request = new UserProfileChangeRequest.Builder().setPhotoUri(uri)
@@ -231,17 +282,15 @@ public class ProfileFragment extends Fragment {
                                                                           FirebaseAuth.getInstance()
                                                                                       .getCurrentUser()
                                                                                       .updateProfile(request)
-                                                                                      .addOnSuccessListener(unused -> Toast.makeText(getContext(), "Profile Updated Successfully", Toast.LENGTH_SHORT)
-                                                                                                                           .show());
-
+                                                                                      .addOnSuccessListener(unused -> status[0] = true);
                                                                       }));
-            } else {
-                Toast.makeText(getContext(), "Some Error Occurred", Toast.LENGTH_SHORT)
-                     .show();
+            }
+
+            if (status[0] = true) {
+                showToast("Profile Updated Successfully");
             }
         } else {
-            Toast.makeText(getContext(), "Some Error Occurred", Toast.LENGTH_SHORT)
-                 .show();
+            showToast("Some Error Occurred");
         }
     }
 
@@ -256,6 +305,11 @@ public class ProfileFragment extends Fragment {
     private UserInfo getUserInfoFromSharedPreferences() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String json = sharedPreferences.getString(SharedPreferencesInfo.PREF_CURRENT_USER_INFO, null);
+
+        //Check if blood grp exists
+        if (sharedPreferences.contains(SharedPreferencesInfo.PREF_CURRENT_USER_BLOOD_GROUP)) {
+            setBloodGrpSpinner(sharedPreferences.getString(SharedPreferencesInfo.PREF_CURRENT_USER_BLOOD_GROUP, "--"));
+        }
 
         Gson gson = new Gson();
         return gson.fromJson(json, UserInfo.class);
@@ -287,8 +341,7 @@ public class ProfileFragment extends Fragment {
                     }
                     mBinding.circularImageView.setImageURI(resultUri);
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                    Toast.makeText(getContext(), "ERROR", Toast.LENGTH_SHORT)
-                         .show();
+                    showToast("ERROR");
                 }
             }
         }
@@ -299,4 +352,6 @@ public class ProfileFragment extends Fragment {
         super.onDestroyView();
         mBinding = null;
     }
+
+
 }

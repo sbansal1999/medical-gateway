@@ -10,6 +10,9 @@ public class UserInfo {
     private String residentialAddress;
     private String patientID;
 
+    public UserInfo() {
+    }
+
     public UserInfo(String name, String phone, String DOB, String emailAddress, String residentialAddress, String patientID) {
         this.name = name;
         this.phone = phone;

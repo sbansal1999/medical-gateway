@@ -7,7 +7,7 @@
     <string name="password">Password  </string>
     <string name="problem">Problem  </string>
     <string name="describe">Describe about your problem here </string>
-    <string name="preffered_doctor">Preffered doctor  </string>
+    <string name="preferred_doctor">Preferred doctor  </string>
     <string name="appointment_date">Date of Appointment  </string>
     <string name="date_format">DD/MM/YYYY  </string>
     <string name="book_button">Book My Appointment  </string>
@@ -44,7 +44,7 @@
         <item>B-</item>
     </string-array>
 
-    <string-array name="Doctors">
+    <string-array name="doctors">
         <item>Choose your Doctor</item>
         <item>ABC</item>
         <item>BCD</item>
