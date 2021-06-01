@@ -80,8 +80,7 @@ public class ImageSliderActivity extends AppCompatActivity {
     }
 
     public void nextActivity(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }

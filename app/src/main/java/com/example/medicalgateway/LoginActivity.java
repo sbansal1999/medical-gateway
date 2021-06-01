@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Phone Number Verification Failed", Toast.LENGTH_SHORT)
                  .show();
             Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG)
-                    .show();
+                 .show();
             disableViews(mBinding.progressBar);
         }
 
@@ -77,6 +77,20 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
     private DatabaseReference rootRef;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mBinding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
+        if (getIntent().hasExtra(RegisterActivity.EXTRA_PHONE_NUMBER)) {
+            setTextInTextInputLayout(mBinding.textPhoneNumber, getIntent().getStringExtra(RegisterActivity.EXTRA_PHONE_NUMBER));
+        }
+    }
 
     /**
      * /Sign in the user to the Firebase using the provided {@link PhoneAuthCredential} instance
@@ -130,20 +144,6 @@ public class LoginActivity extends AppCompatActivity {
     private void disableViews(@NotNull View... views) {
         for (View view : views) {
             view.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mBinding = ActivityLoginBinding.inflate(getLayoutInflater());
-        setContentView(mBinding.getRoot());
-
-        mFirebaseAuth = FirebaseAuth.getInstance();
-
-        if (getIntent().hasExtra(RegisterActivity.EXTRA_PHONE_NUMBER)) {
-            setTextInTextInputLayout(mBinding.textPhoneNumber, getIntent().getStringExtra(RegisterActivity.EXTRA_PHONE_NUMBER));
         }
     }
 
@@ -230,7 +230,7 @@ public class LoginActivity extends AppCompatActivity {
     public void changeNumber(View view) {
         mBinding.textPhoneNumber.getEditText()
                                 .setEnabled(true);
-        disableViews(mBinding.buttonVerifyOtp, mBinding.textOtpHeading, mBinding.editOtp, mBinding.buttonResendOtp, mBinding.buttonChangeNumber);
+        disableViews(mBinding.buttonVerifyOtp, mBinding.textOtpHeading, mBinding.editOtp, mBinding.buttonResendOtp, mBinding.buttonChangeNumber, mBinding.textOtpWarning);
         enableViews(mBinding.buttonLogin);
     }
 
