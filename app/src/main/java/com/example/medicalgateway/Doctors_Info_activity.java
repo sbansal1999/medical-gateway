@@ -54,7 +54,7 @@ public class Doctors_Info_activity extends AppCompatActivity {
         doc6=(ImageView)findViewById(R.id.doc6);
         doc6.setImageResource(R.drawable.doc6);
         txt6=(TextView)findViewById((R.id.cardt6));
-        txt6.setText("Dr.Sanjeev Bakshi");
+        txt6.setText("Dr.Sanjeev Baksh");
         prof6=(TextView)findViewById(R.id.cardp6);
         prof6.setText("Diabetologist");
         doc7=(ImageView)findViewById(R.id.doc7);
