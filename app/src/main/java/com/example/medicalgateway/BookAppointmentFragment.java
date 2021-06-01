@@ -107,15 +107,26 @@ public class BookAppointmentFragment extends Fragment {
                                    @Override
                                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                                        if (snapshot.exists()) {
-                                           showToast("You already have one upcoming appointment scheduled at : " + snapshot.child("dateAppoint")
-                                                                                                                           .getValue()
-                                                                                                                           .toString());
+                                           String currentStat = String.valueOf(snapshot.child("appointmentFulfilled")
+                                                                                       .getValue());
 
+                                           if (currentStat.equals("false")) {
+                                               showToast("You already have one upcoming appointment scheduled at : " + snapshot.child("dateAppoint")
+                                                                                                                               .getValue()
+                                                                                                                               .toString());
+                                           } else {
+                                               //Previous Appointment Fulfilled
+                                               rootRef.child(CHILD_NAME)
+                                                      .child(uid)
+                                                      .setValue(patientAppointment)
+                                                      .addOnSuccessListener(e -> showToast("Appointment Booking Request Sent. We will contact you shortly"));
+                                           }
                                        } else {
                                            rootRef.child(CHILD_NAME)
                                                   .child(uid)
                                                   .setValue(patientAppointment)
                                                   .addOnSuccessListener(e -> showToast("Appointment Booking Request Sent. We will contact you shortly"));
+
                                        }
                                    }
 
@@ -134,6 +145,7 @@ public class BookAppointmentFragment extends Fragment {
             }
         }
     }
+
 
     private void showToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT)
