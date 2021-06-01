@@ -22,7 +22,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.canhub.cropper.CropImage;
+import com.example.medicalgateway.databinding.FragmentBookAppointmentBinding;
 import com.example.medicalgateway.databinding.FragmentProfilePatientBinding;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
@@ -69,6 +72,10 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = FragmentProfilePatientBinding.inflate(inflater, container, false);
+
+        View root = getActivity().findViewById(android.R.id.content);
+        Snackbar.make(root, "Fetching Data", BaseTransientBottomBar.LENGTH_SHORT)
+                .show();
 
         adapter = ArrayAdapter.createFromResource(getContext(), R.array.blood_groups, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

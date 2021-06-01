@@ -7,12 +7,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.medicalgateway.databinding.FragmentBookappointmentBinding;
+import com.example.medicalgateway.databinding.FragmentBookAppointmentBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,19 +29,16 @@ public class BookAppointmentFragment extends Fragment {
 
     private static final int IMAGE_DIMEN = 1000;
     private static final String CHILD_NAME = "appointment_info";
-    ArrayAdapter<CharSequence> dateAdapter;
-    private FragmentBookappointmentBinding mBinding;
+    private FragmentBookAppointmentBinding mBinding;
     private Calendar currentDate = Calendar.getInstance();
-
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mBinding = FragmentBookappointmentBinding.inflate(inflater, container, false);
+        mBinding = FragmentBookAppointmentBinding.inflate(inflater, container, false);
 
-        dateAdapter = ArrayAdapter.createFromResource(getContext(), R.array.doctors, android.R.layout.simple_spinner_item);
-        dateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        mBinding.spinnerDoctor.setAdapter(dateAdapter);
+        ArrayAdapter<CharSequence> doctorAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.doctors, android.R.layout.simple_spinner_item);
+        doctorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mBinding.spinnerDoctor.setAdapter(doctorAdapter);
 
         List<String> spinnerArray = new ArrayList<>();
         spinnerArray.add("Select");
@@ -54,9 +55,11 @@ public class BookAppointmentFragment extends Fragment {
         String currentDate3 = DateFormat.getDateInstance(DateFormat.FULL)
                                         .format(currentDate.getTime());
         spinnerArray.add(currentDate3);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
+
+        ArrayAdapter<String> dateAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
+
         dateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mBinding.spinnerDate.setAdapter(adapter2);
+        mBinding.spinnerDate.setAdapter(dateAdapter);
 
         //TODO add Date Picker Dialog to select date
 
@@ -66,7 +69,8 @@ public class BookAppointmentFragment extends Fragment {
     }
 
     private void bookAppointment() {
-        String problemDesc = mBinding.edittextProblem.getText()
+        String problemDesc = mBinding.edittextProblem.getEditText()
+                                                     .getText()
                                                      .toString();
 
         String prefDoc = mBinding.spinnerDoctor.getSelectedItem()
@@ -75,21 +79,19 @@ public class BookAppointmentFragment extends Fragment {
         String dateAppoint = mBinding.spinnerDate.getSelectedItem()
                                                  .toString();
 
-
         if (problemDesc.equals("")) {
-            Toast.makeText(getActivity(), "Kindly Describe Your Problem First", Toast.LENGTH_SHORT)
-                 .show();
+            showToast("Kindly Describe Your Problem First");
         } else {
 
             if (prefDoc.equals("Choose your Doctor")) {
-                Toast.makeText(getActivity(), "Kindly Select a Doctor First", Toast.LENGTH_SHORT)
-                     .show();
+                showToast("Kindly Select a Doctor First");
             } else {
                 if (dateAppoint.equals("Select")) {
-                    Toast.makeText(getActivity(), "Kindly Select your preferred date", Toast.LENGTH_SHORT)
-                         .show();
+                    showToast("Kindly Select your preferred date");
                 } else {
                     //Book Appointment
+                    showToast("Booking Appointment");
+
                     String uid = FirebaseAuth.getInstance()
                                              .getUid();
 
@@ -97,27 +99,45 @@ public class BookAppointmentFragment extends Fragment {
                                                                 .getReference();
 
                     if (uid != null) {
-
-                        PatientAppointment patientAppointment = new PatientAppointment(problemDesc, prefDoc, dateAppoint);
-
+                        PatientAppointment patientAppointment = new PatientAppointment(problemDesc, prefDoc, dateAppoint, false);
 
                         rootRef.child(CHILD_NAME)
                                .child(uid)
-                               .setValue(patientAppointment)
-                               .addOnSuccessListener(e -> Toast.makeText(getActivity(), "Appointment Booking Request Sent. We will contact you shortly", Toast.LENGTH_SHORT)
-                                                               .show());
+                               .addListenerForSingleValueEvent(new ValueEventListener() {
+                                   @Override
+                                   public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                       if (snapshot.exists()) {
+                                           showToast("You already have one upcoming appointment scheduled at : " + snapshot.child("dateAppoint")
+                                                                                                                           .getValue()
+                                                                                                                           .toString());
+
+                                       } else {
+                                           rootRef.child(CHILD_NAME)
+                                                  .child(uid)
+                                                  .setValue(patientAppointment)
+                                                  .addOnSuccessListener(e -> showToast("Appointment Booking Request Sent. We will contact you shortly"));
+                                       }
+                                   }
+
+                                   @Override
+                                   public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                                   }
+                               });
+
 
                     } else {
-                        Toast.makeText(getActivity(), "Some Error Occurred", Toast.LENGTH_SHORT)
-                             .show();
+                        showToast("Some Error Occurred");
 
                     }
-
                 }
             }
         }
+    }
 
-
+    private void showToast(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT)
+             .show();
     }
 
 
