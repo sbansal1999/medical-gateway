@@ -1,16 +1,26 @@
 package com.example.medicalgateway;
 
 public class PatientAppointment {
+    private String patientID;
     private String problemDesc;
     private String prefDoctor;
     private String dateAppoint;
     private boolean appointmentFulfilled;
 
-    public PatientAppointment(String problemDesc, String prefDoctor, String dateAppoint, boolean appointmentFulfilled) {
+    public PatientAppointment(String patientID, String problemDesc, String prefDoctor, String dateAppoint, boolean appointmentFulfilled) {
+        this.patientID = patientID;
         this.problemDesc = problemDesc;
         this.prefDoctor = prefDoctor;
         this.dateAppoint = dateAppoint;
         this.appointmentFulfilled = appointmentFulfilled;
+    }
+
+    public String getPatientID() {
+        return patientID;
+    }
+
+    public void setPatientID(String patientID) {
+        this.patientID = patientID;
     }
 
     public boolean isAppointmentFulfilled() {

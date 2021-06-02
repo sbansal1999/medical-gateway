@@ -1,6 +1,9 @@
 package com.example.medicalgateway;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +27,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import static com.example.medicalgateway.RegisterActivity.TAG;
 
 public class BookAppointmentFragment extends Fragment {
 
@@ -65,6 +70,7 @@ public class BookAppointmentFragment extends Fragment {
 
         mBinding.buttonBookAppointmentConfirm.setOnClickListener(e -> bookAppointment());
 
+
         return mBinding.getRoot();
     }
 
@@ -99,7 +105,10 @@ public class BookAppointmentFragment extends Fragment {
                                                                 .getReference();
 
                     if (uid != null) {
-                        PatientAppointment patientAppointment = new PatientAppointment(problemDesc, prefDoc, dateAppoint, false);
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                        String result = sharedPreferences.getString(SharedPreferencesInfo.PREF_CURRENT_USER_PID, "hi");
+
+                        PatientAppointment patientAppointment = new PatientAppointment(result, problemDesc, prefDoc, dateAppoint, false);
 
                         rootRef.child(CHILD_NAME)
                                .child(uid)

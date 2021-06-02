@@ -1,11 +1,14 @@
 package com.example.medicalgateway;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
@@ -14,6 +17,12 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.medicalgateway.adapters.SlidingImageHomeAdapter;
 import com.example.medicalgateway.databinding.FragmentHomePatientBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -83,8 +92,41 @@ public class HomeFragment extends Fragment {
             }
         }, SCROLL_DELAY, SCROLL_DELAY);
 
+        insertPID();
+
         return binding.getRoot();
 
+    }
+
+    private void insertPID() {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance()
+                                                    .getReference();
+
+        FirebaseAuth user = FirebaseAuth.getInstance();
+
+        if (user.getUid() != null) {
+            rootRef.child("patients_info")
+                   .child(user.getUid())
+                   .child("patientID")
+                   .addListenerForSingleValueEvent(new ValueEventListener() {
+                       @Override
+                       public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                           SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                                                                                         .edit();
+
+                           String pID = snapshot.getValue()
+                                                .toString();
+
+                           editor.putString(SharedPreferencesInfo.PREF_CURRENT_USER_PID, pID);
+                           editor.apply();
+                       }
+
+                       @Override
+                       public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                       }
+                   });
+        }
     }
 
     public ArrayList<HomeDataModel> dataqueue() {
