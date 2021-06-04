@@ -7,5 +7,4 @@
     android:background="#48EC8383"
     tools:context=".PharmacyPatientFragment">
 
-
 </androidx.recyclerview.widget.RecyclerView>
