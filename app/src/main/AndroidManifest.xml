@@ -23,8 +23,8 @@
         <activity android:name=".Pathology_activity" />
         <activity android:name=".Available_beds_activity" />
         <activity android:name=".Doctors_Info_activity" />
-        <activity android:name=".DoctorPortalActivity" />
-        <activity android:name=".PatientPortalActivity">
+
+        <activity android:name=".DoctorPortalActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,6 +46,8 @@
             android:name=".LoginActivity"
             android:noHistory="true"
             android:screenOrientation="portrait" />
+
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />

@@ -10,11 +10,36 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyViewHolder> implements Filterable {
     ArrayList<PharmacyDataModel> data;
     ArrayList<PharmacyDataModel> datacopy;
+    private final Filter dataFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            ArrayList<PharmacyDataModel> filteredList = new ArrayList<>();
+            if (charSequence == null || charSequence.length() == 0) {
+                filteredList.addAll(datacopy);
+            } else {
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+                for (PharmacyDataModel item : datacopy) {
+                    if (item.getMed_name().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            data.clear();
+            data.addAll((ArrayList) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public PharmacyAdapter(ArrayList<PharmacyDataModel> data) {
         this.data = data;
@@ -49,35 +74,5 @@ public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyViewHolder> im
     public Filter getFilter() {
         return dataFilter;
     }
-
-    private Filter dataFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-ArrayList<PharmacyDataModel> filteredList= new ArrayList<>();
-if(charSequence == null || charSequence.length()==0)
-{
-    filteredList.addAll(datacopy);
-}else {
-    String filterPattern = charSequence.toString().toLowerCase().trim();
-    for(PharmacyDataModel item: datacopy)
-    {
-        if(item.getMed_name().toLowerCase().contains(filterPattern))
-        {
-            filteredList.add(item);
-        }
-    }
-}
-FilterResults results = new FilterResults();
-results.values = filteredList;
-return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-           data.clear();
-           data.addAll((ArrayList) filterResults.values);
-           notifyDataSetChanged();
-        }
-    };
 
 }
