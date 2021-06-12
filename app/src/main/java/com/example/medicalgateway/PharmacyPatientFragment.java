@@ -43,19 +43,6 @@ public class PharmacyPatientFragment extends Fragment {
 
         Query query = rootRef.child(dbChild)
                              .limitToLast(dbLimit);
-        rootRef.child(dbChild)
-               .limitToLast(dbLimit)
-               .addListenerForSingleValueEvent(new ValueEventListener() {
-                   @Override
-                   public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                       Log.d("first", "onDataChange: " + snapshot.toString());
-                   }
-
-                   @Override
-                   public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                   }
-               });
 
         FirebaseRecyclerOptions<MedicineInfo> options = new FirebaseRecyclerOptions.Builder<MedicineInfo>().setQuery(query, MedicineInfo.class)
                                                                                                            .build();

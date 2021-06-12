@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomePatientBinding.inflate(inflater);
         binding.recyclerviewhome.setLayoutManager(new LinearLayoutManager(getContext()));
-        Adapter = new HomeAdapter(dataqueue(), getContext());
+        Adapter = new HomeAdapter(dataQueue(), getContext());
         binding.recyclerviewhome.setAdapter(Adapter);
 
         //Set Default Image Level
@@ -73,7 +73,6 @@ public class HomeFragment extends Fragment {
         });
 
         //TODO add something to make sure to stop on user touch
-
         Handler handler = new Handler();
         Runnable update = () -> {
             int current = binding.viewPagerImages.getCurrentItem();
@@ -129,7 +128,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public ArrayList<HomeDataModel> dataqueue() {
+    public ArrayList<HomeDataModel> dataQueue() {
         ArrayList<HomeDataModel> holder = new ArrayList<>();
         HomeDataModel obj1 = new HomeDataModel();
         obj1.setMed_name("Our Specialized Doctors");

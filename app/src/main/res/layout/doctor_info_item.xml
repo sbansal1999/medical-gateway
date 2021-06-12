@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginTop="8dp"
+    android:elevation="4dp"
+    app:cardCornerRadius="10dp"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/image_doctor"
+            android:layout_width="0dp"
+            android:layout_height="175dp"
+            android:layout_margin="8dp"
+            android:contentDescription="@string/image_of_doctor"
+            android:scaleType="fitXY"
+            android:src="@drawable/hospital_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_docName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/name"
+            app:layout_constraintEnd_toEndOf="@+id/image_doctor"
+            app:layout_constraintStart_toStartOf="@+id/image_doctor"
+            app:layout_constraintTop_toBottomOf="@+id/image_doctor" />
+
+        <TextView
+            android:id="@+id/text_docSpec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/speciality"
+            app:layout_constraintEnd_toEndOf="@id/text_docName"
+            app:layout_constraintStart_toStartOf="@+id/text_docName"
+
+            app:layout_constraintTop_toBottomOf="@id/text_docName" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

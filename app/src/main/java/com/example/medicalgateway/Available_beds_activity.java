@@ -1,8 +1,6 @@
 package com.example.medicalgateway;
 
 import androidx.annotation.RequiresApi;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -20,7 +18,7 @@ Toolbar toolbar1;
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_available_beds_activity);
-toolbar1 = (Toolbar)findViewById(R.id.toolbar1);
+toolbar1 = (Toolbar)findViewById(R.id.toolbar);
         cd1 = (CardView)findViewById(R.id.cardView1) ;
         toolbar1.setTitle("Available beds in Hospital");
         toolbar1.setTitleTextColor(Color.WHITE);

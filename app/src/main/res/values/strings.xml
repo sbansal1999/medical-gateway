@@ -92,5 +92,8 @@
     <string name="search_message">Search by Name</string>
     <string name="category">Category:</string>
     <string name="search">Search</string>
+    <string name="image_of_doctor">Image of Doctor</string>
+    <string name="speciality">Speciality</string>
+    <string name="our_specialized_doctors">Specialized Doctors in Hospital</string>
 
 </resources>
