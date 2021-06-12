@@ -1,10 +1,8 @@
 package com.example.medicalgateway;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,8 +18,8 @@ public class HomeViewHolder extends RecyclerView.ViewHolder
     {
         super((itemView));
 
-        imageMed=(ImageView)itemView.findViewById(R.id.image_logo);
-        textMedName=(TextView)itemView.findViewById(R.id.textMedName);
+        imageMed= itemView.findViewById(R.id.image_medicine);
+        textMedName= itemView.findViewById(R.id.textMedName);
     }
 
 }

@@ -1,80 +1,150 @@
 package com.example.medicalgateway;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.medicalgateway.databinding.FragmentPharmacyPatientBinding;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class PharmacyPatientFragment extends Fragment {
-    private FragmentPharmacyPatientBinding binding;
-    PharmacyAdapter Adapter;
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding= FragmentPharmacyPatientBinding.inflate(inflater);
-        binding.recylerviewPharmacy.setLayoutManager(new LinearLayoutManager(getContext()));
-        Adapter=new PharmacyAdapter(dataqueue());
-        binding.recylerviewPharmacy.setAdapter(Adapter);
-        return binding.getRoot();
-    }
-    public ArrayList<PharmacyDataModel> dataqueue()
-    {
-        ArrayList<PharmacyDataModel> holder= new ArrayList<>();
-        PharmacyDataModel obj1= new PharmacyDataModel();
-        obj1.setMed_name("Remdesiver");
-        obj1.setMfg_change("HealthBio Pharmaceuticals");
-        obj1.setPrice_change("10000Rs.");        obj1.setQty_change("1 unit");
-        obj1.setImg_name(R.drawable.remdesiver);
-        holder.add(obj1);
-        PharmacyDataModel obj2= new PharmacyDataModel();
-        obj2.setMed_name("PPE Kits");
-        obj2.setMfg_change("HealthBio Pharmaceuticals");
-        obj2.setPrice_change("800Rs.");
-        obj2.setQty_change("1 unit");
-        obj2.setImg_name(R.drawable.ppe);
-        holder.add(obj2);
-        PharmacyDataModel obj3= new PharmacyDataModel();
-        obj3.setMed_name("Masks");
-        obj3.setMfg_change("HealthBio Pharmaceuticals");
-        obj3.setPrice_change("100Rs.");
-        obj3.setQty_change("1 unit");
-        obj3.setImg_name(R.drawable.masks);
-        holder.add(obj3);
-        PharmacyDataModel obj4= new PharmacyDataModel();
-        obj4.setMed_name("Gloves");
-        obj4.setMfg_change("HealthBio Pharmaceuticals");
-        obj4.setPrice_change("50Rs.");
-        obj4.setQty_change("1 unit");
-        obj4.setImg_name(R.drawable.gloves);
-        holder.add(obj4);
-        PharmacyDataModel obj5= new PharmacyDataModel();
-        obj5.setMed_name("Gluconate tablets");
-        obj5.setMfg_change("HealthBio Pharmaceuticals");
-        obj5.setPrice_change("100Rs.");
-        obj5.setQty_change("20 tablets");
-        obj5.setImg_name(R.drawable.gluconate);
-        holder.add(obj5);
-        PharmacyDataModel obj6= new PharmacyDataModel();
-        obj6.setMed_name("Sugar Free");
-        obj6.setMfg_change("HealthBio Pharmaceuticals");
-        obj6.setPrice_change("250Rs.");
-        obj6.setQty_change("1 unit");
-        obj6.setImg_name(R.drawable.sugarfree);
-        holder.add(obj6);
-        PharmacyDataModel obj7= new PharmacyDataModel();
-        obj7.setMed_name("Zincovit");
-        obj7.setMfg_change("HealthBio Pharmaceuticals");
-        obj7.setPrice_change("150Rs.");
-        obj7.setQty_change("1 unit");
-        obj7.setImg_name(R.drawable.zincovit);
-        holder.add(obj7);
+    private final int dbLimit = 20;
+    private final String dbChild = "medicine_info";
+    private FragmentPharmacyPatientBinding mBinding;
+    private PharmacyAdapter adapter;
+    private DatabaseReference rootRef;
 
-        return holder;
+    @Override
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mBinding = FragmentPharmacyPatientBinding.inflate(inflater);
+
+        mBinding.buttonSearchMed.setOnClickListener(view -> searchMed());
+
+        rootRef = FirebaseDatabase.getInstance()
+                                  .getReference();
+
+        Query query = rootRef.child(dbChild)
+                             .limitToLast(dbLimit);
+        rootRef.child(dbChild)
+               .limitToLast(dbLimit)
+               .addListenerForSingleValueEvent(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                       Log.d("first", "onDataChange: " + snapshot.toString());
+                   }
+
+                   @Override
+                   public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                   }
+               });
+
+        FirebaseRecyclerOptions<MedicineInfo> options = new FirebaseRecyclerOptions.Builder<MedicineInfo>().setQuery(query, MedicineInfo.class)
+                                                                                                           .build();
+
+        adapter = new PharmacyAdapter(options);
+        mBinding.recyclerPharmacy.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mBinding.recyclerPharmacy.setAdapter(adapter);
+
+        return mBinding.getRoot();
+
     }
+
+    private void searchMed() {
+        closeSoftKeyboard();
+
+        //TODO search by category
+
+        String searchText = mBinding.editSearch.getEditText()
+                                               .getText()
+                                               .toString();
+
+        searchText = Character.toUpperCase(searchText.charAt(0)) + searchText.substring(1);
+
+        Query query = rootRef.child(dbChild)
+                             .orderByChild("name")
+                             .startAt(searchText)
+                             .endAt(searchText + "\uf8ff")
+                             .limitToFirst(dbLimit);
+
+        FirebaseRecyclerOptions<MedicineInfo> options = new FirebaseRecyclerOptions.Builder<MedicineInfo>().setQuery(query, MedicineInfo.class)
+                                                                                                           .build();
+
+        adapter = new PharmacyAdapter(options);
+//
+//        if (adapter.getItemCount() == 0) {
+//            //search by category
+//            Query q1 = rootRef.child(dbChild)
+//                                 .orderByChild("category")
+//                                 .startAt(searchText)
+//                                 .endAt(searchText + "\uf8ff")
+//                                 .limitToFirst(dbLimit);
+//
+//            FirebaseRecyclerOptions<MedicineInfo> opt = new FirebaseRecyclerOptions.Builder<MedicineInfo>().setQuery(q1, MedicineInfo.class)
+//                                                                                                               .build();
+//
+//            adapter = new PharmacyAdapter(opt);
+//        }
+
+        mBinding.recyclerPharmacy.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mBinding.recyclerPharmacy.setAdapter(adapter);
+        adapter.startListening();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
+
+
+    /**
+     * Method that closes any opened soft Keyboard
+     */
+    private void closeSoftKeyboard() {
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+            View view = getActivity().getCurrentFocus();
+            if (view == null) {
+                view = new View(getActivity());
+            }
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        } catch (NullPointerException ignored) {
+
+        }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT)
+             .show();
+
+    }
+
 }

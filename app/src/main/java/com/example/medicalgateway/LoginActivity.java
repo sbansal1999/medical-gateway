@@ -270,5 +270,4 @@ public class LoginActivity extends AppCompatActivity {
         PhoneAuthProvider.verifyPhoneNumber(authOptions);
     }
 
-
 }
