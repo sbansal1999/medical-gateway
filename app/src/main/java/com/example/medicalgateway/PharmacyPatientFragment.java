@@ -1,7 +1,6 @@
 package com.example.medicalgateway;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,14 +25,15 @@ import org.jetbrains.annotations.NotNull;
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class PharmacyPatientFragment extends Fragment {
-    private final int dbLimit = 20;
-    private final String dbChild = "medicine_info";
+    private final int DB_LIMIT = 20;
+    private final String CHILD_NAME = "medicine_info";
     private FragmentPharmacyPatientBinding mBinding;
     private PharmacyAdapter adapter;
     private DatabaseReference rootRef;
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         mBinding = FragmentPharmacyPatientBinding.inflate(inflater);
 
         mBinding.buttonSearchMed.setOnClickListener(view -> searchMed());
@@ -41,8 +41,8 @@ public class PharmacyPatientFragment extends Fragment {
         rootRef = FirebaseDatabase.getInstance()
                                   .getReference();
 
-        Query query = rootRef.child(dbChild)
-                             .limitToLast(dbLimit);
+        Query query = rootRef.child(CHILD_NAME)
+                             .limitToLast(DB_LIMIT);
 
         FirebaseRecyclerOptions<MedicineInfo> options = new FirebaseRecyclerOptions.Builder<MedicineInfo>().setQuery(query, MedicineInfo.class)
                                                                                                            .build();
@@ -59,43 +59,61 @@ public class PharmacyPatientFragment extends Fragment {
     private void searchMed() {
         closeSoftKeyboard();
 
-        //TODO search by category
+        final FirebaseRecyclerOptions[] options = new FirebaseRecyclerOptions[]{null};
 
         String searchText = mBinding.editSearch.getEditText()
                                                .getText()
-                                               .toString();
+                                               .toString()
+                                               .toLowerCase();
+
+        if (searchText.isEmpty()) {
+            showToast("No Search Text Given");
+            return;
+        }
 
         searchText = Character.toUpperCase(searchText.charAt(0)) + searchText.substring(1);
 
-        Query query = rootRef.child(dbChild)
+        showToast("Searching");
+
+        Query query = rootRef.child(CHILD_NAME)
                              .orderByChild("name")
                              .startAt(searchText)
                              .endAt(searchText + "\uf8ff")
-                             .limitToFirst(dbLimit);
+                             .limitToFirst(DB_LIMIT);
 
-        FirebaseRecyclerOptions<MedicineInfo> options = new FirebaseRecyclerOptions.Builder<MedicineInfo>().setQuery(query, MedicineInfo.class)
-                                                                                                           .build();
+        String finalSearchText = searchText;
 
-        adapter = new PharmacyAdapter(options);
-//
-//        if (adapter.getItemCount() == 0) {
-//            //search by category
-//            Query q1 = rootRef.child(dbChild)
-//                                 .orderByChild("category")
-//                                 .startAt(searchText)
-//                                 .endAt(searchText + "\uf8ff")
-//                                 .limitToFirst(dbLimit);
-//
-//            FirebaseRecyclerOptions<MedicineInfo> opt = new FirebaseRecyclerOptions.Builder<MedicineInfo>().setQuery(q1, MedicineInfo.class)
-//                                                                                                               .build();
-//
-//            adapter = new PharmacyAdapter(opt);
-//        }
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    options[0] = new FirebaseRecyclerOptions.Builder<MedicineInfo>().setQuery(query, MedicineInfo.class)
+                                                                                    .build();
 
-        mBinding.recyclerPharmacy.setLayoutManager(new LinearLayoutManager(getContext()));
+                } else {
+                    Query q1 = rootRef.child(CHILD_NAME)
+                                      .orderByChild("category")
+                                      .startAt(finalSearchText)
+                                      .endAt(finalSearchText + "\uf8ff")
+                                      .limitToFirst(DB_LIMIT);
+                    options[0] = new FirebaseRecyclerOptions.Builder<MedicineInfo>().setQuery(q1, MedicineInfo.class)
+                                                                                    .build();
+                }
 
-        mBinding.recyclerPharmacy.setAdapter(adapter);
-        adapter.startListening();
+                adapter = new PharmacyAdapter(options[0]);
+
+                mBinding.recyclerPharmacy.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                mBinding.recyclerPharmacy.setAdapter(adapter);
+                adapter.startListening();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
 
     }
 

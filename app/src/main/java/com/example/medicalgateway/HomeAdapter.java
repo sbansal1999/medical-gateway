@@ -23,7 +23,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
     @NonNull
     @Override
     public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.singlehome_row, parent, false);
 
@@ -36,7 +35,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
                                        .getMed_name());
         holder.imageMed.setImageResource(data.get(position)
                                              .getImg_name());
-        holder.textMedName.setOnClickListener(v -> {
+
+        holder.wholeView.setOnClickListener(v -> {
             switch (position) {
                 case 0:
                     Intent intent = new Intent(context, DoctorInfoActivity.class);
@@ -44,7 +44,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
                     context.startActivity(intent);
                     break;
                 case 1:
-                    Intent intent1 = new Intent(context, Available_beds_activity.class);
+                    Intent intent1 = new Intent(context, AvailableBedsActivity.class);
                     intent1.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     context.startActivity(intent1);
                     break;
@@ -54,51 +54,23 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
                     context.startActivity(intent2);
                     break;
                 case 3:
-                    Intent intent3 = new Intent(context, Previous_appointments_activity.class);
+                    Intent intent3 = new Intent(context, PreviousAppointmentsActivity.class);
                     intent3.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     context.startActivity(intent3);
                     break;
                 case 4:
-                    Intent intent4 = new Intent(context, Online_prescription_activity.class);
+                    Intent intent4 = new Intent(context, OnlinePrescriptionActivity.class);
                     intent4.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     context.startActivity(intent4);
                     break;
                 case 5:
-                    Intent intent5 = new Intent(context, About_hospital_activity.class);
+                    Intent intent5 = new Intent(context, AboutHospitalActivity.class);
                     intent5.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     context.startActivity(intent5);
                     break;
             }
-        });
-        holder.imageMed.setOnClickListener(view -> {
-            switch (position) {
-                case 0:
-                    Intent intent0 = new Intent(context, DoctorInfoActivity.class);
-                    intent0.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    context.startActivity(intent0);
-                case 1:
-                    Intent intent1 = new Intent(context, Available_beds_activity.class);
-                    intent1.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    context.startActivity(intent1);
-                case 2:
-                    Intent intent2 = new Intent(context, Pathology_activity.class);
-                    intent2.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    context.startActivity(intent2);
-                case 3:
-                    Intent intent3 = new Intent(context, Previous_appointments_activity.class);
-                    intent3.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    context.startActivity(intent3);
-                case 4:
-                    Intent intent4 = new Intent(context, Online_prescription_activity.class);
-                    intent4.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    context.startActivity(intent4);
-                case 5:
-                    Intent intent5 = new Intent(context, About_hospital_activity.class);
-                    intent5.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    context.startActivity(intent5);
-            }
-        });
 
+        });
     }
 
     @Override

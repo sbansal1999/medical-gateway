@@ -11,11 +11,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import kotlin.jvm.internal.Ref;
-
 public class DoctorInfoActivity extends AppCompatActivity {
-    private static final String dbChild = "doctors_info";
-    private final int dbLimit = 20;
+    private static final String CHILD_NAME = "doctors_info";
+    private final int DB_LIMIT = 20;
     private ActivityDoctorsInfoBinding mBinding;
     private DoctorInfoAdapter adapter;
     private DatabaseReference rootRef;
@@ -28,8 +26,8 @@ public class DoctorInfoActivity extends AppCompatActivity {
         rootRef = FirebaseDatabase.getInstance()
                                   .getReference();
 
-        Query query = rootRef.child(dbChild)
-                             .limitToLast(dbLimit);
+        Query query = rootRef.child(CHILD_NAME)
+                             .limitToLast(DB_LIMIT);
 
 
         FirebaseRecyclerOptions<DoctorInfo> options = new FirebaseRecyclerOptions.Builder<DoctorInfo>().setQuery(query, DoctorInfo.class)

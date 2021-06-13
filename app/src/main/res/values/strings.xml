@@ -89,11 +89,15 @@
     <string name="sliding_text_third">Protect Yourself</string>
     <string name="name_of_medicine">Name of Medicine</string>
     <string name="rs">₹</string>
-    <string name="search_message">Search by Name</string>
+    <string name="search_message">Search by Name or Category</string>
     <string name="category">Category:</string>
     <string name="search">Search</string>
     <string name="image_of_doctor">Image of Doctor</string>
     <string name="speciality">Speciality</string>
     <string name="our_specialized_doctors">Specialized Doctors in Hospital</string>
+    <string name="logout">Logout</string>
+    <string name="logout_warning">Are you sure you want to logout?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>

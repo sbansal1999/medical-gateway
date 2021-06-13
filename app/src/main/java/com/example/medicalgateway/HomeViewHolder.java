@@ -13,11 +13,13 @@ public class HomeViewHolder extends RecyclerView.ViewHolder
 
     ImageView imageMed;
     TextView textMedName;
+    View wholeView;
 
     public HomeViewHolder(@NotNull View itemView)
     {
         super((itemView));
 
+        wholeView = itemView;
         imageMed= itemView.findViewById(R.id.image_medicine);
         textMedName= itemView.findViewById(R.id.textMedName);
     }
