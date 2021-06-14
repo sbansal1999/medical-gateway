@@ -38,7 +38,8 @@ public class HomeFragment extends Fragment {
     private FragmentHomePatientBinding binding;
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         binding = FragmentHomePatientBinding.inflate(inflater);
         binding.recyclerviewhome.setLayoutManager(new LinearLayoutManager(getContext()));
         Adapter = new HomeAdapter(dataQueue(), getContext());
@@ -59,7 +60,8 @@ public class HomeFragment extends Fragment {
 
         binding.viewPagerImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset,
+                                       int positionOffsetPixels) {
                 highlightDot(position);
             }
 
@@ -111,7 +113,7 @@ public class HomeFragment extends Fragment {
                        @Override
                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity())
-                                                                                         .edit();
+                                                                              .edit();
 
                            String pID = snapshot.getValue()
                                                 .toString();
@@ -130,37 +132,47 @@ public class HomeFragment extends Fragment {
 
     public ArrayList<HomeDataModel> dataQueue() {
         ArrayList<HomeDataModel> holder = new ArrayList<>();
+
         HomeDataModel obj1 = new HomeDataModel();
         obj1.setMed_name("Our Specialized Doctors");
         obj1.setImg_name(R.drawable.hospital_logo);
         holder.add(obj1);
+
         HomeDataModel obj2 = new HomeDataModel();
-        obj2.setMed_name("Available beds");
+        obj2.setMed_name("Check Reports");
         obj2.setImg_name(R.drawable.hospital_logo);
         holder.add(obj2);
+
         HomeDataModel obj3 = new HomeDataModel();
-        obj3.setMed_name("Pathology");
+        obj3.setMed_name("Available Beds");
         obj3.setImg_name(R.drawable.hospital_logo);
         holder.add(obj3);
+
         HomeDataModel obj4 = new HomeDataModel();
-        obj4.setMed_name("Previous appointments");
+        obj4.setMed_name("Pathology");
         obj4.setImg_name(R.drawable.hospital_logo);
         holder.add(obj4);
+
         HomeDataModel obj5 = new HomeDataModel();
-        obj5.setMed_name("Online Prescription");
+        obj5.setMed_name("Previous Appointments");
         obj5.setImg_name(R.drawable.hospital_logo);
         holder.add(obj5);
+
         HomeDataModel obj6 = new HomeDataModel();
-        obj6.setMed_name("About Hospital");
+        obj6.setMed_name("Online Prescription");
         obj6.setImg_name(R.drawable.hospital_logo);
         holder.add(obj6);
+
+        HomeDataModel obj7 = new HomeDataModel();
+        obj7.setMed_name("About Hospital");
+        obj7.setImg_name(R.drawable.hospital_logo);
+        holder.add(obj7);
 
         return holder;
     }
 
     /**
      * Method to change the dots below the viewPager according to the {@code position}
-     *
      * @param position the index of the image currently on the screen
      */
     private void highlightDot(int position) {

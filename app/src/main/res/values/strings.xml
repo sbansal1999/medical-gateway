@@ -99,5 +99,8 @@
     <string name="logout_warning">Are you sure you want to logout?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="report_date">Report Date:</string>
+    <string name="view_report">View Report</string>
+    <string name="reports">Reports</string>
 
 </resources>

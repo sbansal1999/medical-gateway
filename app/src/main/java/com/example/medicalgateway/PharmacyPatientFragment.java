@@ -129,7 +129,6 @@ public class PharmacyPatientFragment extends Fragment {
         adapter.stopListening();
     }
 
-
     /**
      * Method that closes any opened soft Keyboard
      */

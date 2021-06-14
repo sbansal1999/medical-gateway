@@ -12,6 +12,15 @@
         android:layout_height="wrap_content"
         android:padding="8dp">
 
+        <ProgressBar
+            android:id="@+id/progress_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/image_medicine"
+            app:layout_constraintEnd_toEndOf="@+id/image_medicine"
+            app:layout_constraintStart_toStartOf="@+id/image_medicine"
+            app:layout_constraintTop_toTopOf="@+id/image_medicine" />
+
         <ImageView
             android:id="@+id/image_medicine"
             android:layout_width="80dp"

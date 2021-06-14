@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +24,8 @@ public class PharmacyAdapter extends FirebaseRecyclerAdapter<MedicineInfo, Pharm
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position, @NonNull @NotNull MedicineInfo model) {
+    protected void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position,
+                                    @NonNull @NotNull MedicineInfo model) {
         holder.getTextMedName()
               .setText(model.getName());
         holder.getTextMedPrice()
@@ -36,13 +39,20 @@ public class PharmacyAdapter extends FirebaseRecyclerAdapter<MedicineInfo, Pharm
 
         Picasso.get()
                .load(model.getPhotoURL())
-               .into(holder.getImageMedicine());
+               .into(holder.getImageMedicine(),new Callback.EmptyCallback(){
+                   @Override
+                   public void onSuccess() {
+                       holder.getProgressLoading()
+                             .setVisibility(View.INVISIBLE);
+                   }
+               });
     }
 
     @NonNull
     @NotNull
     @Override
-    public PharmacyAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+    public PharmacyAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent,
+                                                         int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                                   .inflate(R.layout.singlepharmacy_row, parent, false);
         return new ViewHolder(view);
@@ -55,6 +65,7 @@ public class PharmacyAdapter extends FirebaseRecyclerAdapter<MedicineInfo, Pharm
         private final TextView textMedUnit;
         private final TextView textMedMfgBy;
         private final TextView textMedCtg;
+        private final ProgressBar progressLoading;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -65,6 +76,12 @@ public class PharmacyAdapter extends FirebaseRecyclerAdapter<MedicineInfo, Pharm
             textMedUnit = itemView.findViewById(R.id.text_medUnit);
             textMedMfgBy = itemView.findViewById(R.id.text_medMfgBy);
             textMedCtg = itemView.findViewById(R.id.text_medCtg);
+            progressLoading = itemView.findViewById(R.id.progress_image);
+        }
+
+
+        public ProgressBar getProgressLoading() {
+            return progressLoading;
         }
 
         public TextView getTextMedCtg() {

@@ -1,10 +1,10 @@
 package com.example.medicalgateway;
 
-import android.media.tv.TvContentRating;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 public class DoctorInfoAdapter extends FirebaseRecyclerAdapter<DoctorInfo, DoctorInfoAdapter.ViewHolder> {
 
@@ -37,20 +37,28 @@ public class DoctorInfoAdapter extends FirebaseRecyclerAdapter<DoctorInfo, Docto
     protected void onBindViewHolder(@NonNull @NotNull DoctorInfoAdapter.ViewHolder holder,
                                     int position, @NonNull @NotNull DoctorInfo model) {
         holder.getTextDocName()
-              .setText(model.name);
+              .setText(model.getName());
         holder.getTextDocSpec()
-              .setText(model.speciality);
+              .setText(model.getSpeciality());
 
         Picasso.get()
                .load(model.getPhotoURL())
-               .into(holder.getImageDoctor());
+               .into(holder.getImageDoctor(), new Callback.EmptyCallback() {
+                   @Override
+                   public void onSuccess() {
+                       holder.getProgressLoading()
+                             .setVisibility(View.INVISIBLE);
+
+                   }
+               });
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageDoctor;
         private TextView textDocName;
         private TextView textDocSpec;
-
+        private ProgressBar progressLoading;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -58,6 +66,15 @@ public class DoctorInfoAdapter extends FirebaseRecyclerAdapter<DoctorInfo, Docto
             imageDoctor = itemView.findViewById(R.id.image_doctor);
             textDocName = itemView.findViewById(R.id.text_docName);
             textDocSpec = itemView.findViewById(R.id.text_docSpec);
+            progressLoading = itemView.findViewById(R.id.progress_image);
+        }
+
+        public ProgressBar getProgressLoading() {
+            return progressLoading;
+        }
+
+        public void setProgressLoading(ProgressBar progressLoading) {
+            this.progressLoading = progressLoading;
         }
 
         public ImageView getImageDoctor() {

@@ -3,17 +3,17 @@ package com.example.medicalgateway;
 import java.util.List;
 
 public class DoctorInfo {
-    public List<Integer> available;
-    public String dob;
-    public String doctorID;
-    public String emailAddress;
-    public String gender;
-    public String name;
-    public String phone;
-    public String photoURL;
-    public String residentialAddress;
-    public String speciality;
-
+    private List<Integer> available;
+    private String dob;
+    private String doctorID;
+    private String emailAddress;
+    private String gender;
+    private String name;
+    private String phone;
+    private String photoURL;
+    private String residentialAddress;
+    private String speciality;
+    
     public DoctorInfo() {
         //Required for Firebase
     }

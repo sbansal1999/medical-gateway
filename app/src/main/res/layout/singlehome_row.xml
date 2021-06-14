@@ -23,22 +23,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <TextView
             android:id="@+id/textMedName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:layout_marginLeft="45dp"
+            android:layout_toEndOf="@+id/image_medicine"
             android:layout_toRightOf="@+id/image_medicine"
             android:contentDescription="@string/name_of_medicine"
             android:text="@string/app_name"
-            android:textColor="#000"
+            android:textColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/image_medicine"
-            app:layout_constraintStart_toEndOf="@+id/image_medicine"
-            app:layout_constraintTop_toTopOf="@+id/image_medicine"
-            android:layout_toEndOf="@+id/image_medicine" />
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="@+id/image_medicine" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.25" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
