@@ -47,9 +47,6 @@ public class LoginActivity extends AppCompatActivity {
     private String mVerificationId;
     private String mPhoneNumber;
     private PhoneAuthProvider.ForceResendingToken mToken;
-    private DatabaseReference rootRef;
-    private String CHILD_NAME_PATIENT = "patients_info";
-    private String CHILD_NAME_DOCTOR = "doctors_info";
     //Callback for PhoneAuthProvider
     private final PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
@@ -85,6 +82,9 @@ public class LoginActivity extends AppCompatActivity {
             startOTPVerificationProcess();
         }
     };
+    private DatabaseReference rootRef;
+    private String CHILD_NAME_PATIENT = "patients_info";
+    private String CHILD_NAME_DOCTOR = "doctors_info";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,9 +203,6 @@ public class LoginActivity extends AppCompatActivity {
                                     if (snapshot.exists()) {
                                         displayLog("Doctor");
                                         verifyPhoneNumber();
-
-                                        showSnackbar(String.valueOf(isPatient[0]));
-
                                     } else {
                                         displayLog("New User Detected");
                                         Toast.makeText(LoginActivity.this, "Redirecting you to the Register Page", Toast.LENGTH_SHORT)

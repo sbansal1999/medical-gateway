@@ -24,21 +24,23 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import static com.example.medicalgateway.RegisterActivity.TAG;
+import java.util.Locale;
 
 public class BookAppointmentFragment extends Fragment {
 
     private static final int IMAGE_DIMEN = 1000;
     private static final String CHILD_NAME = "appointment_info";
+    private final Calendar currentDate = Calendar.getInstance();
     private FragmentBookAppointmentBinding mBinding;
-    private Calendar currentDate = Calendar.getInstance();
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         mBinding = FragmentBookAppointmentBinding.inflate(inflater, container, false);
 
         ArrayAdapter<CharSequence> doctorAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.doctors, android.R.layout.simple_spinner_item);
@@ -52,10 +54,12 @@ public class BookAppointmentFragment extends Fragment {
         String currentDate1 = DateFormat.getDateInstance(DateFormat.FULL)
                                         .format(currentDate.getTime());
         spinnerArray.add(currentDate1);
+
         currentDate.add(Calendar.DATE, 1);
         String currentDate2 = DateFormat.getDateInstance(DateFormat.FULL)
                                         .format(currentDate.getTime());
         spinnerArray.add(currentDate2);
+
         currentDate.add(Calendar.DATE, 1);
         String currentDate3 = DateFormat.getDateInstance(DateFormat.FULL)
                                         .format(currentDate.getTime());
@@ -69,7 +73,6 @@ public class BookAppointmentFragment extends Fragment {
         //TODO add Date Picker Dialog to select date
 
         mBinding.buttonBookAppointmentConfirm.setOnClickListener(e -> bookAppointment());
-
 
         return mBinding.getRoot();
     }
@@ -95,6 +98,8 @@ public class BookAppointmentFragment extends Fragment {
                 if (dateAppoint.equals("Select")) {
                     showToast("Kindly Select your preferred date");
                 } else {
+                    dateAppoint = convertDate(dateAppoint);
+
                     //Book Appointment
                     showToast("Booking Appointment");
 
@@ -114,7 +119,8 @@ public class BookAppointmentFragment extends Fragment {
                                .child(uid)
                                .addListenerForSingleValueEvent(new ValueEventListener() {
                                    @Override
-                                   public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                   public void onDataChange(
+                                           @NonNull @NotNull DataSnapshot snapshot) {
                                        if (snapshot.exists()) {
                                            long num = snapshot.getChildrenCount();
 
@@ -162,6 +168,21 @@ public class BookAppointmentFragment extends Fragment {
         }
     }
 
+    private String convertDate(String inputDate) {
+        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("E, MMMMM dd, yyyy", Locale.ENGLISH);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        try {
+            String output = simpleDateFormat.format(simpleDateFormat1.parse(inputDate));
+            return output;
+
+        } catch (ParseException e) {
+            Log.d("test", "convertDate:err");
+            Log.d("test", "convertDate: " + e.getLocalizedMessage());
+        }
+
+        return null;
+    }
 
     private void showToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT)
