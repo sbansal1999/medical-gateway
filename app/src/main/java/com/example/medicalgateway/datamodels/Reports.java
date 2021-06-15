@@ -1,4 +1,4 @@
-package com.example.medicalgateway;
+package com.example.medicalgateway.datamodels;
 
 public class Reports {
     private String reportDate;

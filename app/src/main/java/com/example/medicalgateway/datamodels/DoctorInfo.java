@@ -1,4 +1,4 @@
-package com.example.medicalgateway;
+package com.example.medicalgateway.datamodels;
 
 import java.util.List;
 

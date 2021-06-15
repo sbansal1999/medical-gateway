@@ -7,8 +7,8 @@
     <string name="password">Password  </string>
     <string name="problem">Problem  </string>
     <string name="describe">Describe about your problem here </string>
-    <string name="preferred_doctor">Preferred doctor  </string>
-    <string name="appointment_date">Date of Appointment  </string>
+    <string name="preferred_doctor">Preferred Doctor  </string>
+    <string name="appointment_date">Appointment Date</string>
     <string name="date_format">DD/MM/YYYY  </string>
     <string name="book_button">Book My Appointment  </string>
     <string name="internet_description">Image to show when no internet  </string>
@@ -102,5 +102,12 @@
     <string name="report_date">Report Date:</string>
     <string name="view_report">View Report</string>
     <string name="reports">Reports</string>
+    <string name="appointment_date_holder">Appointment Date:</string>
+    <string name="preferred_doctor_holder">Preferred Doctor:</string>
+    <string name="problem_description">Problem Description:</string>
+    <string name="appointment_status">Appointment Status:</string>
+    <string name="fulfilled">Fulfilled</string>
+    <string name="not_fulfilled">Not Fulfilled</string>
+    <string name="previous_appointments">Previous Appointments</string>
 
 </resources>

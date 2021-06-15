@@ -1,4 +1,4 @@
-package com.example.medicalgateway;
+package com.example.medicalgateway.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.medicalgateway.R;
+import com.example.medicalgateway.datamodels.DoctorInfo;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.squareup.picasso.Callback;

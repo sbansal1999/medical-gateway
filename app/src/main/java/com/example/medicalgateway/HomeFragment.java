@@ -15,8 +15,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.medicalgateway.adapters.HomeAdapter;
 import com.example.medicalgateway.adapters.SlidingImageHomeAdapter;
 import com.example.medicalgateway.databinding.FragmentHomePatientBinding;
+import com.example.medicalgateway.datamodels.HomeDataModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +36,7 @@ public class HomeFragment extends Fragment {
 
     private final static int NUMBER_OF_IMAGES = 3;
     private static final long SCROLL_DELAY = 5000;
-    HomeAdapter Adapter;
+    private HomeAdapter adapter;
     private FragmentHomePatientBinding binding;
 
     @Override
@@ -42,8 +44,8 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentHomePatientBinding.inflate(inflater);
         binding.recyclerviewhome.setLayoutManager(new LinearLayoutManager(getContext()));
-        Adapter = new HomeAdapter(dataQueue(), getContext());
-        binding.recyclerviewhome.setAdapter(Adapter);
+        adapter = new HomeAdapter(dataQueue(), getContext());
+        binding.recyclerviewhome.setAdapter(adapter);
 
         //Set Default Image Level
         binding.imageDotFirst.setImageLevel(1);
@@ -144,17 +146,17 @@ public class HomeFragment extends Fragment {
         holder.add(obj2);
 
         HomeDataModel obj3 = new HomeDataModel();
-        obj3.setMed_name("Available Beds");
+        obj3.setMed_name("Previous Appointments");
         obj3.setImg_name(R.drawable.hospital_logo);
         holder.add(obj3);
 
         HomeDataModel obj4 = new HomeDataModel();
-        obj4.setMed_name("Pathology");
+        obj4.setMed_name("Available Beds");
         obj4.setImg_name(R.drawable.hospital_logo);
         holder.add(obj4);
 
         HomeDataModel obj5 = new HomeDataModel();
-        obj5.setMed_name("Previous Appointments");
+        obj5.setMed_name("Pathology");
         obj5.setImg_name(R.drawable.hospital_logo);
         holder.add(obj5);
 
@@ -173,6 +175,7 @@ public class HomeFragment extends Fragment {
 
     /**
      * Method to change the dots below the viewPager according to the {@code position}
+     *
      * @param position the index of the image currently on the screen
      */
     private void highlightDot(int position) {

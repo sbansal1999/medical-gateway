@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.canhub.cropper.CropImage;
 import com.example.medicalgateway.databinding.FragmentProfilePatientBinding;
+import com.example.medicalgateway.datamodels.UserInfo;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;

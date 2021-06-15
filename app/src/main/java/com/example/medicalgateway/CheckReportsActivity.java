@@ -6,7 +6,9 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.medicalgateway.adapters.ReportsAdapter;
 import com.example.medicalgateway.databinding.ActivityCheckReportsBinding;
+import com.example.medicalgateway.datamodels.Reports;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +37,6 @@ public class CheckReportsActivity extends AppCompatActivity {
 
 
         if (uid != null) {
-
             Query query = rootRef.child(CHILD_NAME)
                                  .child(uid)
                                  .child("reports")

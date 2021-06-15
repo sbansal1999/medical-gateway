@@ -1,4 +1,4 @@
-package com.example.medicalgateway;
+package com.example.medicalgateway.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.medicalgateway.R;
+import com.example.medicalgateway.datamodels.Reports;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 

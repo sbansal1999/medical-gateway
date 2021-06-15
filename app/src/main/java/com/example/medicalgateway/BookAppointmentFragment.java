@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.medicalgateway.databinding.FragmentBookAppointmentBinding;
+import com.example.medicalgateway.datamodels.PatientAppointment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,18 +35,59 @@ import java.util.Locale;
 public class BookAppointmentFragment extends Fragment {
 
     private static final int IMAGE_DIMEN = 1000;
-    private static final String CHILD_NAME = "appointment_info";
+    private static final String CHILD_NAME_APPOINT = "appointment_info";
+    private static final String CHILD_NAME_DOCTOR = "doctors_info";
     private final Calendar currentDate = Calendar.getInstance();
     private FragmentBookAppointmentBinding mBinding;
+    private List<String> docIDList;
+    private List<String> docNameList;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentBookAppointmentBinding.inflate(inflater, container, false);
 
-        ArrayAdapter<CharSequence> doctorAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.doctors, android.R.layout.simple_spinner_item);
-        doctorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mBinding.spinnerDoctor.setAdapter(doctorAdapter);
+//        ArrayAdapter<CharSequence> doctorAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.doctors, android.R.layout.simple_spinner_item);
+//        doctorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        mBinding.spinnerDoctor.setAdapter(doctorAdapter);
+
+        mBinding.spinnerDoctor.setTitle("Select your Preferred Doctor");
+
+        DatabaseReference rootRef = FirebaseDatabase.getInstance()
+                                                    .getReference();
+
+        rootRef.child(CHILD_NAME_DOCTOR)
+               .addListenerForSingleValueEvent(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                       docNameList = new ArrayList<>();
+                       docNameList.add("Choose your Doctor");
+
+                       docIDList = new ArrayList<>();
+                       docIDList.add("BLANK ENTRY");
+
+                       for (DataSnapshot snap : snapshot.getChildren()) {
+                           String docName = snap.child("name")
+                                                .getValue(String.class);
+                           String docID = snap.child("doctorID")
+                                              .getValue(String.class);
+
+                           docNameList.add(docName);
+                           docIDList.add(docID);
+
+                       }
+
+                       ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, docNameList);
+                       adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                       mBinding.spinnerDoctor.setAdapter(adapter);
+                   }
+
+                   @Override
+                   public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                   }
+               });
 
         List<String> spinnerArray = new ArrayList<>();
         spinnerArray.add("Select");
@@ -103,6 +145,8 @@ public class BookAppointmentFragment extends Fragment {
                     //Book Appointment
                     showToast("Booking Appointment");
 
+                    String docID = docIDList.get(docNameList.indexOf(prefDoc));
+
                     String uid = FirebaseAuth.getInstance()
                                              .getUid();
 
@@ -113,9 +157,9 @@ public class BookAppointmentFragment extends Fragment {
                         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
                         String result = sharedPreferences.getString(SharedPreferencesInfo.PREF_CURRENT_USER_PID, "hi");
 
-                        PatientAppointment patientAppointment = new PatientAppointment(result, problemDesc, prefDoc, dateAppoint, false);
+                        PatientAppointment patientAppointment = new PatientAppointment(result, problemDesc, prefDoc, docID, dateAppoint, false);
 
-                        rootRef.child(CHILD_NAME)
+                        rootRef.child(CHILD_NAME_APPOINT)
                                .child(uid)
                                .addListenerForSingleValueEvent(new ValueEventListener() {
                                    @Override
@@ -137,14 +181,14 @@ public class BookAppointmentFragment extends Fragment {
                                                num++;
 
                                                //Previous Appointment Fulfilled
-                                               rootRef.child(CHILD_NAME)
+                                               rootRef.child(CHILD_NAME_APPOINT)
                                                       .child(uid)
                                                       .child(num + "")
                                                       .setValue(patientAppointment)
                                                       .addOnSuccessListener(e -> showToast("Appointment Booking Request Sent. We will contact you shortly"));
                                            }
                                        } else {
-                                           rootRef.child(CHILD_NAME)
+                                           rootRef.child(CHILD_NAME_APPOINT)
                                                   .child(uid)
                                                   .child("1")
                                                   .setValue(patientAppointment)
@@ -173,11 +217,9 @@ public class BookAppointmentFragment extends Fragment {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
         try {
-            String output = simpleDateFormat.format(simpleDateFormat1.parse(inputDate));
-            return output;
+            return simpleDateFormat.format(simpleDateFormat1.parse(inputDate));
 
         } catch (ParseException e) {
-            Log.d("test", "convertDate:err");
             Log.d("test", "convertDate: " + e.getLocalizedMessage());
         }
 

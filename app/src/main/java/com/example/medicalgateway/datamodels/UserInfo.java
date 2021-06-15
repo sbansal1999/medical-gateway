@@ -1,4 +1,4 @@
-package com.example.medicalgateway;
+package com.example.medicalgateway.datamodels;
 
 public class UserInfo {
     private String name;

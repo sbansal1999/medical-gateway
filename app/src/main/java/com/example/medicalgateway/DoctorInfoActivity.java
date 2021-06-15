@@ -5,7 +5,9 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.example.medicalgateway.adapters.DoctorInfoAdapter;
 import com.example.medicalgateway.databinding.ActivityDoctorsInfoBinding;
+import com.example.medicalgateway.datamodels.DoctorInfo;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -31,7 +33,7 @@ public class DoctorInfoActivity extends AppCompatActivity {
 
 
         FirebaseRecyclerOptions<DoctorInfo> options = new FirebaseRecyclerOptions.Builder<DoctorInfo>().setQuery(query, DoctorInfo.class)
-                                                                                                           .build();
+                                                                                                       .build();
 
         adapter = new DoctorInfoAdapter(options);
         mBinding.recyclerDoctor.setLayoutManager(new GridLayoutManager(this, 2));

@@ -11,7 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.medicalgateway.adapters.PharmacyAdapter;
 import com.example.medicalgateway.databinding.FragmentPharmacyPatientBinding;
+import com.example.medicalgateway.datamodels.MedicineInfo;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
