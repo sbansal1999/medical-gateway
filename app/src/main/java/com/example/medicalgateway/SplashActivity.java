@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
     private static final int SPLASH_SCREEN_DURATION = 3000;
     //TODO decide in this activity what screen is to be shown next
     Animation topAnim, bottomAnim;
-    Context conText;
+    Context context;
     private ActivitySplashBinding binding;
 
     @Override
@@ -42,43 +42,43 @@ public class SplashActivity extends AppCompatActivity {
         bottomAnim = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         binding.splashImage.setAnimation(topAnim);
         binding.title.setAnimation(bottomAnim);
-        conText = this;
+        context = this;
 
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (networkinfo == null || !networkinfo.isConnected() || !networkinfo.isAvailable()) {
-                    Dialog diaLog = new Dialog(conText);
-                    diaLog.setContentView(R.layout.alert_dialog);
-                    diaLog.setCanceledOnTouchOutside(false);
-                    diaLog.getWindow()
-                          .setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                    diaLog.getWindow()
-                          .setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    diaLog.getWindow()
-                          .getAttributes().windowAnimations = android.R.style.Animation_Dialog;
-                    Button btTryagain = diaLog.findViewById(R.id.try_again_button);
-                    btTryagain.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
+        new Handler().postDelayed(() -> {
+            if (networkinfo == null || !networkinfo.isConnected() || !networkinfo.isAvailable()) {
+                Dialog diaLog = new Dialog(context);
+                diaLog.setContentView(R.layout.alert_dialog);
+                diaLog.setCanceledOnTouchOutside(false);
+                diaLog.getWindow()
+                      .setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                diaLog.getWindow()
+                      .setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                diaLog.getWindow()
+                      .getAttributes().windowAnimations = android.R.style.Animation_Dialog;
+                Button btTryagain = diaLog.findViewById(R.id.try_again_button);
+                btTryagain.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view1) {
 
-                            recreate();
-                        }
-                    });
-                    diaLog.show();
-                } else {
-                    if (checkIfUserIsAlreadySignedIn()) {
-                        Intent intent = new Intent(SplashActivity.this, PatientPortalActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        Intent intent = new Intent(SplashActivity.this, ImageSliderActivity.class);
-                        startActivity(intent);
-                        finish();
-
+                        recreate();
                     }
+                });
+                diaLog.show();
+            } else {
+                if (checkIfUserIsAlreadySignedIn()) {
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                    boolean isPatient = sharedPreferences.getBoolean(SharedPreferencesInfo.PREF_IS_USER_PATIENT, true);
+
+                    Intent intent = isPatient ? new Intent(SplashActivity.this, PatientPortalActivity.class) : new Intent(SplashActivity.this, DoctorPortalActivity.class);
+
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(SplashActivity.this, ImageSliderActivity.class);
+                    startActivity(intent);
+
                 }
+                finish();
             }
         }, SPLASH_SCREEN_DURATION);
 

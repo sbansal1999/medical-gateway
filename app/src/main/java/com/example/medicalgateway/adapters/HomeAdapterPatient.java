@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicalgateway.AboutHospitalActivity;
 import com.example.medicalgateway.AvailableBedsActivity;
-import com.example.medicalgateway.CheckReportsActivity;
+import com.example.medicalgateway.CheckReportsPatientActivity;
 import com.example.medicalgateway.DoctorInfoActivity;
 import com.example.medicalgateway.OnlinePrescriptionActivity;
 import com.example.medicalgateway.PathologyActivity;
@@ -57,12 +57,12 @@ public class HomeAdapterPatient extends RecyclerView.Adapter<HomeAdapterPatient.
                   switch (position) {
                       case 0: {
                           Intent intent = new Intent(context, DoctorInfoActivity.class);
-                          intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                          intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                           context.startActivity(intent);
                           break;
                       }
                       case 1: {
-                          Intent intent1 = new Intent(context, CheckReportsActivity.class);
+                          Intent intent1 = new Intent(context, CheckReportsPatientActivity.class);
                           intent1.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                           context.startActivity(intent1);
                           break;

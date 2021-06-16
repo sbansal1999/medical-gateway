@@ -50,7 +50,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
 
-    private final static String CHILD_NAME = "patients_info";
+    private final static String CHILD_NAME_PATIENT = "patients_info";
+    private final static String CHILD_NAME_DOCTOR = "doctors_info";
     private static final int IMAGE_DIMEN = 1000;
     private static final String CHILD_NAME_BLOOD_GRP = "blood_group";
     private static final String CHILD_NAME_RES_ADD = "residentialAddress";
@@ -139,8 +140,12 @@ public class ProfileFragment extends Fragment {
                                  .getUid();
 
         if (uid != null) {
+            String child = CHILD_NAME_PATIENT;
+            if (!MedicalUtils.checkIfPatient(getActivity())) {
+                child = CHILD_NAME_DOCTOR;
+            }
 
-            rootRef.child(CHILD_NAME)
+            rootRef.child(child)
                    .child(uid)
                    .child(CHILD_NAME_RES_ADD)
                    .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -222,7 +227,14 @@ public class ProfileFragment extends Fragment {
                                   .getReference();
 
         if (uid != null) {
-            rootRef.child(CHILD_NAME)
+
+            String child = CHILD_NAME_PATIENT;
+            if (!MedicalUtils.checkIfPatient(getActivity())) {
+                child = CHILD_NAME_DOCTOR;
+            }
+
+
+            rootRef.child(child)
                    .child(uid)
                    .addValueEventListener(new ValueEventListener() {
                        @Override
@@ -312,7 +324,12 @@ public class ProfileFragment extends Fragment {
 
             final boolean[] status = {false};
 
-            rootRef.child(CHILD_NAME)
+            String childPath = CHILD_NAME_PATIENT;
+            if (!MedicalUtils.checkIfPatient(getActivity())) {
+                childPath = CHILD_NAME_DOCTOR;
+            }
+
+            rootRef.child(childPath)
                    .child(uid)
                    .child("residentialAddress")
                    .setValue(address)
@@ -346,6 +363,9 @@ public class ProfileFragment extends Fragment {
                 byte[] data = byteArrayOutputStream.toByteArray();
 
                 UploadTask uploadTask = strRef.putBytes(data);
+
+                String finalChildPath = childPath;
+
                 uploadTask.addOnFailureListener(e -> showToast("Some Error Occurred During Saving Data"))
                           .addOnSuccessListener(taskSnapshot -> strRef.getDownloadUrl()
                                                                       .addOnSuccessListener(uri -> {
@@ -355,6 +375,15 @@ public class ProfileFragment extends Fragment {
                                                                                       .getCurrentUser()
                                                                                       .updateProfile(request)
                                                                                       .addOnSuccessListener(unused -> status[0] = true);
+
+
+                                                                          if (finalChildPath.equals(CHILD_NAME_DOCTOR)) {
+                                                                              rootRef.child(finalChildPath)
+                                                                                     .child(uid)
+                                                                                     .child("photoURL")
+                                                                                     .setValue(uri.toString());
+                                                                          }
+
                                                                       }));
             }
 

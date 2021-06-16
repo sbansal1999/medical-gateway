@@ -2,7 +2,9 @@ package com.example.medicalgateway;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -11,11 +13,16 @@ import com.example.medicalgateway.databinding.ActivityCheckReportsBinding;
 import com.example.medicalgateway.datamodels.Reports;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-public class CheckReportsActivity extends AppCompatActivity {
+import org.jetbrains.annotations.NotNull;
+
+public class CheckReportsPatientActivity extends AppCompatActivity {
     private static final int DB_LIMIT = 20;
     private final String CHILD_NAME = "patients_info";
     private ActivityCheckReportsBinding mBinding;
@@ -42,10 +49,27 @@ public class CheckReportsActivity extends AppCompatActivity {
                                  .child("reports")
                                  .limitToLast(DB_LIMIT);
 
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                    if (!snapshot.exists()) {
+                        mBinding.textNoReports.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                }
+            });
+
+
             FirebaseRecyclerOptions<Reports> options = new FirebaseRecyclerOptions.Builder<Reports>().setQuery(query, Reports.class)
                                                                                                      .build();
 
             adapter = new ReportsAdapter(options, this);
+
+
             mBinding.recyclerReports.setLayoutManager(new LinearLayoutManager(this));
 
             mBinding.recyclerReports.setAdapter(adapter);

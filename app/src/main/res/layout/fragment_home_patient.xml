@@ -58,7 +58,7 @@
         app:layout_constraintVertical_bias="1.0">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerviewhome"
+            android:id="@+id/recycler_home"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
@@ -79,6 +79,7 @@
             android:layout_margin="32dp"
             android:background="#FFFFFF"
             android:clickable="true"
+            android:contentDescription="@string/book_button"
             android:focusable="true"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_book_appointment"

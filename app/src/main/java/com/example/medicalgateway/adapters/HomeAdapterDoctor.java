@@ -11,14 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.medicalgateway.AboutHospitalActivity;
-import com.example.medicalgateway.AvailableBedsActivity;
-import com.example.medicalgateway.DoctorInfoActivity;
-import com.example.medicalgateway.OnlinePrescriptionActivity;
-import com.example.medicalgateway.PathologyActivity;
-import com.example.medicalgateway.PreviousAppointmentsActivity;
+import com.example.medicalgateway.CheckReportsDoctorActivity;
+import com.example.medicalgateway.PatientAppointDoctorActivity;
 import com.example.medicalgateway.R;
+import com.example.medicalgateway.UpcomingAppointDoctorActivity;
 import com.example.medicalgateway.datamodels.HomeDataModel;
+import com.example.medicalgateway.datamodels.PatientAppointment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -56,36 +54,24 @@ public class HomeAdapterDoctor extends RecyclerView.Adapter<HomeAdapterDoctor.Vi
         holder.getWholeView()
               .setOnClickListener(v -> {
                   switch (position) {
-                      case 0:
-                          Intent intent = new Intent(context, DoctorInfoActivity.class);
-                          intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                      case 0: {
+                          Intent intent = new Intent(context, CheckReportsDoctorActivity.class);
+                          intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                           context.startActivity(intent);
                           break;
-                      case 1:
-                          Intent intent1 = new Intent(context, AvailableBedsActivity.class);
+                      }
+                      case 1: {
+                          Intent intent1 = new Intent(context, UpcomingAppointDoctorActivity.class);
                           intent1.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                           context.startActivity(intent1);
                           break;
-                      case 2:
-                          Intent intent2 = new Intent(context, PathologyActivity.class);
+                      }
+                      case 2: {
+                          Intent intent2 = new Intent(context, PatientAppointDoctorActivity.class);
                           intent2.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                           context.startActivity(intent2);
                           break;
-                      case 3:
-                          Intent intent3 = new Intent(context, PreviousAppointmentsActivity.class);
-                          intent3.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                          context.startActivity(intent3);
-                          break;
-                      case 4:
-                          Intent intent4 = new Intent(context, OnlinePrescriptionActivity.class);
-                          intent4.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                          context.startActivity(intent4);
-                          break;
-                      case 5:
-                          Intent intent5 = new Intent(context, AboutHospitalActivity.class);
-                          intent5.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                          context.startActivity(intent5);
-                          break;
+                      }
                   }
               });
 
@@ -105,7 +91,7 @@ public class HomeAdapterDoctor extends RecyclerView.Adapter<HomeAdapterDoctor.Vi
         public ViewHolder(@NotNull View itemView) {
             super(itemView);
 
-            imageMed = itemView.findViewById(R.id.image_doctor);
+            imageMed = itemView.findViewById(R.id.image_medicine);
             textMedName = itemView.findViewById(R.id.textMedName);
             wholeView = itemView;
         }

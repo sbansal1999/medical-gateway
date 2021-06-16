@@ -27,16 +27,16 @@ import java.util.TimerTask;
 public class HomeFragmentDoctor extends Fragment {
     private final static int NUMBER_OF_IMAGES = 3;
     private static final long SCROLL_DELAY = 5000;
-    HomeAdapterDoctor Adapter;
+    private HomeAdapterDoctor Adapter;
     private FragmentHomeDoctorBinding binding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomeDoctorBinding.inflate(inflater);
-        binding.recyclerviewhome.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerHome.setLayoutManager(new LinearLayoutManager(getContext()));
         Adapter = new HomeAdapterDoctor(dataqueue(), getContext());
-        binding.recyclerviewhome.setAdapter(Adapter);
+        binding.recyclerHome.setAdapter(Adapter);
 
         //Set Default Image Level
         binding.imageDotFirst.setImageLevel(1);
@@ -94,18 +94,21 @@ public class HomeFragmentDoctor extends Fragment {
     public ArrayList<HomeDataModel> dataqueue() {
         ArrayList<HomeDataModel> holder = new ArrayList<>();
 
+        HomeDataModel obj1 = new HomeDataModel();
+        obj1.setMed_name("Patient Reports");
+        obj1.setImg_name(R.drawable.hospital_logo);
+        holder.add(obj1);
+
         HomeDataModel obj2 = new HomeDataModel();
-        obj2.setMed_name("Available beds");
+        obj2.setMed_name("Your Upcoming Appointments");
         obj2.setImg_name(R.drawable.hospital_logo);
         holder.add(obj2);
+
         HomeDataModel obj3 = new HomeDataModel();
-        obj3.setMed_name("Pathology");
+        obj3.setMed_name("Patient Appointments");
         obj3.setImg_name(R.drawable.hospital_logo);
         holder.add(obj3);
-        HomeDataModel obj6 = new HomeDataModel();
-        obj6.setMed_name("About Hospital");
-        obj6.setImg_name(R.drawable.hospital_logo);
-        holder.add(obj6);
+
 
         return holder;
     }

@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.example.medicalgateway.MedicalUtils.checkIfPatient;
+
 public class HomeFragment extends Fragment {
 
     private final static int NUMBER_OF_IMAGES = 3;
@@ -43,9 +46,9 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomePatientBinding.inflate(inflater);
-        binding.recyclerviewhome.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerHome.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new HomeAdapterPatient(dataQueue(), getContext());
-        binding.recyclerviewhome.setAdapter(adapter);
+        binding.recyclerHome.setAdapter(adapter);
 
         //Set Default Image Level
         binding.imageDotFirst.setImageLevel(1);
@@ -95,11 +98,16 @@ public class HomeFragment extends Fragment {
             }
         }, SCROLL_DELAY, SCROLL_DELAY);
 
-        insertPID();
+
+        if (checkIfPatient(getContext())) {
+            insertPID();
+        }
 
         return binding.getRoot();
 
     }
+
+
 
     private void insertPID() {
         DatabaseReference rootRef = FirebaseDatabase.getInstance()
