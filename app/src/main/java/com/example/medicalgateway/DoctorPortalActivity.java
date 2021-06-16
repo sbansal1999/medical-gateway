@@ -20,6 +20,7 @@ public class DoctorPortalActivity extends AppCompatActivity implements BottomNav
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		
         mBinding = ActivityDoctorPortalBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
@@ -57,5 +58,6 @@ public class DoctorPortalActivity extends AppCompatActivity implements BottomNav
             return true;
         }
         return false;
+
     }
 }

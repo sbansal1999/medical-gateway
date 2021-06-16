@@ -17,23 +17,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MedicalGateway">
-        <activity android:name=".Online_prescription_activity" />
-        <activity android:name=".Previous_appointments_activity" />
-        <activity android:name=".About_hospital_activity" />
-        <activity android:name=".Pathology_activity" />
-        <activity android:name=".Available_beds_activity" />
-        <activity android:name=".Doctors_Info_activity" />
-
-        <activity android:name=".DoctorPortalActivity">
+        <activity android:name=".CheckReportsActivity" />
+        <activity android:name=".DoctorInfoActivity" />
+        <activity android:name=".OnlinePrescriptionActivity" />
+        <activity android:name=".PreviousAppointmentsActivity" />
+        <activity android:name=".AboutHospitalActivity" />
+        <activity android:name=".PathologyActivity" />
+        <activity android:name=".AvailableBedsActivity" />
+        <activity android:name=".DoctorPortalActivity" />
+        <activity android:name=".PatientPortalActivity" />
+        <activity
+            android:name=".SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SplashActivity"
-            android:screenOrientation="portrait" />
         <activity android:name=".ImageSliderActivity" />
         <activity
             android:name=".RegisterActivity"
@@ -54,7 +55,6 @@
         <activity
             android:name="com.canhub.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-
     </application>
 
 </manifest>

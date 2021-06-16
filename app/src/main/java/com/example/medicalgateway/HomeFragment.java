@@ -1,19 +1,30 @@
 package com.example.medicalgateway;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.medicalgateway.adapters.HomeAdapter;
 import com.example.medicalgateway.adapters.SlidingImageHomeAdapter;
 import com.example.medicalgateway.databinding.FragmentHomePatientBinding;
+import com.example.medicalgateway.datamodels.HomeDataModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,15 +36,16 @@ public class HomeFragment extends Fragment {
 
     private final static int NUMBER_OF_IMAGES = 3;
     private static final long SCROLL_DELAY = 5000;
-    HomeAdapter Adapter;
+    private HomeAdapter adapter;
     private FragmentHomePatientBinding binding;
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         binding = FragmentHomePatientBinding.inflate(inflater);
         binding.recyclerviewhome.setLayoutManager(new LinearLayoutManager(getContext()));
-        Adapter = new HomeAdapter(dataqueue(), getContext());
-        binding.recyclerviewhome.setAdapter(Adapter);
+        adapter = new HomeAdapter(dataQueue(), getContext());
+        binding.recyclerviewhome.setAdapter(adapter);
 
         //Set Default Image Level
         binding.imageDotFirst.setImageLevel(1);
@@ -50,7 +62,8 @@ public class HomeFragment extends Fragment {
 
         binding.viewPagerImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset,
+                                       int positionOffsetPixels) {
                 highlightDot(position);
             }
 
@@ -64,7 +77,6 @@ public class HomeFragment extends Fragment {
         });
 
         //TODO add something to make sure to stop on user touch
-
         Handler handler = new Handler();
         Runnable update = () -> {
             int current = binding.viewPagerImages.getCurrentItem();
@@ -83,37 +95,80 @@ public class HomeFragment extends Fragment {
             }
         }, SCROLL_DELAY, SCROLL_DELAY);
 
+        insertPID();
+
         return binding.getRoot();
 
     }
 
-    public ArrayList<HomeDataModel> dataqueue()
-    {
-        ArrayList<HomeDataModel> holder= new ArrayList<>();
-        HomeDataModel obj1= new HomeDataModel();
+    private void insertPID() {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance()
+                                                    .getReference();
+
+        FirebaseAuth user = FirebaseAuth.getInstance();
+
+        if (user.getUid() != null) {
+            rootRef.child("patients_info")
+                   .child(user.getUid())
+                   .child("patientID")
+                   .addListenerForSingleValueEvent(new ValueEventListener() {
+                       @Override
+                       public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                           SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                                                                              .edit();
+
+                           String pID = snapshot.getValue()
+                                                .toString();
+
+                           editor.putString(SharedPreferencesInfo.PREF_CURRENT_USER_PID, pID);
+                           editor.apply();
+                       }
+
+                       @Override
+                       public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                       }
+                   });
+        }
+    }
+
+    public ArrayList<HomeDataModel> dataQueue() {
+        ArrayList<HomeDataModel> holder = new ArrayList<>();
+
+        HomeDataModel obj1 = new HomeDataModel();
         obj1.setMed_name("Our Specialized Doctors");
         obj1.setImg_name(R.drawable.hospital_logo);
         holder.add(obj1);
+
         HomeDataModel obj2 = new HomeDataModel();
-        obj2.setMed_name("Available beds");
+        obj2.setMed_name("Check Reports");
         obj2.setImg_name(R.drawable.hospital_logo);
         holder.add(obj2);
-        HomeDataModel obj3= new HomeDataModel();
-        obj3.setMed_name("Pathology");
+
+        HomeDataModel obj3 = new HomeDataModel();
+        obj3.setMed_name("Previous Appointments");
         obj3.setImg_name(R.drawable.hospital_logo);
         holder.add(obj3);
-        HomeDataModel obj4= new HomeDataModel();
-        obj4.setMed_name("Previous appointments");
+
+        HomeDataModel obj4 = new HomeDataModel();
+        obj4.setMed_name("Available Beds");
         obj4.setImg_name(R.drawable.hospital_logo);
         holder.add(obj4);
-        HomeDataModel obj5= new HomeDataModel();
-        obj5.setMed_name("Online Prescription");
+
+        HomeDataModel obj5 = new HomeDataModel();
+        obj5.setMed_name("Pathology");
         obj5.setImg_name(R.drawable.hospital_logo);
         holder.add(obj5);
-        HomeDataModel obj6= new HomeDataModel();
-        obj6.setMed_name("About Hospital");
+
+        HomeDataModel obj6 = new HomeDataModel();
+        obj6.setMed_name("Online Prescription");
         obj6.setImg_name(R.drawable.hospital_logo);
         holder.add(obj6);
+
+        HomeDataModel obj7 = new HomeDataModel();
+        obj7.setMed_name("About Hospital");
+        obj7.setImg_name(R.drawable.hospital_logo);
+        holder.add(obj7);
 
         return holder;
     }

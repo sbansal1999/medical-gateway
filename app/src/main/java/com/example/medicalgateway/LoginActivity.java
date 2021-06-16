@@ -1,7 +1,9 @@
 package com.example.medicalgateway;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -36,13 +39,14 @@ public class LoginActivity extends AppCompatActivity {
     //TODO enable sign in via google,facebook,etc.
 
     public static final String EXTRA_PHONE_NUMBER = "com.example.medicalgateway.LoginActivity.EXTRA_PHONE_NUMBER";
+    public static final String EXTRA_IS_PATIENT = "EXTRA_IS_PATIENT";
     private static final String TAG = "TAG";
+    final boolean[] isPatient = {false};
     private ActivityLoginBinding mBinding;
     private FirebaseAuth mFirebaseAuth;
     private String mVerificationId;
     private String mPhoneNumber;
     private PhoneAuthProvider.ForceResendingToken mToken;
-
     //Callback for PhoneAuthProvider
     private final PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
@@ -60,12 +64,14 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Phone Number Verification Failed", Toast.LENGTH_SHORT)
                  .show();
             Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG)
-                    .show();
+                 .show();
             disableViews(mBinding.progressBar);
+            enableViews(mBinding.buttonChangeNumber, mBinding.buttonLogin);
         }
 
         @Override
-        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+        public void onCodeSent(@NonNull String s,
+                               @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
             displayLog("OTP Sent");
             Toast.makeText(LoginActivity.this, "An OTP has been sent to " + mPhoneNumber, Toast.LENGTH_SHORT)
@@ -77,6 +83,22 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
     private DatabaseReference rootRef;
+    private String CHILD_NAME_PATIENT = "patients_info";
+    private String CHILD_NAME_DOCTOR = "doctors_info";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mBinding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
+        if (getIntent().hasExtra(RegisterActivity.EXTRA_PHONE_NUMBER)) {
+            setTextInTextInputLayout(mBinding.textPhoneNumber, getIntent().getStringExtra(RegisterActivity.EXTRA_PHONE_NUMBER));
+        }
+    }
 
     /**
      * /Sign in the user to the Firebase using the provided {@link PhoneAuthCredential} instance
@@ -84,8 +106,6 @@ public class LoginActivity extends AppCompatActivity {
      * @param phoneAuthCredential this will be used to sign in the user
      */
     private void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) {
-        displayLog("signing in");
-
         mFirebaseAuth.signInWithCredential(phoneAuthCredential)
                      .addOnCompleteListener(this, task -> {
                          disableViews(mBinding.progressBar);
@@ -93,10 +113,19 @@ public class LoginActivity extends AppCompatActivity {
                              //Correct OTP Entered
                              FirebaseUser firebaseUser = task.getResult()
                                                              .getUser();
+
                              if (firebaseUser != null) {
                                  Toast.makeText(LoginActivity.this, "Logged in as: " + firebaseUser.getDisplayName(), Toast.LENGTH_SHORT)
                                       .show();
-                                 Intent intent = new Intent(LoginActivity.this, PatientPortalActivity.class);
+
+                                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this)
+                                                                                    .edit();
+
+                                 editor.putBoolean(SharedPreferencesInfo.PREF_IS_USER_PATIENT, isPatient[0]);
+                                 editor.apply();
+
+                                 Intent intent = isPatient[0] ? new Intent(LoginActivity.this, PatientPortalActivity.class) : new Intent(LoginActivity.this, DoctorPortalActivity.class);
+
                                  intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                  startActivity(intent);
                              }
@@ -133,25 +162,14 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mBinding = ActivityLoginBinding.inflate(getLayoutInflater());
-        setContentView(mBinding.getRoot());
-
-        mFirebaseAuth = FirebaseAuth.getInstance();
-
-        if (getIntent().hasExtra(RegisterActivity.EXTRA_PHONE_NUMBER)) {
-            setTextInTextInputLayout(mBinding.textPhoneNumber, getIntent().getStringExtra(RegisterActivity.EXTRA_PHONE_NUMBER));
-        }
-    }
-
     public void verifyLogin(View view) {
         mPhoneNumber = getTextFromTextInputLayout(mBinding.textPhoneNumber);
+
         if (validatePhoneNumber()) {
             if (MedicalUtils.isOnline(this, true)) {
+
                 enableViews(mBinding.progressBar);
+
                 if (mBinding.textPhoneNumber.getEditText() != null) {
                     mBinding.textPhoneNumber.getEditText()
                                             .setEnabled(false);
@@ -160,34 +178,57 @@ public class LoginActivity extends AppCompatActivity {
                 rootRef = FirebaseDatabase.getInstance()
                                           .getReference();
 
-                rootRef.child(RegisterActivity.CHILD_NAME)
-                       .orderByChild("phone")
-                       .equalTo(mPhoneNumber)
-                       .addListenerForSingleValueEvent(new ValueEventListener() {
-                           @Override
-                           public void onDataChange(@NonNull DataSnapshot snapshot) {
-                               if (snapshot.exists()) {
-                                   displayLog("Old User Detected");
-                                   verifyPhoneNumber();
-                               } else {
-                                   displayLog("New User Detected");
-                                   Toast.makeText(LoginActivity.this, "Redirecting you to the Register Page", Toast.LENGTH_SHORT)
-                                        .show();
-                                   Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                                   intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                   intent.putExtra(EXTRA_PHONE_NUMBER, mPhoneNumber);
-                                   startActivity(intent);
-                               }
-                           }
+                Query docQuery = rootRef.child(CHILD_NAME_DOCTOR)
+                                        .orderByChild("phone")
+                                        .equalTo(mPhoneNumber);
 
-                           @Override
-                           public void onCancelled(@NonNull DatabaseError error) {
-                               displayLog(error.getMessage());
+                Query patQuery = rootRef.child(CHILD_NAME_PATIENT)
+                                        .orderByChild("phone")
+                                        .equalTo(mPhoneNumber);
 
-                           }
-                       });
+                patQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            //Check for Patient
+                            isPatient[0] = true;
 
-                displayLog("end");
+                            displayLog("Patient Detected");
+                            verifyPhoneNumber();
+                        } else {
+                            docQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                    //Check for Doctor
+                                    if (snapshot.exists()) {
+                                        displayLog("Doctor");
+                                        verifyPhoneNumber();
+                                    } else {
+                                        displayLog("New User Detected");
+                                        Toast.makeText(LoginActivity.this, "Redirecting you to the Register Page", Toast.LENGTH_SHORT)
+                                             .show();
+                                        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                        intent.putExtra(EXTRA_PHONE_NUMBER, mPhoneNumber);
+                                        startActivity(intent);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                                    displayLog(error.getMessage());
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        displayLog(error.getMessage());
+
+                    }
+                });
+
             }
         }
 
@@ -197,7 +238,7 @@ public class LoginActivity extends AppCompatActivity {
         String regexPhone = "[0-9]{10}";
         boolean checkNum = mPhoneNumber.matches(regexPhone);
         if (!checkNum) {
-            mBinding.textPhoneNumber.setError("Invalid mobile number");
+            mBinding.textPhoneNumber.setError("Invalid Mobile Number");
         }
         if (checkNum) {
             mBinding.textPhoneNumber.setError(null);
@@ -230,7 +271,7 @@ public class LoginActivity extends AppCompatActivity {
     public void changeNumber(View view) {
         mBinding.textPhoneNumber.getEditText()
                                 .setEnabled(true);
-        disableViews(mBinding.buttonVerifyOtp, mBinding.textOtpHeading, mBinding.editOtp, mBinding.buttonResendOtp, mBinding.buttonChangeNumber);
+        disableViews(mBinding.buttonVerifyOtp, mBinding.textOtpHeading, mBinding.editOtp, mBinding.buttonResendOtp, mBinding.buttonChangeNumber, mBinding.textOtpWarning);
         enableViews(mBinding.buttonLogin);
     }
 
@@ -269,6 +310,5 @@ public class LoginActivity extends AppCompatActivity {
 
         PhoneAuthProvider.verifyPhoneNumber(authOptions);
     }
-
 
 }

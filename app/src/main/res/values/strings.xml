@@ -7,8 +7,8 @@
     <string name="password">Password  </string>
     <string name="problem">Problem  </string>
     <string name="describe">Describe about your problem here </string>
-    <string name="preffered_doctor">Preffered doctor  </string>
-    <string name="appointment_date">Date of Appointment  </string>
+    <string name="preferred_doctor">Preferred Doctor  </string>
+    <string name="appointment_date">Appointment Date</string>
     <string name="date_format">DD/MM/YYYY  </string>
     <string name="book_button">Book My Appointment  </string>
     <string name="internet_description">Image to show when no internet  </string>
@@ -29,7 +29,7 @@
     <string name="blood_group">Blood Group</string>
     <string name="Save">Save changes</string>
     <string name="per">per</string>
-    <string name="mfg_by">Mfg by:</string>
+    <string name="mfg_by">Mfg. by:</string>
     <string name="price">Price:</string>
     <string name="cd_pharmacy">Image of medicine</string>
     <string-array name="blood_groups">
@@ -44,7 +44,7 @@
         <item>B-</item>
     </string-array>
 
-    <string-array name="Doctors">
+    <string-array name="doctors">
         <item>Choose your Doctor</item>
         <item>ABC</item>
         <item>BCD</item>
@@ -87,4 +87,27 @@
     <string name="sliding_text_first">We provide world class services.</string>
     <string name="sliding_text_second">Your Health is our concern.</string>
     <string name="sliding_text_third">Protect Yourself</string>
+    <string name="name_of_medicine">Name of Medicine</string>
+    <string name="rs">₹</string>
+    <string name="search_message">Search by Name or Category</string>
+    <string name="category">Category:</string>
+    <string name="search">Search</string>
+    <string name="image_of_doctor">Image of Doctor</string>
+    <string name="speciality">Speciality</string>
+    <string name="our_specialized_doctors">Specialized Doctors in Hospital</string>
+    <string name="logout">Logout</string>
+    <string name="logout_warning">Are you sure you want to logout?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="report_date">Report Date:</string>
+    <string name="view_report">View Report</string>
+    <string name="reports">Reports</string>
+    <string name="appointment_date_holder">Appointment Date:</string>
+    <string name="preferred_doctor_holder">Preferred Doctor:</string>
+    <string name="problem_description">Problem Description:</string>
+    <string name="appointment_status">Appointment Status:</string>
+    <string name="fulfilled">Fulfilled</string>
+    <string name="not_fulfilled">Not Fulfilled</string>
+    <string name="previous_appointments">Previous Appointments</string>
+
 </resources>

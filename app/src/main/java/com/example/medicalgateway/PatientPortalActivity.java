@@ -12,7 +12,6 @@ import com.example.medicalgateway.databinding.ActivityPatientPortalBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class PatientPortalActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    private static final String TAG = "PatientPortalActivity";
 
     private ActivityPatientPortalBinding mBinding;
 
