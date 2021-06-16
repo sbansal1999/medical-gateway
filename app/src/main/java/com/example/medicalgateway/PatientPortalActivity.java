@@ -57,5 +57,4 @@ public class PatientPortalActivity extends AppCompatActivity implements BottomNa
         }
         return false;
     }
-
 }
