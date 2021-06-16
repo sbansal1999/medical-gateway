@@ -15,7 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.medicalgateway.adapters.HomeAdapter;
+import com.example.medicalgateway.adapters.HomeAdapterPatient;
 import com.example.medicalgateway.adapters.SlidingImageHomeAdapter;
 import com.example.medicalgateway.databinding.FragmentHomePatientBinding;
 import com.example.medicalgateway.datamodels.HomeDataModel;
@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment {
 
     private final static int NUMBER_OF_IMAGES = 3;
     private static final long SCROLL_DELAY = 5000;
-    private HomeAdapter adapter;
+    private HomeAdapterPatient adapter;
     private FragmentHomePatientBinding binding;
 
     @Override
@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentHomePatientBinding.inflate(inflater);
         binding.recyclerviewhome.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new HomeAdapter(dataQueue(), getContext());
+        adapter = new HomeAdapterPatient(dataQueue(), getContext());
         binding.recyclerviewhome.setAdapter(adapter);
 
         //Set Default Image Level

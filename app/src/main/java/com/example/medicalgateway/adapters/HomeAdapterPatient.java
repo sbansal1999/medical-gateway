@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,35 +15,36 @@ import com.example.medicalgateway.AboutHospitalActivity;
 import com.example.medicalgateway.AvailableBedsActivity;
 import com.example.medicalgateway.CheckReportsActivity;
 import com.example.medicalgateway.DoctorInfoActivity;
-import com.example.medicalgateway.datamodels.HomeDataModel;
-import com.example.medicalgateway.HomeViewHolder;
 import com.example.medicalgateway.OnlinePrescriptionActivity;
 import com.example.medicalgateway.PathologyActivity;
 import com.example.medicalgateway.PreviousAppointmentsActivity;
 import com.example.medicalgateway.R;
+import com.example.medicalgateway.datamodels.HomeDataModel;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
+public class HomeAdapterPatient extends RecyclerView.Adapter<HomeAdapterPatient.ViewHolder> {
     private ArrayList<HomeDataModel> data;
     private Context context;
 
-    public HomeAdapter(ArrayList<HomeDataModel> data, Context context) {
+    public HomeAdapterPatient(ArrayList<HomeDataModel> data, Context context) {
         this.data = data;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.singlehome_row, parent, false);
 
-        return new HomeViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.getTextMedName()
               .setText(data.get(position)
                            .getMed_name());
@@ -102,5 +105,45 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        private ImageView imageMed;
+        private TextView textMedName;
+        private View wholeView;
+
+        public ViewHolder(@NotNull View itemView) {
+            super((itemView));
+
+            wholeView = itemView;
+            imageMed = itemView.findViewById(R.id.image_medicine);
+            textMedName = itemView.findViewById(R.id.textMedName);
+        }
+
+        public ImageView getImageMed() {
+            return imageMed;
+        }
+
+        public void setImageMed(ImageView imageMed) {
+            this.imageMed = imageMed;
+        }
+
+        public TextView getTextMedName() {
+            return textMedName;
+        }
+
+        public void setTextMedName(TextView textMedName) {
+            this.textMedName = textMedName;
+        }
+
+        public View getWholeView() {
+            return wholeView;
+        }
+
+        public void setWholeView(View wholeView) {
+            this.wholeView = wholeView;
+        }
+
     }
 }

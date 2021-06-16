@@ -41,7 +41,7 @@ public class DoctorPortalActivity extends AppCompatActivity implements BottomNav
         if (itemId == R.id.navigation_home) {
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                    .replace(R.id.container, new HomeFragment_Doctor())
+                    .replace(R.id.container, new HomeFragmentDoctor())
                     .commit();
             return true;
         } else if (itemId == R.id.navigation_pharmacy) {

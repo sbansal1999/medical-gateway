@@ -1,6 +1,10 @@
 package com.example.medicalgateway;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -8,15 +12,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
+import com.example.medicalgateway.adapters.HomeAdapterDoctor;
 import com.example.medicalgateway.adapters.SlidingImageHomeAdapter;
 import com.example.medicalgateway.databinding.FragmentHomeDoctorBinding;
-import com.example.medicalgateway.databinding.FragmentHomeDoctorBinding;
-import com.example.medicalgateway.databinding.FragmentHomePatientBinding;
+import com.example.medicalgateway.datamodels.HomeDataModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,17 +24,18 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 
-public class HomeFragment_Doctor extends Fragment {
+public class HomeFragmentDoctor extends Fragment {
     private final static int NUMBER_OF_IMAGES = 3;
     private static final long SCROLL_DELAY = 5000;
-    HomeAdapter_Doctor Adapter;
+    HomeAdapterDoctor Adapter;
     private FragmentHomeDoctorBinding binding;
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         binding = FragmentHomeDoctorBinding.inflate(inflater);
         binding.recyclerviewhome.setLayoutManager(new LinearLayoutManager(getContext()));
-        Adapter = new HomeAdapter_Doctor(dataqueue(), getContext());
+        Adapter = new HomeAdapterDoctor(dataqueue(), getContext());
         binding.recyclerviewhome.setAdapter(Adapter);
 
         //Set Default Image Level
@@ -53,7 +53,8 @@ public class HomeFragment_Doctor extends Fragment {
 
         binding.viewPagerImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset,
+                                       int positionOffsetPixels) {
                 highlightDot(position);
             }
 
@@ -90,19 +91,18 @@ public class HomeFragment_Doctor extends Fragment {
 
     }
 
-    public ArrayList<HomeDataModel> dataqueue()
-    {
-        ArrayList<HomeDataModel> holder= new ArrayList<>();
+    public ArrayList<HomeDataModel> dataqueue() {
+        ArrayList<HomeDataModel> holder = new ArrayList<>();
 
         HomeDataModel obj2 = new HomeDataModel();
         obj2.setMed_name("Available beds");
         obj2.setImg_name(R.drawable.hospital_logo);
         holder.add(obj2);
-        HomeDataModel obj3= new HomeDataModel();
+        HomeDataModel obj3 = new HomeDataModel();
         obj3.setMed_name("Pathology");
         obj3.setImg_name(R.drawable.hospital_logo);
         holder.add(obj3);
-        HomeDataModel obj6= new HomeDataModel();
+        HomeDataModel obj6 = new HomeDataModel();
         obj6.setMed_name("About Hospital");
         obj6.setImg_name(R.drawable.hospital_logo);
         holder.add(obj6);
