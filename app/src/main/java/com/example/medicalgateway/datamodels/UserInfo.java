@@ -1,6 +1,4 @@
-package com.example.medicalgateway;
-
-import java.util.Objects;
+package com.example.medicalgateway.datamodels;
 
 public class UserInfo {
     private String name;

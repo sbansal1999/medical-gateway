@@ -1,18 +1,34 @@
-package com.example.medicalgateway;
+package com.example.medicalgateway.datamodels;
 
 public class PatientAppointment {
     private String patientID;
     private String problemDesc;
     private String prefDoctor;
+    private String prefDoctorID;
     private String dateAppoint;
     private boolean appointmentFulfilled;
 
-    public PatientAppointment(String patientID, String problemDesc, String prefDoctor, String dateAppoint, boolean appointmentFulfilled) {
+    public PatientAppointment() {
+        //Required for Firebase
+    }
+
+    public PatientAppointment(String patientID, String problemDesc, String prefDoctor,
+                              String prefDoctorID, String dateAppoint,
+                              boolean appointmentFulfilled) {
         this.patientID = patientID;
         this.problemDesc = problemDesc;
         this.prefDoctor = prefDoctor;
+        this.prefDoctorID = prefDoctorID;
         this.dateAppoint = dateAppoint;
         this.appointmentFulfilled = appointmentFulfilled;
+    }
+
+    public String getPrefDoctorID() {
+        return prefDoctorID;
+    }
+
+    public void setPrefDoctorID(String prefDoctorID) {
+        this.prefDoctorID = prefDoctorID;
     }
 
     public String getPatientID() {

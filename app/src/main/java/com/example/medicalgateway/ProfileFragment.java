@@ -7,7 +7,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.canhub.cropper.CropImage;
-import com.example.medicalgateway.databinding.FragmentBookAppointmentBinding;
 import com.example.medicalgateway.databinding.FragmentProfilePatientBinding;
+import com.example.medicalgateway.datamodels.UserInfo;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,7 +41,6 @@ import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
-import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,9 +50,10 @@ import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
 
-    public final static String CHILD_NAME = "patients_info";
+    private final static String CHILD_NAME = "patients_info";
     private static final int IMAGE_DIMEN = 1000;
     private static final String CHILD_NAME_BLOOD_GRP = "blood_group";
+    private static final String CHILD_NAME_RES_ADD = "residentialAddress";
     private FragmentProfilePatientBinding mBinding;
     private ArrayAdapter<CharSequence> adapter;
     private DatabaseReference rootRef;
@@ -71,7 +70,8 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         mBinding = FragmentProfilePatientBinding.inflate(inflater, container, false);
 
         View root = getActivity().findViewById(android.R.id.content);
@@ -83,7 +83,8 @@ public class ProfileFragment extends Fragment {
 
         mBinding.spinnerBloodGroup.setAdapter(adapter);
 
-        mBinding.buttonChangeAddress.setOnClickListener((View.OnClickListener) view -> {
+        mBinding.buttonChangeAddress.setOnClickListener(view -> {
+
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
             View promptsView = layoutInflater.inflate(R.layout.prompts, null);
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
@@ -101,10 +102,13 @@ public class ProfileFragment extends Fragment {
             // create alert dialog
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
+
         });
         mBinding.buttonUploadImage.setOnClickListener(v -> uploadImage());
 
         mBinding.buttonSave.setOnClickListener(v -> saveChanges());
+
+        mBinding.buttonLogout.setOnClickListener(v -> showLogoutPopup());
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         if (sharedPreferences.contains(SharedPreferencesInfo.PREF_CURRENT_USER_INFO)) {
@@ -114,6 +118,8 @@ public class ProfileFragment extends Fragment {
         } else {
             fetchDataFromFirebase();
         }
+
+        updateAddress();
 
         Uri photoUrl = FirebaseAuth.getInstance()
                                    .getCurrentUser()
@@ -126,6 +132,62 @@ public class ProfileFragment extends Fragment {
         }
 
         return mBinding.getRoot();
+    }
+
+    private void updateAddress() {
+        String uid = FirebaseAuth.getInstance()
+                                 .getUid();
+
+        if (uid != null) {
+
+            rootRef.child(CHILD_NAME)
+                   .child(uid)
+                   .child(CHILD_NAME_RES_ADD)
+                   .addListenerForSingleValueEvent(new ValueEventListener() {
+                       @Override
+                       public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                           if (snapshot.exists()) {
+                               mBinding.textAddressPatientValue.setText(snapshot.getValue()
+                                                                                .toString());
+                           }
+                       }
+
+                       @Override
+                       public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                       }
+                   });
+        }
+
+
+    }
+
+    private void showLogoutPopup() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setMessage(R.string.logout_warning)
+               .setTitle(R.string.logout);
+
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+            FirebaseAuth.getInstance()
+                        .signOut();
+
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext())
+                                                               .edit();
+            editor.clear();
+            editor.apply();
+
+            showToast("Logging Out");
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivity(intent);
+        });
+
+        builder.setNegativeButton(R.string.no, (dialog, which) -> {
+        });
+
+        builder.show();
+
     }
 
     private void changeDOBFormat() {
@@ -173,10 +235,12 @@ public class ProfileFragment extends Fragment {
                                DatabaseReference childRef = rootRef.child(CHILD_NAME_BLOOD_GRP)
                                                                    .child(uid);
 
+                               //TODO add this data to shared pref to save data
 
                                childRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                    @Override
-                                   public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                   public void onDataChange(
+                                           @NonNull @NotNull DataSnapshot snapshot) {
                                        if (snapshot.getValue() == null) {
                                            mBinding.spinnerBloodGroup.setSelection(0);
                                        } else {
@@ -294,7 +358,7 @@ public class ProfileFragment extends Fragment {
                                                                       }));
             }
 
-            if (status[0] = true) {
+            if (status[0]) {
                 showToast("Profile Updated Successfully");
             }
         } else {

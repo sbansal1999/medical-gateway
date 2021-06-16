@@ -14,7 +14,6 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
 public class MedicalUtils {
     /**
      * Method that checks if the device is connected to internet.
-     *
      * @return true if online else false
      */
     public static boolean isOnline(@NotNull Context context, boolean displayToast) {
@@ -42,7 +41,6 @@ public class MedicalUtils {
                               .toString();
 
     }
-
 
     /**
      * Sets text in the  {@link android.widget.EditText} in the passed {@code textInputLayout}

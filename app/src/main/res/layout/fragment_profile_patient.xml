@@ -67,7 +67,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.1" />
 
-
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="0dp"
@@ -191,10 +190,10 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
+                android:ellipsize="end"
                 android:lines="2"
                 android:text=""
                 android:textSize="20sp"
-                android:ellipsize="end"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/text_email_address_patient"
                 app:layout_constraintTop_toBottomOf="@+id/text_email_address_patient" />
@@ -250,18 +249,6 @@
                 app:layout_constraintStart_toStartOf="@+id/text_blood_patient"
                 app:layout_constraintTop_toBottomOf="@+id/text_blood_patient" />
 
-            <Button
-                android:id="@+id/button_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="23dp"
-                android:layout_marginBottom="55dp"
-                android:text="@string/Save"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/text_address_patient_value"
-                app:layout_constraintStart_toStartOf="@+id/text_address_patient_value"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_blood_group" />
-
             <ImageButton
                 android:id="@+id/button_change_address"
                 android:layout_width="42dp"
@@ -274,8 +261,32 @@
                 app:layout_constraintStart_toEndOf="@+id/text_address_patient"
                 app:layout_constraintTop_toTopOf="@+id/text_address_patient" />
 
+            <Button
+                android:id="@+id/button_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:layout_marginBottom="48dp"
+                android:text="@string/Save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/text_address_patient_value"
+                app:layout_constraintEnd_toStartOf="@+id/button_logout"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_blood_group" />
+
+            <Button
+                android:id="@+id/button_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="@string/logout"
+                app:layout_constraintBottom_toBottomOf="@+id/button_save"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/button_save"
+                app:layout_constraintTop_toTopOf="@+id/button_save" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
