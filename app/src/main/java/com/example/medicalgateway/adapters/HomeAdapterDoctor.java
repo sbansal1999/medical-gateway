@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicalgateway.AboutHospitalActivity;
 import com.example.medicalgateway.AvailableBedsActivity;
+import com.example.medicalgateway.CheckReportsDoctorActivity;
 import com.example.medicalgateway.DoctorInfoActivity;
 import com.example.medicalgateway.OnlinePrescriptionActivity;
 import com.example.medicalgateway.PathologyActivity;
@@ -50,42 +51,31 @@ public class HomeAdapterDoctor extends RecyclerView.Adapter<HomeAdapterDoctor.Vi
         holder.getTextMedName()
               .setText(data.get(position)
                            .getMed_name());
-        holder.getImageMed()
-              .setImageResource(data.get(position)
-                                    .getImg_name());
+
         holder.getWholeView()
               .setOnClickListener(v -> {
                   switch (position) {
                       case 0:
-                          Intent intent = new Intent(context, DoctorInfoActivity.class);
+                          Intent intent = new Intent(context, AvailableBedsActivity.class);
                           intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                           context.startActivity(intent);
                           break;
                       case 1:
-                          Intent intent1 = new Intent(context, AvailableBedsActivity.class);
+                          Intent intent1 = new Intent(context, PathologyActivity.class);
                           intent1.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                           context.startActivity(intent1);
                           break;
                       case 2:
-                          Intent intent2 = new Intent(context, PathologyActivity.class);
+                          Intent intent2 = new Intent(context, CheckReportsDoctorActivity.class);
                           intent2.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                           context.startActivity(intent2);
                           break;
                       case 3:
-                          Intent intent3 = new Intent(context, PreviousAppointmentsActivity.class);
+                          Intent intent3 = new Intent(context, AboutHospitalActivity.class);
                           intent3.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                           context.startActivity(intent3);
                           break;
-                      case 4:
-                          Intent intent4 = new Intent(context, OnlinePrescriptionActivity.class);
-                          intent4.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                          context.startActivity(intent4);
-                          break;
-                      case 5:
-                          Intent intent5 = new Intent(context, AboutHospitalActivity.class);
-                          intent5.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                          context.startActivity(intent5);
-                          break;
+
                   }
               });
 
