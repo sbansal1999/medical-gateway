@@ -43,7 +43,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,12 +57,12 @@
             <TextView
                 android:id="@+id/textView25"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
                 android:gravity="center_horizontal"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="For over three decades, we have specialised in specific areas of medicine - mental health, orthopaedics, neurology, surgery and general medicine. This approach has given us an in-depth understanding of specific disorders and their treatments, enabling us to focus on providing the best treatment options and care for our patients. Each year, our 10,500 employees treat and care for around 320,000 patients at currently 26 locations in Germany and the United Kingdom.  Our aim is to give every patient the prospect of a better quality of life. To do so, our reinvestment model ensures we maintain a high standard of quality and are able to be innovative and forward thinking with our infrastructure, clinical delivery and staff development. Additionally, our collaboration with experienced specialists, expert healthcare professionals, clinical partners and patient groups ensures we provide the best-possible experience and care for patients and their families when visiting our hospitals."
+                android:text="@string/about_hospital"
                 android:textColor="#090909"
                 android:textSize="18sp" />
         </LinearLayout>

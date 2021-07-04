@@ -26,9 +26,9 @@
         <activity android:name=".PathologyActivity" />
         <activity android:name=".AvailableBedsActivity" />
         <activity android:name=".SplashActivity" />
-        <activity android:name=".PatientPortalActivity" />
+        <activity android:name=".DoctorPortalActivity" />
         <activity
-            android:name=".DoctorPortalActivity"
+            android:name=".PatientPortalActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
