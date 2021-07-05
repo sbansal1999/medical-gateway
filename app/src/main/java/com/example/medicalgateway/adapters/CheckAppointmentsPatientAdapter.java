@@ -87,10 +87,10 @@ public class CheckAppointmentsPatientAdapter extends FirebaseRecyclerAdapter<Pat
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
 
-            textAppointDate = itemView.findViewById(R.id.text_appointDate);
+            textAppointDate = itemView.findViewById(R.id.text_appointDateDoc);
             textPrefDoc = itemView.findViewById(R.id.text_prefDoc);
-            textProblemDesc = itemView.findViewById(R.id.text_problemDesc);
-            textAppStatus = itemView.findViewById(R.id.text_appStatus);
+            textProblemDesc = itemView.findViewById(R.id.text_problemDescDoc);
+            textAppStatus = itemView.findViewById(R.id.text_appStatusDoc);
         }
 
         public TextView getTextAppointDate() {

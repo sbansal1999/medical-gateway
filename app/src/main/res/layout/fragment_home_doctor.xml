@@ -63,7 +63,6 @@
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="25dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="10dp"
@@ -71,24 +70,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/button_book_appointment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="32dp"
-            android:background="#FFFFFF"
-            android:clickable="true"
-            android:contentDescription="@string/book_button"
-            android:focusable="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_book_appointment"
-            app:backgroundTint="@color/primaryColor"
-            app:fabSize="normal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:rippleColor="#FFFFFF" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

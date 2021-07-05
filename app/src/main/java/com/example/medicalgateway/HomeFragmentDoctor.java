@@ -40,14 +40,7 @@ public class HomeFragmentDoctor extends Fragment {
 
         //Set Default Image Level
         binding.imageDotFirst.setImageLevel(1);
-        binding.buttonBookAppointment.setOnClickListener(view -> {
-            Fragment book_appointment_fragment = new BookAppointmentFragment();
-            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-            transaction.replace(((ViewGroup) getView().getParent())
-                    .getId(), book_appointment_fragment); // give your fragment container id in first parameter
-            transaction.addToBackStack(null);  // if written, this transaction will be added to back-stack
-            transaction.commit();
-        });
+
         SlidingImageHomeAdapter imageHomeAdapter = new SlidingImageHomeAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, NUMBER_OF_IMAGES);
 
         binding.viewPagerImages.setAdapter(imageHomeAdapter);
@@ -95,24 +88,25 @@ public class HomeFragmentDoctor extends Fragment {
         ArrayList<HomeDataModel> holder = new ArrayList<>();
 
         HomeDataModel obj1 = new HomeDataModel();
-        obj1.setMed_name("Patient Reports");
+        obj1.setMed_name("Check Patient Reports");
         obj1.setImg_name(R.drawable.hospital_logo);
         holder.add(obj1);
 
         HomeDataModel obj2 = new HomeDataModel();
-        obj2.setMed_name("Your Upcoming Appointments");
+        obj2.setMed_name("Upcoming Appointments");
         obj2.setImg_name(R.drawable.hospital_logo);
         holder.add(obj2);
+//
+//        HomeDataModel obj3 = new HomeDataModel();
+//        obj3.setMed_name("Patient Appointments");
+//        obj3.setImg_name(R.drawable.hospital_logo);
+//        holder.add(obj3);
+//
+//        HomeDataModel obj4 = new HomeDataModel();
+//        obj4.setMed_name("Check Reports");
+//        obj4.setImg_name(R.drawable.hospital_logo);
+//        holder.add(obj4);
 
-        HomeDataModel obj3 = new HomeDataModel();
-        obj3.setMed_name("Patient Appointments");
-        obj3.setImg_name(R.drawable.hospital_logo);
-        holder.add(obj3);
-
-        HomeDataModel obj4 = new HomeDataModel();
-        obj4.setMed_name("Check Reports");
-        obj4.setImg_name(R.drawable.hospital_logo);
-        holder.add(obj4);
         HomeDataModel obj6 = new HomeDataModel();
         obj6.setMed_name("About Hospital");
         obj6.setImg_name(R.drawable.hospital_logo);

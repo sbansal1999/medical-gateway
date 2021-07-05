@@ -38,7 +38,6 @@ public class CheckReportsPatientActivity extends AppCompatActivity {
 
         String uid = FirebaseAuth.getInstance().getUid();
 
-
         if (uid != null) {
             Query query = rootRef.child(CHILD_NAME).child(uid).child("reports").limitToLast(DB_LIMIT);
 
@@ -60,7 +59,6 @@ public class CheckReportsPatientActivity extends AppCompatActivity {
                     .setQuery(query, Reports.class).build();
 
             adapter = new ReportsAdapter(options, this);
-
 
             mBinding.recyclerReports.setLayoutManager(new LinearLayoutManager(this));
 
