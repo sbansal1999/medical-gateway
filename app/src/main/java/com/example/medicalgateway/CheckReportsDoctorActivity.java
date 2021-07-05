@@ -17,7 +17,5 @@ public class CheckReportsDoctorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.fragment_check_reports_doctor_activity);
-
-
     }
 }

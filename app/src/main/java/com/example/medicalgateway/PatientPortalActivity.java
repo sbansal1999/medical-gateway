@@ -24,10 +24,8 @@ public class PatientPortalActivity extends AppCompatActivity implements BottomNa
         setContentView(view);
 
         //Set Default Shared Pref on user sign in
-        PreferenceManager.getDefaultSharedPreferences(this)
-                         .edit()
-                         .putBoolean(SharedPreferencesInfo.PREF_IS_USER_SIGNED_IN, true)
-                         .apply();
+        PreferenceManager.getDefaultSharedPreferences(this).edit()
+                .putBoolean(SharedPreferencesInfo.PREF_IS_USER_SIGNED_IN, true).apply();
 
         mBinding.bottomNavigationPatientView.setOnNavigationItemSelectedListener(this);
         mBinding.bottomNavigationPatientView.setSelectedItemId(R.id.navigation_home);
@@ -38,21 +36,18 @@ public class PatientPortalActivity extends AppCompatActivity implements BottomNa
         int itemId = item.getItemId();
         if (itemId == R.id.navigation_home) {
             getSupportFragmentManager().beginTransaction()
-                                       .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                                       .replace(R.id.container, new HomeFragment())
-                                       .commit();
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                    .replace(R.id.container, new HomeFragment()).commit();
             return true;
         } else if (itemId == R.id.navigation_pharmacy) {
             getSupportFragmentManager().beginTransaction()
-                                       .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                                       .replace(R.id.container, new PharmacyPatientFragment())
-                                       .commit();
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                    .replace(R.id.container, new PharmacyPatientFragment()).commit();
             return true;
         } else if (itemId == R.id.navigation_profile) {
             getSupportFragmentManager().beginTransaction()
-                                       .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-                                       .replace(R.id.container, new ProfileFragment())
-                                       .commit();
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                    .replace(R.id.container, new ProfileFragment()).commit();
             return true;
         }
         return false;

@@ -70,8 +70,8 @@
         <TextView
             android:id="@+id/text_appStatusHead"
             style="@style/textStyle_appointmentTextView"
-            android:text="@string/appointment_status"
             android:layout_marginTop="8dp"
+            android:text="@string/appointment_status"
             app:layout_constraintEnd_toEndOf="@id/text_probDescHead"
             app:layout_constraintTop_toBottomOf="@id/text_problemDesc" />
 
@@ -79,9 +79,9 @@
         <TextView
             android:id="@+id/text_appStatus"
             style="@style/textStyle_appointmentTextView"
+            android:layout_marginTop="8dp"
             android:text="@string/Hospital_name"
             app:layout_constraintStart_toStartOf="@id/text_problemDesc"
-            android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/text_problemDesc" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

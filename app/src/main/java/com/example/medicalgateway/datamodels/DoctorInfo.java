@@ -13,7 +13,7 @@ public class DoctorInfo {
     private String photoURL;
     private String residentialAddress;
     private String speciality;
-    
+
     public DoctorInfo() {
         //Required for Firebase
     }

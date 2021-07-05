@@ -13,8 +13,7 @@ public class PatientAppointment {
     }
 
     public PatientAppointment(String patientID, String problemDesc, String prefDoctor,
-                              String prefDoctorID, String dateAppoint,
-                              boolean appointmentFulfilled) {
+                              String prefDoctorID, String dateAppoint, boolean appointmentFulfilled) {
         this.patientID = patientID;
         this.problemDesc = problemDesc;
         this.prefDoctor = prefDoctor;

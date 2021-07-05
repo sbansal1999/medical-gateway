@@ -62,9 +62,8 @@ public class LoginActivity extends AppCompatActivity {
                 mBinding.textPhoneNumber.setError("Invalid mobile number");
             }
             Toast.makeText(LoginActivity.this, "Phone Number Verification Failed", Toast.LENGTH_SHORT)
-                 .show();
-            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG)
-                 .show();
+                    .show();
+            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
             disableViews(mBinding.progressBar);
             enableViews(mBinding.buttonChangeNumber, mBinding.buttonLogin);
         }
@@ -74,8 +73,9 @@ public class LoginActivity extends AppCompatActivity {
                                @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
             displayLog("OTP Sent");
-            Toast.makeText(LoginActivity.this, "An OTP has been sent to " + mPhoneNumber, Toast.LENGTH_SHORT)
-                 .show();
+            Toast
+                    .makeText(LoginActivity.this, "An OTP has been sent to " + mPhoneNumber, Toast.LENGTH_SHORT)
+                    .show();
             mVerificationId = s;
             mToken = forceResendingToken;
 
@@ -96,7 +96,8 @@ public class LoginActivity extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
 
         if (getIntent().hasExtra(RegisterActivity.EXTRA_PHONE_NUMBER)) {
-            setTextInTextInputLayout(mBinding.textPhoneNumber, getIntent().getStringExtra(RegisterActivity.EXTRA_PHONE_NUMBER));
+            setTextInTextInputLayout(mBinding.textPhoneNumber, getIntent()
+                    .getStringExtra(RegisterActivity.EXTRA_PHONE_NUMBER));
         }
     }
 
@@ -106,36 +107,34 @@ public class LoginActivity extends AppCompatActivity {
      * @param phoneAuthCredential this will be used to sign in the user
      */
     private void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) {
-        mFirebaseAuth.signInWithCredential(phoneAuthCredential)
-                     .addOnCompleteListener(this, task -> {
-                         disableViews(mBinding.progressBar);
-                         if (task.isSuccessful()) {
-                             //Correct OTP Entered
-                             FirebaseUser firebaseUser = task.getResult()
-                                                             .getUser();
+        mFirebaseAuth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(this, task -> {
+            disableViews(mBinding.progressBar);
+            if (task.isSuccessful()) {
+                //Correct OTP Entered
+                FirebaseUser firebaseUser = task.getResult().getUser();
 
-                             if (firebaseUser != null) {
-                                 Toast.makeText(LoginActivity.this, "Logged in as: " + firebaseUser.getDisplayName(), Toast.LENGTH_SHORT)
-                                      .show();
+                if (firebaseUser != null) {
+                    Toast.makeText(LoginActivity.this, "Logged in as: " + firebaseUser
+                            .getDisplayName(), Toast.LENGTH_SHORT).show();
 
-                                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this)
-                                                                                    .edit();
+                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this)
+                            .edit();
 
-                                 editor.putBoolean(SharedPreferencesInfo.PREF_IS_USER_PATIENT, isPatient[0]);
-                                 editor.apply();
+                    editor.putBoolean(SharedPreferencesInfo.PREF_IS_USER_PATIENT, isPatient[0]);
+                    editor.apply();
 
-                                 Intent intent = isPatient[0] ? new Intent(LoginActivity.this, PatientPortalActivity.class) : new Intent(LoginActivity.this, DoctorPortalActivity.class);
+                    Intent intent = isPatient[0] ? new Intent(LoginActivity.this, PatientPortalActivity.class) : new Intent(LoginActivity.this, DoctorPortalActivity.class);
 
-                                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                 startActivity(intent);
-                             }
-                         } else {
-                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                 enableViews(mBinding.textOtpWarning);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    startActivity(intent);
+                }
+            } else {
+                if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                    enableViews(mBinding.textOtpWarning);
 
-                             }
-                         }
-                     });
+                }
+            }
+        });
     }
 
     /**
@@ -171,20 +170,16 @@ public class LoginActivity extends AppCompatActivity {
                 enableViews(mBinding.progressBar);
 
                 if (mBinding.textPhoneNumber.getEditText() != null) {
-                    mBinding.textPhoneNumber.getEditText()
-                                            .setEnabled(false);
+                    mBinding.textPhoneNumber.getEditText().setEnabled(false);
                 }
 
-                rootRef = FirebaseDatabase.getInstance()
-                                          .getReference();
+                rootRef = FirebaseDatabase.getInstance().getReference();
 
-                Query docQuery = rootRef.child(CHILD_NAME_DOCTOR)
-                                        .orderByChild("phone")
-                                        .equalTo(mPhoneNumber);
+                Query docQuery = rootRef.child(CHILD_NAME_DOCTOR).orderByChild("phone")
+                        .equalTo(mPhoneNumber);
 
-                Query patQuery = rootRef.child(CHILD_NAME_PATIENT)
-                                        .orderByChild("phone")
-                                        .equalTo(mPhoneNumber);
+                Query patQuery = rootRef.child(CHILD_NAME_PATIENT).orderByChild("phone")
+                        .equalTo(mPhoneNumber);
 
                 patQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -205,8 +200,9 @@ public class LoginActivity extends AppCompatActivity {
                                         verifyPhoneNumber();
                                     } else {
                                         displayLog("New User Detected");
-                                        Toast.makeText(LoginActivity.this, "Redirecting you to the Register Page", Toast.LENGTH_SHORT)
-                                             .show();
+                                        Toast
+                                                .makeText(LoginActivity.this, "Redirecting you to the Register Page", Toast.LENGTH_SHORT)
+                                                .show();
                                         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                         intent.putExtra(EXTRA_PHONE_NUMBER, mPhoneNumber);
@@ -247,8 +243,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showSnackbar(String message) {
-        Snackbar.make(mBinding.getRoot(), message, BaseTransientBottomBar.LENGTH_SHORT)
-                .show();
+        Snackbar.make(mBinding.getRoot(), message, BaseTransientBottomBar.LENGTH_SHORT).show();
     }
 
     /**
@@ -258,30 +253,23 @@ public class LoginActivity extends AppCompatActivity {
         showSnackbar("Resending OTP");
 
         PhoneAuthOptions authOptions = PhoneAuthOptions.newBuilder(mFirebaseAuth)
-                                                       .setPhoneNumber(getString(R.string.country_code) + mPhoneNumber)
-                                                       .setTimeout(60L, TimeUnit.SECONDS)
-                                                       .setActivity(this)
-                                                       .setForceResendingToken(mToken)
-                                                       .setCallbacks(mCallBacks)
-                                                       .build();
+                .setPhoneNumber(getString(R.string.country_code) + mPhoneNumber)
+                .setTimeout(60L, TimeUnit.SECONDS).setActivity(this).setForceResendingToken(mToken)
+                .setCallbacks(mCallBacks).build();
 
         PhoneAuthProvider.verifyPhoneNumber(authOptions);
     }
 
     public void changeNumber(View view) {
-        mBinding.textPhoneNumber.getEditText()
-                                .setEnabled(true);
+        mBinding.textPhoneNumber.getEditText().setEnabled(true);
         disableViews(mBinding.buttonVerifyOtp, mBinding.textOtpHeading, mBinding.editOtp, mBinding.buttonResendOtp, mBinding.buttonChangeNumber, mBinding.textOtpWarning);
         enableViews(mBinding.buttonLogin);
     }
 
     public void verifyOTP(View view) {
         String enteredOTP = "1";
-        if (!mBinding.editOtp.getText()
-                             .toString()
-                             .isEmpty()) {
-            enteredOTP = mBinding.editOtp.getText()
-                                         .toString();
+        if (!mBinding.editOtp.getText().toString().isEmpty()) {
+            enteredOTP = mBinding.editOtp.getText().toString();
         }
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, enteredOTP);
         enableViews(mBinding.progressBar);
@@ -302,11 +290,8 @@ public class LoginActivity extends AppCompatActivity {
 
         mPhoneNumber = getTextFromTextInputLayout(mBinding.textPhoneNumber);
         PhoneAuthOptions authOptions = PhoneAuthOptions.newBuilder(mFirebaseAuth)
-                                                       .setPhoneNumber(getString(R.string.country_code) + mPhoneNumber)
-                                                       .setTimeout(60L, TimeUnit.SECONDS)
-                                                       .setActivity(this)
-                                                       .setCallbacks(mCallBacks)
-                                                       .build();
+                .setPhoneNumber(getString(R.string.country_code) + mPhoneNumber)
+                .setTimeout(60L, TimeUnit.SECONDS).setActivity(this).setCallbacks(mCallBacks).build();
 
         PhoneAuthProvider.verifyPhoneNumber(authOptions);
     }

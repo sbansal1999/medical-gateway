@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Takes the user to the Login Activity*
+     *
      * @param view Receives the button that was clicked
      */
     public void doLogin(View view) {
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Takes the user to the Register Activity
+     *
      * @param view Receives the button that was clicked
      */
     public void doRegister(View view) {

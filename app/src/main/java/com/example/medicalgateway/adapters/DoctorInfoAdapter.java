@@ -31,28 +31,24 @@ public class DoctorInfoAdapter extends FirebaseRecyclerAdapter<DoctorInfo, Docto
     public DoctorInfoAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent,
                                                            int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                                  .inflate(R.layout.doctor_info_item, parent, false);
+                .inflate(R.layout.doctor_info_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     protected void onBindViewHolder(@NonNull @NotNull DoctorInfoAdapter.ViewHolder holder,
                                     int position, @NonNull @NotNull DoctorInfo model) {
-        holder.getTextDocName()
-              .setText(model.getName());
-        holder.getTextDocSpec()
-              .setText(model.getSpeciality());
+        holder.getTextDocName().setText(model.getName());
+        holder.getTextDocSpec().setText(model.getSpeciality());
 
-        Picasso.get()
-               .load(model.getPhotoURL())
-               .into(holder.getImageDoctor(), new Callback.EmptyCallback() {
-                   @Override
-                   public void onSuccess() {
-                       holder.getProgressLoading()
-                             .setVisibility(View.INVISIBLE);
+        Picasso.get().load(model.getPhotoURL())
+                .into(holder.getImageDoctor(), new Callback.EmptyCallback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.getProgressLoading().setVisibility(View.INVISIBLE);
 
-                   }
-               });
+                    }
+                });
 
     }
 

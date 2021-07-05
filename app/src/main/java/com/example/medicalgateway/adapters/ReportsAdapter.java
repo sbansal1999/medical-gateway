@@ -32,23 +32,20 @@ public class ReportsAdapter extends FirebaseRecyclerAdapter<Reports, ReportsAdap
     @Override
     protected void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position,
                                     @NonNull @NotNull Reports model) {
-        holder.getTextReportDate()
-              .setText(model.getReportDate());
+        holder.getTextReportDate().setText(model.getReportDate());
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse(model.getReportURL()), "application/pdf");
 
         Intent chooser = Intent.createChooser(intent, "Select the application to use");
 
-        holder.getButtonViewReport()
-              .setOnClickListener(v -> {
-                  if (intent.resolveActivity(mContext.getPackageManager()) != null) {
-                      mContext.startActivity(chooser);
-                  } else {
-                      Toast.makeText(mContext, "Kindly Download a PDF Viewer First", Toast.LENGTH_SHORT)
-                           .show();
-                  }
-              });
+        holder.getButtonViewReport().setOnClickListener(v -> {
+            if (intent.resolveActivity(mContext.getPackageManager()) != null) {
+                mContext.startActivity(chooser);
+            } else {
+                Toast.makeText(mContext, "Kindly Download a PDF Viewer First", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @NonNull
@@ -56,7 +53,7 @@ public class ReportsAdapter extends FirebaseRecyclerAdapter<Reports, ReportsAdap
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                                  .inflate(R.layout.report_info_item, parent, false);
+                .inflate(R.layout.report_info_item, parent, false);
         return new ViewHolder(view);
     }
 

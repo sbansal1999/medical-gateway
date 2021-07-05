@@ -109,5 +109,7 @@
     <string name="fulfilled">Fulfilled</string>
     <string name="not_fulfilled">Not Fulfilled</string>
     <string name="previous_appointments">Previous Appointments</string>
+    <string name="no_reports">You currently have NO Uploaded Reports</string>
+    <string name="no_appointment">You haven\'t booked an Appointment yet</string>
 
 </resources>

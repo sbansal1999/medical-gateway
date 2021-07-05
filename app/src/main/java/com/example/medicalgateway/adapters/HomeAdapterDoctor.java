@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.example.medicalgateway.AboutHospitalActivity;
 import com.example.medicalgateway.AvailableBedsActivity;
 import com.example.medicalgateway.CheckReportsDoctorActivity;
@@ -18,7 +19,9 @@ import com.example.medicalgateway.DoctorInfoActivity;
 import com.example.medicalgateway.OnlinePrescriptionActivity;
 import com.example.medicalgateway.PathologyActivity;
 import com.example.medicalgateway.PreviousAppointmentsActivity;
+
 import com.example.medicalgateway.R;
+import com.example.medicalgateway.UpcomingAppointDoctorActivity;
 import com.example.medicalgateway.datamodels.HomeDataModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -79,7 +82,6 @@ public class HomeAdapterDoctor extends RecyclerView.Adapter<HomeAdapterDoctor.Vi
                   }
               });
 
-
     }
 
     @Override
@@ -95,7 +97,7 @@ public class HomeAdapterDoctor extends RecyclerView.Adapter<HomeAdapterDoctor.Vi
         public ViewHolder(@NotNull View itemView) {
             super(itemView);
 
-            imageMed = itemView.findViewById(R.id.image_doctor);
+            imageMed = itemView.findViewById(R.id.image_medicine);
             textMedName = itemView.findViewById(R.id.textMedName);
             wholeView = itemView;
         }

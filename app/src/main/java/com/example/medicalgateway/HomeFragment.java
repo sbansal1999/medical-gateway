@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.example.medicalgateway.MedicalUtils.checkIfPatient;
+
 public class HomeFragment extends Fragment {
 
     private final static int NUMBER_OF_IMAGES = 3;
@@ -43,16 +45,17 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomePatientBinding.inflate(inflater);
-        binding.recyclerviewhome.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerHome.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new HomeAdapterPatient(dataQueue(), getContext());
-        binding.recyclerviewhome.setAdapter(adapter);
+        binding.recyclerHome.setAdapter(adapter);
 
         //Set Default Image Level
         binding.imageDotFirst.setImageLevel(1);
         binding.buttonBookAppointment.setOnClickListener(view -> {
             Fragment book_appointment_fragment = new BookAppointmentFragment();
             FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-            transaction.replace(((ViewGroup) getView().getParent()).getId(), book_appointment_fragment); // give your fragment container id in first parameter
+            transaction.replace(((ViewGroup) getView().getParent())
+                    .getId(), book_appointment_fragment); // give your fragment container id in first parameter
             transaction.addToBackStack(null);  // if written, this transaction will be added to back-stack
             transaction.commit();
         });
@@ -62,8 +65,7 @@ public class HomeFragment extends Fragment {
 
         binding.viewPagerImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 highlightDot(position);
             }
 
@@ -95,40 +97,40 @@ public class HomeFragment extends Fragment {
             }
         }, SCROLL_DELAY, SCROLL_DELAY);
 
-        insertPID();
+
+        if (checkIfPatient(getContext())) {
+            insertPID();
+        }
 
         return binding.getRoot();
 
     }
 
+
     private void insertPID() {
-        DatabaseReference rootRef = FirebaseDatabase.getInstance()
-                                                    .getReference();
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
 
         FirebaseAuth user = FirebaseAuth.getInstance();
 
         if (user.getUid() != null) {
-            rootRef.child("patients_info")
-                   .child(user.getUid())
-                   .child("patientID")
-                   .addListenerForSingleValueEvent(new ValueEventListener() {
-                       @Override
-                       public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                           SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity())
-                                                                              .edit();
+            rootRef.child("patients_info").child(user.getUid()).child("patientID")
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                            SharedPreferences.Editor editor = PreferenceManager
+                                    .getDefaultSharedPreferences(getActivity()).edit();
 
-                           String pID = snapshot.getValue()
-                                                .toString();
+                            String pID = snapshot.getValue().toString();
 
-                           editor.putString(SharedPreferencesInfo.PREF_CURRENT_USER_PID, pID);
-                           editor.apply();
-                       }
+                            editor.putString(SharedPreferencesInfo.PREF_CURRENT_USER_PID, pID);
+                            editor.apply();
+                        }
 
-                       @Override
-                       public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-                       }
-                   });
+                        }
+                    });
         }
     }
 

@@ -11,7 +11,8 @@ public class UserInfo {
     public UserInfo() {
     }
 
-    public UserInfo(String name, String phone, String DOB, String emailAddress, String residentialAddress, String patientID) {
+    public UserInfo(String name, String phone, String DOB, String emailAddress,
+                    String residentialAddress, String patientID) {
         this.name = name;
         this.phone = phone;
         this.DOB = DOB;

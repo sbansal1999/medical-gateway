@@ -37,21 +37,16 @@ public class PharmacyPatientFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentPharmacyPatientBinding.inflate(inflater);
-
         mBinding.buttonSearchMed.setOnClickListener(view -> searchMed());
+        rootRef = FirebaseDatabase.getInstance().getReference();
 
-        rootRef = FirebaseDatabase.getInstance()
-                                  .getReference();
+        Query query = rootRef.child(CHILD_NAME).limitToLast(DB_LIMIT);
 
-        Query query = rootRef.child(CHILD_NAME)
-                             .limitToLast(DB_LIMIT);
-
-        FirebaseRecyclerOptions<MedicineInfo> options = new FirebaseRecyclerOptions.Builder<MedicineInfo>().setQuery(query, MedicineInfo.class)
-                                                                                                           .build();
+        FirebaseRecyclerOptions<MedicineInfo> options = new FirebaseRecyclerOptions.Builder<MedicineInfo>()
+                .setQuery(query, MedicineInfo.class).build();
 
         adapter = new PharmacyAdapter(options);
         mBinding.recyclerPharmacy.setLayoutManager(new LinearLayoutManager(getContext()));
-
         mBinding.recyclerPharmacy.setAdapter(adapter);
 
         return mBinding.getRoot();
@@ -63,10 +58,7 @@ public class PharmacyPatientFragment extends Fragment {
 
         final FirebaseRecyclerOptions[] options = new FirebaseRecyclerOptions[]{null};
 
-        String searchText = mBinding.editSearch.getEditText()
-                                               .getText()
-                                               .toString()
-                                               .toLowerCase();
+        String searchText = mBinding.editSearch.getEditText().getText().toString().toLowerCase();
 
         if (searchText.isEmpty()) {
             showToast("No Search Text Given");
@@ -77,11 +69,8 @@ public class PharmacyPatientFragment extends Fragment {
 
         showToast("Searching");
 
-        Query query = rootRef.child(CHILD_NAME)
-                             .orderByChild("name")
-                             .startAt(searchText)
-                             .endAt(searchText + "\uf8ff")
-                             .limitToFirst(DB_LIMIT);
+        Query query = rootRef.child(CHILD_NAME).orderByChild("name").startAt(searchText)
+                .endAt(searchText + "\uf8ff").limitToFirst(DB_LIMIT);
 
         String finalSearchText = searchText;
 
@@ -89,17 +78,14 @@ public class PharmacyPatientFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    options[0] = new FirebaseRecyclerOptions.Builder<MedicineInfo>().setQuery(query, MedicineInfo.class)
-                                                                                    .build();
+                    options[0] = new FirebaseRecyclerOptions.Builder<MedicineInfo>()
+                            .setQuery(query, MedicineInfo.class).build();
 
                 } else {
-                    Query q1 = rootRef.child(CHILD_NAME)
-                                      .orderByChild("category")
-                                      .startAt(finalSearchText)
-                                      .endAt(finalSearchText + "\uf8ff")
-                                      .limitToFirst(DB_LIMIT);
-                    options[0] = new FirebaseRecyclerOptions.Builder<MedicineInfo>().setQuery(q1, MedicineInfo.class)
-                                                                                    .build();
+                    Query q1 = rootRef.child(CHILD_NAME).orderByChild("category").startAt(finalSearchText)
+                            .endAt(finalSearchText + "\uf8ff").limitToFirst(DB_LIMIT);
+                    options[0] = new FirebaseRecyclerOptions.Builder<MedicineInfo>()
+                            .setQuery(q1, MedicineInfo.class).build();
                 }
 
                 adapter = new PharmacyAdapter(options[0]);
@@ -136,7 +122,8 @@ public class PharmacyPatientFragment extends Fragment {
      */
     private void closeSoftKeyboard() {
         try {
-            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity()
+                    .getSystemService(INPUT_METHOD_SERVICE);
             View view = getActivity().getCurrentFocus();
             if (view == null) {
                 view = new View(getActivity());
@@ -148,8 +135,7 @@ public class PharmacyPatientFragment extends Fragment {
     }
 
     private void showToast(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT)
-             .show();
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
 
     }
 

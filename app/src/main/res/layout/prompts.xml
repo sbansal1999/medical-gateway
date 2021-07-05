@@ -16,10 +16,11 @@
     <EditText
         android:id="@+id/editTextDialogUserInput"
         android:layout_width="match_parent"
-        android:inputType="textPostalAddress"
+        android:layout_height="wrap_content"
         android:autofillHints="address"
         android:hint="@string/enter_here"
-        android:layout_height="wrap_content">
+        android:inputType="textPostalAddress">
+
         <requestFocus />
     </EditText>
 

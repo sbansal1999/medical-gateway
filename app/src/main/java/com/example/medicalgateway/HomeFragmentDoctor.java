@@ -27,23 +27,24 @@ import java.util.TimerTask;
 public class HomeFragmentDoctor extends Fragment {
     private final static int NUMBER_OF_IMAGES = 3;
     private static final long SCROLL_DELAY = 5000;
-    HomeAdapterDoctor Adapter;
+    private HomeAdapterDoctor Adapter;
     private FragmentHomeDoctorBinding binding;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomeDoctorBinding.inflate(inflater);
-        binding.recyclerviewhome.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerHome.setLayoutManager(new LinearLayoutManager(getContext()));
         Adapter = new HomeAdapterDoctor(dataqueue(), getContext());
-        binding.recyclerviewhome.setAdapter(Adapter);
+        binding.recyclerHome.setAdapter(Adapter);
 
         //Set Default Image Level
         binding.imageDotFirst.setImageLevel(1);
         binding.buttonBookAppointment.setOnClickListener(view -> {
             Fragment book_appointment_fragment = new BookAppointmentFragment();
             FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-            transaction.replace(((ViewGroup) getView().getParent()).getId(), book_appointment_fragment); // give your fragment container id in first parameter
+            transaction.replace(((ViewGroup) getView().getParent())
+                    .getId(), book_appointment_fragment); // give your fragment container id in first parameter
             transaction.addToBackStack(null);  // if written, this transaction will be added to back-stack
             transaction.commit();
         });
@@ -53,8 +54,7 @@ public class HomeFragmentDoctor extends Fragment {
 
         binding.viewPagerImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 highlightDot(position);
             }
 
@@ -94,14 +94,21 @@ public class HomeFragmentDoctor extends Fragment {
     public ArrayList<HomeDataModel> dataqueue() {
         ArrayList<HomeDataModel> holder = new ArrayList<>();
 
+        HomeDataModel obj1 = new HomeDataModel();
+        obj1.setMed_name("Patient Reports");
+        obj1.setImg_name(R.drawable.hospital_logo);
+        holder.add(obj1);
+
         HomeDataModel obj2 = new HomeDataModel();
-        obj2.setMed_name("Available beds");
+        obj2.setMed_name("Your Upcoming Appointments");
         obj2.setImg_name(R.drawable.hospital_logo);
         holder.add(obj2);
+
         HomeDataModel obj3 = new HomeDataModel();
-        obj3.setMed_name("Pathology");
+        obj3.setMed_name("Patient Appointments");
         obj3.setImg_name(R.drawable.hospital_logo);
         holder.add(obj3);
+
         HomeDataModel obj4 = new HomeDataModel();
         obj4.setMed_name("Check Reports");
         obj4.setImg_name(R.drawable.hospital_logo);

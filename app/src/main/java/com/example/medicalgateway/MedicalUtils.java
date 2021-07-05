@@ -1,8 +1,10 @@
 package com.example.medicalgateway;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
@@ -14,16 +16,17 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
 public class MedicalUtils {
     /**
      * Method that checks if the device is connected to internet.
+     *
      * @return true if online else false
      */
     public static boolean isOnline(@NotNull Context context, boolean displayToast) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) context
+                .getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
         boolean isOnline = networkInfo != null && networkInfo.isConnectedOrConnecting();
         if (!isOnline && displayToast) {
-            Toast.makeText(context, "Connect to Internet to continue", Toast.LENGTH_SHORT)
-                 .show();
+            Toast.makeText(context, "Connect to Internet to continue", Toast.LENGTH_SHORT).show();
         }
         return isOnline;
     }
@@ -36,9 +39,7 @@ public class MedicalUtils {
      */
     @NotNull
     public static String getTextFromTextInputLayout(@NotNull TextInputLayout textInputLayout) {
-        return textInputLayout.getEditText()
-                              .getText()
-                              .toString();
+        return textInputLayout.getEditText().getText().toString();
 
     }
 
@@ -48,11 +49,21 @@ public class MedicalUtils {
      * @param textInputLayout the view in which the text to be set
      * @param string          the text to be set
      */
-    public static void setTextInTextInputLayout(@NotNull TextInputLayout textInputLayout, String string) {
+    public static void setTextInTextInputLayout(@NotNull TextInputLayout textInputLayout,
+                                                String string) {
         if (textInputLayout.getEditText() != null) {
-            textInputLayout.getEditText()
-                           .setText(string);
+            textInputLayout.getEditText().setText(string);
         }
+    }
+
+    /**
+     * Checks if the logged in user is a patient or a doctor by checking the value stored in SharedPreferences
+     *
+     * @return {@code true} if patient else {@code false}
+     */
+    public static boolean checkIfPatient(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean(SharedPreferencesInfo.PREF_IS_USER_PATIENT, false);
     }
 
 }
