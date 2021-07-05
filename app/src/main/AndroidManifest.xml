@@ -17,6 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MedicalGateway">
+
         <activity android:name=".PatientAppointDoctorActivity" />
         <activity android:name=".UpcomingAppointDoctorActivity" />
         <activity android:name=".CheckReportsDoctorActivity" />
@@ -27,10 +28,10 @@
         <activity android:name=".AboutHospitalActivity" />
         <activity android:name=".PathologyActivity" />
         <activity android:name=".AvailableBedsActivity" />
+        <activity android:name=".SplashActivity" />
         <activity android:name=".DoctorPortalActivity" />
-        <activity android:name=".PatientPortalActivity" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".PatientPortalActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

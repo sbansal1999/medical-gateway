@@ -109,6 +109,14 @@ public class HomeFragmentDoctor extends Fragment {
         obj3.setImg_name(R.drawable.hospital_logo);
         holder.add(obj3);
 
+        HomeDataModel obj4 = new HomeDataModel();
+        obj4.setMed_name("Check Reports");
+        obj4.setImg_name(R.drawable.hospital_logo);
+        holder.add(obj4);
+        HomeDataModel obj6 = new HomeDataModel();
+        obj6.setMed_name("About Hospital");
+        obj6.setImg_name(R.drawable.hospital_logo);
+        holder.add(obj6);
 
         return holder;
     }
