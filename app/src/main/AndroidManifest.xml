@@ -28,17 +28,17 @@
         <activity android:name=".AboutHospitalActivity" />
         <activity android:name=".PathologyActivity" />
         <activity android:name=".AvailableBedsActivity" />
-        <activity android:name=".SplashActivity" />
-        <activity android:name=".DoctorPortalActivity" />
-        <activity
-            android:name=".PatientPortalActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".DoctorPortalActivity" />
+        <activity
+            android:name=".PatientPortalActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".ImageSliderActivity" />
         <activity
             android:name=".RegisterActivity"
