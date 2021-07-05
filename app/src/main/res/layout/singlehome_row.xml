@@ -6,10 +6,10 @@
     android:layout_marginTop="10dp"
     android:clickable="true"
     android:elevation="4dp"
+    android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="5dp"
-    app:cardUseCompatPadding="true"
-    android:focusable="true">
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

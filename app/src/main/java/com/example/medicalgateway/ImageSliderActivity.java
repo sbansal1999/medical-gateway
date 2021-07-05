@@ -31,9 +31,7 @@ public class ImageSliderActivity extends AppCompatActivity {
         //Set Default Image Level
         binding.imageDotFirst.setImageLevel(1);
 
-        SlidingImageAdapter imageAdapter = new SlidingImageAdapter(getSupportFragmentManager(),
-                                                                   FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
-                                                                   NUMBER_OF_IMAGES);
+        SlidingImageAdapter imageAdapter = new SlidingImageAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, NUMBER_OF_IMAGES);
         binding.viewPagerImages.setAdapter(imageAdapter);
 
         binding.viewPagerImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

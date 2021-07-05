@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,8 @@ public class HomeFragment extends Fragment {
         binding.buttonBookAppointment.setOnClickListener(view -> {
             Fragment book_appointment_fragment = new BookAppointmentFragment();
             FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-            transaction.replace(((ViewGroup) getView().getParent()).getId(), book_appointment_fragment); // give your fragment container id in first parameter
+            transaction.replace(((ViewGroup) getView().getParent())
+                    .getId(), book_appointment_fragment); // give your fragment container id in first parameter
             transaction.addToBackStack(null);  // if written, this transaction will be added to back-stack
             transaction.commit();
         });
@@ -65,8 +65,7 @@ public class HomeFragment extends Fragment {
 
         binding.viewPagerImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 highlightDot(position);
             }
 
@@ -108,35 +107,30 @@ public class HomeFragment extends Fragment {
     }
 
 
-
     private void insertPID() {
-        DatabaseReference rootRef = FirebaseDatabase.getInstance()
-                                                    .getReference();
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
 
         FirebaseAuth user = FirebaseAuth.getInstance();
 
         if (user.getUid() != null) {
-            rootRef.child("patients_info")
-                   .child(user.getUid())
-                   .child("patientID")
-                   .addListenerForSingleValueEvent(new ValueEventListener() {
-                       @Override
-                       public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                           SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity())
-                                                                              .edit();
+            rootRef.child("patients_info").child(user.getUid()).child("patientID")
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                            SharedPreferences.Editor editor = PreferenceManager
+                                    .getDefaultSharedPreferences(getActivity()).edit();
 
-                           String pID = snapshot.getValue()
-                                                .toString();
+                            String pID = snapshot.getValue().toString();
 
-                           editor.putString(SharedPreferencesInfo.PREF_CURRENT_USER_PID, pID);
-                           editor.apply();
-                       }
+                            editor.putString(SharedPreferencesInfo.PREF_CURRENT_USER_PID, pID);
+                            editor.apply();
+                        }
 
-                       @Override
-                       public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-                       }
-                   });
+                        }
+                    });
         }
     }
 

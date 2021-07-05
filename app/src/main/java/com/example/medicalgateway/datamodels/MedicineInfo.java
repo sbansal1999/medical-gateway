@@ -13,7 +13,8 @@ public class MedicineInfo {
         //Required for Firebase
     }
 
-    public MedicineInfo(String category, String mfgBy, String name, String photoURL, String price, String quantity, String unit) {
+    public MedicineInfo(String category, String mfgBy, String name, String photoURL, String price,
+                        String quantity, String unit) {
         this.category = category;
         this.mfgBy = mfgBy;
         this.name = name;

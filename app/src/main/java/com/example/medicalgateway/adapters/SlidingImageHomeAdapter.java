@@ -7,10 +7,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.medicalgateway.slidingimagesfragment.sliding_activity.SlidingImageFirstFragment;
 import com.example.medicalgateway.slidingimagesfragment.home_portal.HomeFirstSlidingImage;
 import com.example.medicalgateway.slidingimagesfragment.home_portal.HomeSecondSlidingImage;
 import com.example.medicalgateway.slidingimagesfragment.home_portal.HomeThirdSlidingImage;
+import com.example.medicalgateway.slidingimagesfragment.sliding_activity.SlidingImageFirstFragment;
 
 public class SlidingImageHomeAdapter extends FragmentStatePagerAdapter {
     private final int mNumOfTabs;

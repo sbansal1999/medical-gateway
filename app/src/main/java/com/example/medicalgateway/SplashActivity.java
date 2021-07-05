@@ -31,9 +31,11 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow()
+                .setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
-        ConnectivityManager connectivitymanager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivitymanager = (ConnectivityManager) getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkinfo = connectivitymanager.getActiveNetworkInfo();
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
@@ -51,11 +53,9 @@ public class SplashActivity extends AppCompatActivity {
                 diaLog.setContentView(R.layout.alert_dialog);
                 diaLog.setCanceledOnTouchOutside(false);
                 diaLog.getWindow()
-                      .setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                diaLog.getWindow()
-                      .setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                diaLog.getWindow()
-                      .getAttributes().windowAnimations = android.R.style.Animation_Dialog;
+                        .setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                diaLog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                diaLog.getWindow().getAttributes().windowAnimations = android.R.style.Animation_Dialog;
                 Button btTryagain = diaLog.findViewById(R.id.try_again_button);
                 btTryagain.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -67,8 +67,10 @@ public class SplashActivity extends AppCompatActivity {
                 diaLog.show();
             } else {
                 if (checkIfUserIsAlreadySignedIn()) {
-                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-                    boolean isPatient = sharedPreferences.getBoolean(SharedPreferencesInfo.PREF_IS_USER_PATIENT, true);
+                    SharedPreferences sharedPreferences = PreferenceManager
+                            .getDefaultSharedPreferences(context);
+                    boolean isPatient = sharedPreferences
+                            .getBoolean(SharedPreferencesInfo.PREF_IS_USER_PATIENT, true);
 
                     Intent intent = isPatient ? new Intent(SplashActivity.this, PatientPortalActivity.class) : new Intent(SplashActivity.this, DoctorPortalActivity.class);
 

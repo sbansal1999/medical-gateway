@@ -34,20 +34,13 @@ public class CheckReportsPatientActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mBinding = ActivityCheckReportsBinding.inflate(getLayoutInflater());
+        rootRef = FirebaseDatabase.getInstance().getReference();
 
-
-        rootRef = FirebaseDatabase.getInstance()
-                                  .getReference();
-
-        String uid = FirebaseAuth.getInstance()
-                                 .getUid();
+        String uid = FirebaseAuth.getInstance().getUid();
 
 
         if (uid != null) {
-            Query query = rootRef.child(CHILD_NAME)
-                                 .child(uid)
-                                 .child("reports")
-                                 .limitToLast(DB_LIMIT);
+            Query query = rootRef.child(CHILD_NAME).child(uid).child("reports").limitToLast(DB_LIMIT);
 
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -63,9 +56,8 @@ public class CheckReportsPatientActivity extends AppCompatActivity {
                 }
             });
 
-
-            FirebaseRecyclerOptions<Reports> options = new FirebaseRecyclerOptions.Builder<Reports>().setQuery(query, Reports.class)
-                                                                                                     .build();
+            FirebaseRecyclerOptions<Reports> options = new FirebaseRecyclerOptions.Builder<Reports>()
+                    .setQuery(query, Reports.class).build();
 
             adapter = new ReportsAdapter(options, this);
 

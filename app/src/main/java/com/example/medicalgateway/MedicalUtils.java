@@ -20,13 +20,13 @@ public class MedicalUtils {
      * @return true if online else false
      */
     public static boolean isOnline(@NotNull Context context, boolean displayToast) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) context
+                .getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
         boolean isOnline = networkInfo != null && networkInfo.isConnectedOrConnecting();
         if (!isOnline && displayToast) {
-            Toast.makeText(context, "Connect to Internet to continue", Toast.LENGTH_SHORT)
-                 .show();
+            Toast.makeText(context, "Connect to Internet to continue", Toast.LENGTH_SHORT).show();
         }
         return isOnline;
     }
@@ -39,9 +39,7 @@ public class MedicalUtils {
      */
     @NotNull
     public static String getTextFromTextInputLayout(@NotNull TextInputLayout textInputLayout) {
-        return textInputLayout.getEditText()
-                              .getText()
-                              .toString();
+        return textInputLayout.getEditText().getText().toString();
 
     }
 
@@ -54,8 +52,7 @@ public class MedicalUtils {
     public static void setTextInTextInputLayout(@NotNull TextInputLayout textInputLayout,
                                                 String string) {
         if (textInputLayout.getEditText() != null) {
-            textInputLayout.getEditText()
-                           .setText(string);
+            textInputLayout.getEditText().setText(string);
         }
     }
 

@@ -91,16 +91,18 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 mBinding.textPhoneNumber.setError("Invalid mobile number");
             }
             Toast.makeText(RegisterActivity.this, "Phone Number Verification Failed", Toast.LENGTH_SHORT)
-                 .show();
+                    .show();
             mBinding.progressCircular.setVisibility(View.INVISIBLE);
         }
 
         @Override
-        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+        public void onCodeSent(@NonNull String s,
+                               @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
             displayLog("OTP Sent");
-            Toast.makeText(RegisterActivity.this, "An OTP has been sent to " + getTextFromTextInputLayout(mBinding.textPhoneNumber), Toast.LENGTH_SHORT)
-                 .show();
+            Toast
+                    .makeText(RegisterActivity.this, "An OTP has been sent to " + getTextFromTextInputLayout(mBinding.textPhoneNumber), Toast.LENGTH_SHORT)
+                    .show();
             mVerificationId = s;
             mToken = forceResendingToken;
             showPopUp();
@@ -127,33 +129,30 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void signInWithPhoneAuthCredential(PhoneAuthCredential phoneAuthCredential) {
         displayLog("signing in");
 
-        mFirebaseAuth.signInWithCredential(phoneAuthCredential)
-                     .addOnCompleteListener(this, task -> {
-                         if (task.isSuccessful()) {
-                             alertDialog.dismiss();
-                             //Correct OTP entered
-                             addIntoDatabase(task);
-                             storeDataInSharedPreferences();
+        mFirebaseAuth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                alertDialog.dismiss();
+                //Correct OTP entered
+                addIntoDatabase(task);
+                storeDataInSharedPreferences();
 
-                             Intent intent = new Intent(this, PatientPortalActivity.class);
+                Intent intent = new Intent(this, PatientPortalActivity.class);
 
-                             Toast.makeText(this, "Successfully Registered", Toast.LENGTH_SHORT)
-                                  .show();
+                Toast.makeText(this, "Successfully Registered", Toast.LENGTH_SHORT).show();
 
-                             Bundle bundle = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? ActivityOptions.makeSceneTransitionAnimation(this)
-                                                                                                                    .toBundle() : null;
-                             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                             startActivity(intent, bundle);
-                             finish();
-                         } else {
-                             //Incorrect OTP entered
-                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                 alertDialog.findViewById(R.id.text_otp_warning)
-                                            .setVisibility(View.VISIBLE);
-                             }
+                Bundle bundle = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? ActivityOptions
+                        .makeSceneTransitionAnimation(this).toBundle() : null;
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent, bundle);
+                finish();
+            } else {
+                //Incorrect OTP entered
+                if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                    alertDialog.findViewById(R.id.text_otp_warning).setVisibility(View.VISIBLE);
+                }
 
-                         }
-                     });
+            }
+        });
 
     }
 
@@ -167,27 +166,27 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         Gson gson = new Gson();
         String json = gson.toJson(userInfo);
         editor.putString(SharedPreferencesInfo.PREF_CURRENT_USER_INFO, json);
+
+        editor.putBoolean(SharedPreferencesInfo.PREF_IS_USER_PATIENT, true);
+
         editor.apply();
     }
 
     private void addIntoDatabase(@NotNull Task<AuthResult> task) {
         if (task.getResult() != null) {
-            FirebaseUser firebaseUser = task.getResult()
-                                            .getUser();
+            FirebaseUser firebaseUser = task.getResult().getUser();
 
             if (firebaseUser != null) {
-                DatabaseReference childReference = rootRef.child(CHILD_NAME)
-                                                          .child(firebaseUser.getUid());
+                DatabaseReference childReference = rootRef.child(CHILD_NAME).child(firebaseUser.getUid());
                 childReference.setValue(userInfo);
 
-                UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(userInfo.getName())
-                                                                                                          .build();
+                UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder()
+                        .setDisplayName(userInfo.getName()).build();
 
                 firebaseUser.updateProfile(userProfileChangeRequest);
             }
         } else {
-            Toast.makeText(this, "Something wrong happened", Toast.LENGTH_SHORT)
-                 .show();
+            Toast.makeText(this, "Something wrong happened", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -201,8 +200,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         mBinding.editTextDob.setOnClickListener(this);
 
-        rootRef = FirebaseDatabase.getInstance()
-                                  .getReference();
+        rootRef = FirebaseDatabase.getInstance().getReference();
 
         //Retrieve data from savedInstanceState if any
         if (savedInstanceState != null) {
@@ -256,34 +254,33 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void doUserAlreadyRegisteredCheck() {
         enteredPhoneNumber = getTextFromTextInputLayout(mBinding.textPhoneNumber);
 
-        rootRef.child(CHILD_NAME)
-               .orderByChild("phone")
-               .equalTo(enteredPhoneNumber)
-               .addListenerForSingleValueEvent(new ValueEventListener() {
-                   @Override
-                   public void onDataChange(@NonNull DataSnapshot snapshot) {
-                       if (snapshot.exists()) {
-                           //Old User
-                           Toast.makeText(RegisterActivity.this, "You are Already Registered. Redirecting to Login", Toast.LENGTH_SHORT)
-                                .show();
-                           Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                           intent.putExtra(EXTRA_PHONE_NUMBER, enteredPhoneNumber);
-                           intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                           startActivity(intent);
-                           finish();
-                       } else {
-                           //New User
-                           mBinding.progressCircular.setVisibility(View.VISIBLE);
-                           createUserInfo();
-                           doFirebaseOperations();
-                       }
-                   }
+        rootRef.child(CHILD_NAME).orderByChild("phone").equalTo(enteredPhoneNumber)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            //Old User
+                            Toast
+                                    .makeText(RegisterActivity.this, "You are Already Registered. Redirecting to Login", Toast.LENGTH_SHORT)
+                                    .show();
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            intent.putExtra(EXTRA_PHONE_NUMBER, enteredPhoneNumber);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            //New User
+                            mBinding.progressCircular.setVisibility(View.VISIBLE);
+                            createUserInfo();
+                            doFirebaseOperations();
+                        }
+                    }
 
-                   @Override
-                   public void onCancelled(@NonNull DatabaseError error) {
-                       displayLog(error.getMessage());
-                   }
-               });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        displayLog(error.getMessage());
+                    }
+                });
     }
 
     /**
@@ -341,7 +338,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if (!checkTC) {
             Toast.makeText(this, "Please Accept Terms & Conditions to continue", Toast.LENGTH_SHORT)
-                 .show();
+                    .show();
         }
 
         return checkNum && checkEMail && checkTC && checkAddress;
@@ -381,11 +378,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void showPopUp() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setView(getLayoutInflater().inflate(R.layout.dialog_verify_phone, mBinding.getRoot(), false))
-               .setCancelable(false)
-               .setPositiveButton("Verify OTP", null)
-               .setNeutralButton("Resend OTP", null)
-               .setNegativeButton("Change number", (dialog, which) -> mBinding.textPhoneNumber.setEnabled(true));
+        builder
+                .setView(getLayoutInflater().inflate(R.layout.dialog_verify_phone, mBinding.getRoot(), false))
+                .setCancelable(false).setPositiveButton("Verify OTP", null)
+                .setNeutralButton("Resend OTP", null)
+                .setNegativeButton("Change number", (dialog, which) -> mBinding.textPhoneNumber
+                        .setEnabled(true));
 
         alertDialog = builder.create();
 
@@ -395,10 +393,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         alertDialog.show();
 
         //To avoid closing the dialog after the button is clicked.
-        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE)
-                   .setOnClickListener(v -> verifyOTP());
-        alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL)
-                   .setOnClickListener(v -> resendOTP());
+        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> verifyOTP());
+        alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL).setOnClickListener(v -> resendOTP());
 
         editTextOTP = alertDialog.findViewById(R.id.edit_otp);
     }
@@ -411,11 +407,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         showSnackbar("Verifying Phone Number");
 
         PhoneAuthOptions authOptions = PhoneAuthOptions.newBuilder(mFirebaseAuth)
-                                                       .setPhoneNumber(getString(R.string.country_code) + userInfo.getPhone())
-                                                       .setTimeout(60L, TimeUnit.SECONDS)
-                                                       .setActivity(this)
-                                                       .setCallbacks(mCallBacks)
-                                                       .build();
+                .setPhoneNumber(getString(R.string.country_code) + userInfo.getPhone())
+                .setTimeout(60L, TimeUnit.SECONDS).setActivity(this).setCallbacks(mCallBacks).build();
 
         PhoneAuthProvider.verifyPhoneNumber(authOptions);
     }
@@ -426,8 +419,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * @param message the text to be displayed
      */
     private void showSnackbar(String message) {
-        Snackbar.make(mBinding.getRoot(), message, BaseTransientBottomBar.LENGTH_SHORT)
-                .show();
+        Snackbar.make(mBinding.getRoot(), message, BaseTransientBottomBar.LENGTH_SHORT).show();
     }
 
     private void displayLog(String message) {
@@ -463,8 +455,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         //Sample Date  - 05-05-2021
         if (mBinding.textDob.getEditText() != null) {
-            mBinding.textDob.getEditText()
-                            .setText(message);
+            mBinding.textDob.getEditText().setText(message);
         }
     }
 
@@ -489,11 +480,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      */
     public void verifyOTP() {
         String enteredOTP = "1";
-        if (!editTextOTP.getText()
-                        .toString()
-                        .isEmpty()) {
-            enteredOTP = editTextOTP.getText()
-                                    .toString();
+        if (!editTextOTP.getText().toString().isEmpty()) {
+            enteredOTP = editTextOTP.getText().toString();
         }
 
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationId, enteredOTP);
@@ -509,12 +497,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         showSnackbar("Resending OTP");
 
         PhoneAuthOptions authOptions = PhoneAuthOptions.newBuilder(mFirebaseAuth)
-                                                       .setPhoneNumber(getString(R.string.country_code) + userInfo.getPhone())
-                                                       .setTimeout(60L, TimeUnit.SECONDS)
-                                                       .setActivity(this)
-                                                       .setForceResendingToken(mToken)
-                                                       .setCallbacks(mCallBacks)
-                                                       .build();
+                .setPhoneNumber(getString(R.string.country_code) + userInfo.getPhone())
+                .setTimeout(60L, TimeUnit.SECONDS).setActivity(this).setForceResendingToken(mToken)
+                .setCallbacks(mCallBacks).build();
 
         PhoneAuthProvider.verifyPhoneNumber(authOptions);
     }
@@ -555,8 +540,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             outState.putBoolean(BUNDLE_ALERT_DIALOG, true);
             EditText editTextOTP = alertDialog.findViewById(R.id.edit_otp);
             if (editTextOTP != null) {
-                outState.putString(BUNDLE_OTP, editTextOTP.getText()
-                                                          .toString());
+                outState.putString(BUNDLE_OTP, editTextOTP.getText().toString());
             }
         }
     }
@@ -568,7 +552,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * @param textInputLayout the {@link TextInputLayout} to which the text is to be extracted
      * @param key             the key will be used to extract value from outState
      */
-    private void storeStringInOutState(@NonNull Bundle outState, TextInputLayout textInputLayout, String key) {
+    private void storeStringInOutState(@NonNull Bundle outState, TextInputLayout textInputLayout,
+                                       String key) {
         if (!getTextFromTextInputLayout(textInputLayout).isEmpty()) {
             outState.putString(key, getTextFromTextInputLayout(textInputLayout));
         }
@@ -581,7 +566,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * @param textInputLayout    the {@link TextInputLayout} in which the text is to entered
      * @param key                the key will be used to extract value from savedInstanceState
      */
-    private void setEditTextValueFromInstanceState(Bundle savedInstanceState, TextInputLayout textInputLayout, String key) {
+    private void setEditTextValueFromInstanceState(Bundle savedInstanceState,
+                                                   TextInputLayout textInputLayout, String key) {
         setTextInTextInputLayout(textInputLayout, savedInstanceState.getString(key));
 
     }

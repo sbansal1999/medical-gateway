@@ -25,15 +25,13 @@ public class DoctorInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = ActivityDoctorsInfoBinding.inflate(getLayoutInflater());
 
-        rootRef = FirebaseDatabase.getInstance()
-                                  .getReference();
+        rootRef = FirebaseDatabase.getInstance().getReference();
 
-        Query query = rootRef.child(CHILD_NAME)
-                             .limitToLast(DB_LIMIT);
+        Query query = rootRef.child(CHILD_NAME).limitToLast(DB_LIMIT);
 
 
-        FirebaseRecyclerOptions<DoctorInfo> options = new FirebaseRecyclerOptions.Builder<DoctorInfo>().setQuery(query, DoctorInfo.class)
-                                                                                                       .build();
+        FirebaseRecyclerOptions<DoctorInfo> options = new FirebaseRecyclerOptions.Builder<DoctorInfo>()
+                .setQuery(query, DoctorInfo.class).build();
 
         adapter = new DoctorInfoAdapter(options);
         mBinding.recyclerDoctor.setLayoutManager(new GridLayoutManager(this, 2));

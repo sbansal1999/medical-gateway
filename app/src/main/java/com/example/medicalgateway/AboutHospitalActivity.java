@@ -1,8 +1,8 @@
 package com.example.medicalgateway;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AboutHospitalActivity extends AppCompatActivity {
 

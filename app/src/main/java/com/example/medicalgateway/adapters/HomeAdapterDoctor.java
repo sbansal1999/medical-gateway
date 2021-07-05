@@ -16,7 +16,6 @@ import com.example.medicalgateway.PatientAppointDoctorActivity;
 import com.example.medicalgateway.R;
 import com.example.medicalgateway.UpcomingAppointDoctorActivity;
 import com.example.medicalgateway.datamodels.HomeDataModel;
-import com.example.medicalgateway.datamodels.PatientAppointment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,35 +44,30 @@ public class HomeAdapterDoctor extends RecyclerView.Adapter<HomeAdapterDoctor.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final HomeDataModel temp = data.get(position);
 
-        holder.getTextMedName()
-              .setText(data.get(position)
-                           .getMed_name());
-        holder.getImageMed()
-              .setImageResource(data.get(position)
-                                    .getImg_name());
-        holder.getWholeView()
-              .setOnClickListener(v -> {
-                  switch (position) {
-                      case 0: {
-                          Intent intent = new Intent(context, CheckReportsDoctorActivity.class);
-                          intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                          context.startActivity(intent);
-                          break;
-                      }
-                      case 1: {
-                          Intent intent1 = new Intent(context, UpcomingAppointDoctorActivity.class);
-                          intent1.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                          context.startActivity(intent1);
-                          break;
-                      }
-                      case 2: {
-                          Intent intent2 = new Intent(context, PatientAppointDoctorActivity.class);
-                          intent2.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                          context.startActivity(intent2);
-                          break;
-                      }
-                  }
-              });
+        holder.getTextMedName().setText(data.get(position).getMed_name());
+        holder.getImageMed().setImageResource(data.get(position).getImg_name());
+        holder.getWholeView().setOnClickListener(v -> {
+            switch (position) {
+                case 0: {
+                    Intent intent = new Intent(context, CheckReportsDoctorActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    context.startActivity(intent);
+                    break;
+                }
+                case 1: {
+                    Intent intent1 = new Intent(context, UpcomingAppointDoctorActivity.class);
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    context.startActivity(intent1);
+                    break;
+                }
+                case 2: {
+                    Intent intent2 = new Intent(context, PatientAppointDoctorActivity.class);
+                    intent2.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    context.startActivity(intent2);
+                    break;
+                }
+            }
+        });
 
 
     }

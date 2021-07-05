@@ -182,7 +182,6 @@
                 app:layout_constraintStart_toStartOf="@+id/text_phone_patient_value"
                 app:layout_constraintTop_toTopOf="@+id/image_email" />
 
-
             <TextView
                 android:id="@+id/text_email_patient_value"
                 android:layout_width="0dp"

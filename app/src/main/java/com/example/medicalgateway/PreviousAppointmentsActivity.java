@@ -35,16 +35,12 @@ public class PreviousAppointmentsActivity extends AppCompatActivity {
 
         mBinding = ActivityPreviousAppointmentsBinding.inflate(getLayoutInflater());
 
-        rootRef = FirebaseDatabase.getInstance()
-                                  .getReference();
+        rootRef = FirebaseDatabase.getInstance().getReference();
 
-        String uid = FirebaseAuth.getInstance()
-                                 .getUid();
+        String uid = FirebaseAuth.getInstance().getUid();
 
         if (uid != null) {
-            Query query = rootRef.child(CHILD_NAME)
-                                 .child(uid)
-                                 .limitToLast(DB_LIMIT);
+            Query query = rootRef.child(CHILD_NAME).child(uid).limitToLast(DB_LIMIT);
 
             query.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -60,8 +56,8 @@ public class PreviousAppointmentsActivity extends AppCompatActivity {
                 }
             });
 
-            FirebaseRecyclerOptions<PatientAppointment> options = new FirebaseRecyclerOptions.Builder<PatientAppointment>().setQuery(query, PatientAppointment.class)
-                                                                                                                           .build();
+            FirebaseRecyclerOptions<PatientAppointment> options = new FirebaseRecyclerOptions.Builder<PatientAppointment>()
+                    .setQuery(query, PatientAppointment.class).build();
 
             adapter = new CheckAppointmentsPatientAdapter(options);
 

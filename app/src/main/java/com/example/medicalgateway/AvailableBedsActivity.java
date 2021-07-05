@@ -25,6 +25,5 @@ public class AvailableBedsActivity extends AppCompatActivity {
         toolbar1.setTitleTextColor(Color.WHITE);
         toolbar1.setTitleMarginStart(10);
 
-
     }
 }

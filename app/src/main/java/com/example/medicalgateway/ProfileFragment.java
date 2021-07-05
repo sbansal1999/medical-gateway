@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -76,10 +75,12 @@ public class ProfileFragment extends Fragment {
         mBinding = FragmentProfilePatientBinding.inflate(inflater, container, false);
 
         View root = getActivity().findViewById(android.R.id.content);
-        Snackbar.make(root, "Fetching Data", BaseTransientBottomBar.LENGTH_SHORT)
-                .show();
+        Snackbar.make(root, "Fetching Data", BaseTransientBottomBar.LENGTH_SHORT).show();
 
-        adapter = ArrayAdapter.createFromResource(getContext(), R.array.blood_groups, android.R.layout.simple_spinner_item);
+        rootRef = FirebaseDatabase.getInstance().getReference();
+
+        adapter = ArrayAdapter
+                .createFromResource(getContext(), R.array.blood_groups, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         mBinding.spinnerBloodGroup.setAdapter(adapter);
@@ -94,24 +95,21 @@ public class ProfileFragment extends Fragment {
             EditText userInput = promptsView.findViewById(R.id.editTextDialogUserInput);
 
             // set dialog message
-            alertDialogBuilder.setCancelable(false)
-                              .setPositiveButton("Change Address", (dialog, id) -> {
-                                  // get user input and set it to result
-                                  mBinding.textAddressPatientValue.setText(userInput.getText());
-                              })
-                              .setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
+            alertDialogBuilder.setCancelable(false).setPositiveButton("Change Address", (dialog, id) -> {
+                // get user input and set it to result
+                mBinding.textAddressPatientValue.setText(userInput.getText());
+            }).setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
             // create alert dialog
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
 
         });
         mBinding.buttonUploadImage.setOnClickListener(v -> uploadImage());
-
         mBinding.buttonSave.setOnClickListener(v -> saveChanges());
-
         mBinding.buttonLogout.setOnClickListener(v -> showLogoutPopup());
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
         if (sharedPreferences.contains(SharedPreferencesInfo.PREF_CURRENT_USER_INFO)) {
             UserInfo userInfo = getUserInfoFromSharedPreferences();
             setValuesFromUserInfo(userInfo);
@@ -122,22 +120,17 @@ public class ProfileFragment extends Fragment {
 
         updateAddress();
 
-        Uri photoUrl = FirebaseAuth.getInstance()
-                                   .getCurrentUser()
-                                   .getPhotoUrl();
+        Uri photoUrl = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
 
         if (photoUrl != null) {
-            Picasso.get()
-                   .load(photoUrl)
-                   .into(mBinding.circularImageView);
+            Picasso.get().load(photoUrl).into(mBinding.circularImageView);
         }
 
         return mBinding.getRoot();
     }
 
     private void updateAddress() {
-        String uid = FirebaseAuth.getInstance()
-                                 .getUid();
+        String uid = FirebaseAuth.getInstance().getUid();
 
         if (uid != null) {
             String child = CHILD_NAME_PATIENT;
@@ -145,40 +138,33 @@ public class ProfileFragment extends Fragment {
                 child = CHILD_NAME_DOCTOR;
             }
 
-            rootRef.child(child)
-                   .child(uid)
-                   .child(CHILD_NAME_RES_ADD)
-                   .addListenerForSingleValueEvent(new ValueEventListener() {
-                       @Override
-                       public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                           if (snapshot.exists()) {
-                               mBinding.textAddressPatientValue.setText(snapshot.getValue()
-                                                                                .toString());
-                           }
-                       }
+            rootRef.child(child).child(uid).child(CHILD_NAME_RES_ADD)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                mBinding.textAddressPatientValue.setText(snapshot.getValue().toString());
+                            }
+                        }
 
-                       @Override
-                       public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-                       }
-                   });
+                        }
+                    });
         }
-
-
     }
 
     private void showLogoutPopup() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setMessage(R.string.logout_warning)
-               .setTitle(R.string.logout);
+        builder.setMessage(R.string.logout_warning).setTitle(R.string.logout);
 
         builder.setPositiveButton(R.string.yes, (dialog, which) -> {
-            FirebaseAuth.getInstance()
-                        .signOut();
+            FirebaseAuth.getInstance().signOut();
 
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext())
-                                                               .edit();
+                    .edit();
             editor.clear();
             editor.apply();
 
@@ -195,36 +181,34 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void changeDOBFormat() {
-        TextView dobPatientValue = mBinding.textDobPatientValue;
-
-        String current = dobPatientValue.getText()
-                                        .toString();
-
-        int indexFirst = current.indexOf("-");
-        int indexSecond = current.indexOf("-", indexFirst + 1);
-
-        String result = current.substring(0, indexFirst) + " ";
-
-        int month = indexSecond - indexFirst == 2 ? Integer.parseInt(current.charAt(indexFirst + 1) + "") : Integer.parseInt(current.substring(indexFirst + 1, indexSecond));
-
-        String mName = getMonthName(month);
-        result += mName + " ";
-
-        result += current.substring(indexSecond + 1);
-
-        dobPatientValue.setText(result);
-    }
+//    private void changeDOBFormat() {
+//        TextView dobPatientValue = mBinding.textDobPatientValue;
+//
+//        String current = dobPatientValue.getText()
+//                                        .toString();
+//
+//        int indexFirst = current.indexOf("-");
+//        int indexSecond = current.indexOf("-", indexFirst + 1);
+//
+//        String result = current.substring(0, indexFirst) + " ";
+//
+//        int month = indexSecond - indexFirst == 2 ? Integer.parseInt(current.charAt(indexFirst + 1) + "") : Integer.parseInt(current.substring(indexFirst + 1, indexSecond));
+//
+//        String mName = getMonthName(month);
+//        result += mName + " ";
+//
+//        result += current.substring(indexSecond + 1);
+//
+//        dobPatientValue.setText(result);
+//    }
 
     /**
      * Fetches Data from Firebase DB and updates it as well
      */
     private void fetchDataFromFirebase() {
-        String uid = FirebaseAuth.getInstance()
-                                 .getUid();
+        String uid = FirebaseAuth.getInstance().getUid();
 
-        rootRef = FirebaseDatabase.getInstance()
-                                  .getReference();
+        rootRef = FirebaseDatabase.getInstance().getReference();
 
         if (uid != null) {
 
@@ -234,60 +218,54 @@ public class ProfileFragment extends Fragment {
             }
 
 
-            rootRef.child(child)
-                   .child(uid)
-                   .addValueEventListener(new ValueEventListener() {
-                       @Override
-                       public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                           if (snapshot.exists()) {
-                               UserInfo userInfo = snapshot.getValue(UserInfo.class);
+            rootRef.child(child).child(uid).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        UserInfo userInfo = snapshot.getValue(UserInfo.class);
 
-                               setValuesFromUserInfo(userInfo);
+                        setValuesFromUserInfo(userInfo);
 
-                               DatabaseReference childRef = rootRef.child(CHILD_NAME_BLOOD_GRP)
-                                                                   .child(uid);
+                        DatabaseReference childRef = rootRef.child(CHILD_NAME_BLOOD_GRP).child(uid);
 
-                               //TODO add this data to shared pref to save data
+                        //TODO add this data to shared pref to save data
 
-                               childRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                   @Override
-                                   public void onDataChange(
-                                           @NonNull @NotNull DataSnapshot snapshot) {
-                                       if (snapshot.getValue() == null) {
-                                           mBinding.spinnerBloodGroup.setSelection(0);
-                                       } else {
-                                           String bloodGrp = snapshot.getValue()
-                                                                     .toString();
+                        childRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                if (snapshot.getValue() == null) {
+                                    mBinding.spinnerBloodGroup.setSelection(0);
+                                } else {
+                                    String bloodGrp = snapshot.getValue().toString();
 
-                                           setBloodGrpSpinner(bloodGrp);
+                                    setBloodGrpSpinner(bloodGrp);
 
-                                           SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity())
-                                                                                              .edit();
+                                    SharedPreferences.Editor editor = PreferenceManager
+                                            .getDefaultSharedPreferences(getActivity()).edit();
 
-                                           editor.putString(SharedPreferencesInfo.PREF_CURRENT_USER_BLOOD_GROUP, bloodGrp);
-                                           editor.apply();
-                                       }
-                                   }
+                                    editor.putString(SharedPreferencesInfo.PREF_CURRENT_USER_BLOOD_GROUP, bloodGrp);
+                                    editor.apply();
+                                }
+                            }
 
-                                   @Override
-                                   public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                            @Override
+                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-                                   }
-                               });
-                           }
-                       }
+                            }
+                        });
+                    }
+                }
 
-                       @Override
-                       public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-                       }
-                   });
+                }
+            });
         }
     }
 
     private void showToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT)
-             .show();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -306,18 +284,15 @@ public class ProfileFragment extends Fragment {
      * Updates the changes made by the user to the Firebase DB
      */
     public void saveChanges() {
-        String address = mBinding.textAddressPatientValue.getText()
-                                                         .toString();
-        String bloodGroup = mBinding.spinnerBloodGroup.getSelectedItem()
-                                                      .toString();
+        String address = mBinding.textAddressPatientValue.getText().toString();
+        String bloodGroup = mBinding.spinnerBloodGroup.getSelectedItem().toString();
 
-        boolean uploadGroup = !bloodGroup.equals(getResources().getStringArray(R.array.blood_groups)[0]);
+        boolean uploadGroup = !bloodGroup
+                .equals(getResources().getStringArray(R.array.blood_groups)[0]);
 
-        rootRef = FirebaseDatabase.getInstance()
-                                  .getReference();
+        rootRef = FirebaseDatabase.getInstance().getReference();
 
-        String uid = FirebaseAuth.getInstance()
-                                 .getUid();
+        String uid = FirebaseAuth.getInstance().getUid();
 
         if (uid != null) {
             showToast("Saving Changes");
@@ -329,31 +304,24 @@ public class ProfileFragment extends Fragment {
                 childPath = CHILD_NAME_DOCTOR;
             }
 
-            rootRef.child(childPath)
-                   .child(uid)
-                   .child("residentialAddress")
-                   .setValue(address)
-                   .addOnSuccessListener(e -> status[0] = true);
+            rootRef.child(childPath).child(uid).child("residentialAddress").setValue(address)
+                    .addOnSuccessListener(e -> status[0] = true);
 
 
             if (uploadGroup) {
-                rootRef.child(CHILD_NAME_BLOOD_GRP)
-                       .child(uid)
-                       .setValue(bloodGroup)
-                       .addOnSuccessListener(e -> status[0] = true);
+                rootRef.child(CHILD_NAME_BLOOD_GRP).child(uid).setValue(bloodGroup)
+                        .addOnSuccessListener(e -> status[0] = true);
 
-                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity())
-                                                                   .edit();
+                SharedPreferences.Editor editor = PreferenceManager
+                        .getDefaultSharedPreferences(getActivity()).edit();
 
                 editor.putString(SharedPreferencesInfo.PREF_CURRENT_USER_BLOOD_GROUP, bloodGroup);
                 editor.apply();
             }
 
             if (imageChanged) {
-                StorageReference strRef = FirebaseStorage.getInstance()
-                                                         .getReference()
-                                                         .child(uid)
-                                                         .child("profile_pic.jpg");
+                StorageReference strRef = FirebaseStorage.getInstance().getReference().child(uid)
+                        .child("profile_pic.jpg");
 
                 BitmapDrawable drawable = (BitmapDrawable) mBinding.circularImageView.getDrawable();
                 Bitmap bitmap = drawable.getBitmap();
@@ -367,24 +335,19 @@ public class ProfileFragment extends Fragment {
                 String finalChildPath = childPath;
 
                 uploadTask.addOnFailureListener(e -> showToast("Some Error Occurred During Saving Data"))
-                          .addOnSuccessListener(taskSnapshot -> strRef.getDownloadUrl()
-                                                                      .addOnSuccessListener(uri -> {
-                                                                          UserProfileChangeRequest request = new UserProfileChangeRequest.Builder().setPhotoUri(uri)
-                                                                                                                                                   .build();
-                                                                          FirebaseAuth.getInstance()
-                                                                                      .getCurrentUser()
-                                                                                      .updateProfile(request)
-                                                                                      .addOnSuccessListener(unused -> status[0] = true);
+                        .addOnSuccessListener(taskSnapshot -> strRef.getDownloadUrl()
+                                .addOnSuccessListener(uri -> {
+                                    UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                                            .setPhotoUri(uri).build();
+                                    FirebaseAuth.getInstance().getCurrentUser().updateProfile(request)
+                                            .addOnSuccessListener(unused -> status[0] = true);
 
 
-                                                                          if (finalChildPath.equals(CHILD_NAME_DOCTOR)) {
-                                                                              rootRef.child(finalChildPath)
-                                                                                     .child(uid)
-                                                                                     .child("photoURL")
-                                                                                     .setValue(uri.toString());
-                                                                          }
+                                    if (finalChildPath.equals(CHILD_NAME_DOCTOR)) {
+                                        rootRef.child(finalChildPath).child(uid).child("photoURL").setValue(uri.toString());
+                                    }
 
-                                                                      }));
+                                }));
             }
 
             if (status[0]) {
@@ -404,12 +367,14 @@ public class ProfileFragment extends Fragment {
     }
 
     private UserInfo getUserInfoFromSharedPreferences() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
         String json = sharedPreferences.getString(SharedPreferencesInfo.PREF_CURRENT_USER_INFO, null);
 
         //Check if blood grp exists
         if (sharedPreferences.contains(SharedPreferencesInfo.PREF_CURRENT_USER_BLOOD_GROUP)) {
-            setBloodGrpSpinner(sharedPreferences.getString(SharedPreferencesInfo.PREF_CURRENT_USER_BLOOD_GROUP, "--"));
+            setBloodGrpSpinner(sharedPreferences
+                    .getString(SharedPreferencesInfo.PREF_CURRENT_USER_BLOOD_GROUP, "--"));
         }
 
         Gson gson = new Gson();
@@ -421,10 +386,8 @@ public class ProfileFragment extends Fragment {
      */
     private void uploadImage() {
         if (getContext() != null) {
-            CropImage.activity()
-                     .setMinCropResultSize(IMAGE_DIMEN / 2, IMAGE_DIMEN / 2)
-                     .setMaxCropResultSize(IMAGE_DIMEN, IMAGE_DIMEN)
-                     .start(getContext(), this);
+            CropImage.activity().setMinCropResultSize(IMAGE_DIMEN / 2, IMAGE_DIMEN / 2)
+                    .setMaxCropResultSize(IMAGE_DIMEN, IMAGE_DIMEN).start(getContext(), this);
         }
         imageChanged = true;
     }

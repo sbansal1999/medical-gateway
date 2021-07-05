@@ -43,7 +43,8 @@ public class HomeFragmentDoctor extends Fragment {
         binding.buttonBookAppointment.setOnClickListener(view -> {
             Fragment book_appointment_fragment = new BookAppointmentFragment();
             FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-            transaction.replace(((ViewGroup) getView().getParent()).getId(), book_appointment_fragment); // give your fragment container id in first parameter
+            transaction.replace(((ViewGroup) getView().getParent())
+                    .getId(), book_appointment_fragment); // give your fragment container id in first parameter
             transaction.addToBackStack(null);  // if written, this transaction will be added to back-stack
             transaction.commit();
         });
@@ -53,8 +54,7 @@ public class HomeFragmentDoctor extends Fragment {
 
         binding.viewPagerImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 highlightDot(position);
             }
 

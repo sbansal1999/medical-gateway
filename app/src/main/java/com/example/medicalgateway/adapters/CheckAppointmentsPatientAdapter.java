@@ -34,22 +34,17 @@ public class CheckAppointmentsPatientAdapter extends FirebaseRecyclerAdapter<Pat
             @NonNull @NotNull PatientAppointment model) {
         String appointDate = model.getDateAppoint();
 
-        holder.getTextAppointDate()
-              .setText(convertDate(appointDate));
+        holder.getTextAppointDate().setText(convertDate(appointDate));
 
-        holder.getTextPrefDoc()
-              .setText(model.getPrefDoctor());
-        holder.getTextProblemDesc()
-              .setText(model.getProblemDesc());
+        holder.getTextPrefDoc().setText(model.getPrefDoctor());
+        holder.getTextProblemDesc().setText(model.getProblemDesc());
 
         boolean appStatus = model.isAppointmentFulfilled();
 
         if (appStatus) {
-            holder.getTextAppStatus()
-                  .setText(R.string.fulfilled);
+            holder.getTextAppStatus().setText(R.string.fulfilled);
         } else {
-            holder.getTextAppStatus()
-                  .setText(R.string.not_fulfilled);
+            holder.getTextAppStatus().setText(R.string.not_fulfilled);
         }
 
     }
@@ -60,12 +55,13 @@ public class CheckAppointmentsPatientAdapter extends FirebaseRecyclerAdapter<Pat
     public CheckAppointmentsPatientAdapter.ViewHolder onCreateViewHolder(
             @NonNull @NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                                  .inflate(R.layout.appointment_info_item, parent, false);
+                .inflate(R.layout.appointment_info_item, parent, false);
         return new ViewHolder(view);
     }
 
     /**
      * Method to convert date from DD-MM-YYYY to DD MonthName YYYY
+     *
      * @param inputDate the date to be converted
      * @return the converted date
      */

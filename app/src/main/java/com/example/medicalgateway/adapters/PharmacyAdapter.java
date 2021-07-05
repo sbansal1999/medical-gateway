@@ -28,26 +28,19 @@ public class PharmacyAdapter extends FirebaseRecyclerAdapter<MedicineInfo, Pharm
     @Override
     protected void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position,
                                     @NonNull @NotNull MedicineInfo model) {
-        holder.getTextMedName()
-              .setText(model.getName());
-        holder.getTextMedPrice()
-              .setText(model.getPrice());
-        holder.getTextMedUnit()
-              .setText(model.getUnit());
-        holder.getTextMedMfgBy()
-              .setText(model.getMfgBy());
-        holder.getTextMedCtg()
-              .setText(model.getCategory());
+        holder.getTextMedName().setText(model.getName());
+        holder.getTextMedPrice().setText(model.getPrice());
+        holder.getTextMedUnit().setText(model.getUnit());
+        holder.getTextMedMfgBy().setText(model.getMfgBy());
+        holder.getTextMedCtg().setText(model.getCategory());
 
-        Picasso.get()
-               .load(model.getPhotoURL())
-               .into(holder.getImageMedicine(),new Callback.EmptyCallback(){
-                   @Override
-                   public void onSuccess() {
-                       holder.getProgressLoading()
-                             .setVisibility(View.INVISIBLE);
-                   }
-               });
+        Picasso.get().load(model.getPhotoURL())
+                .into(holder.getImageMedicine(), new Callback.EmptyCallback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.getProgressLoading().setVisibility(View.INVISIBLE);
+                    }
+                });
     }
 
     @NonNull
@@ -56,7 +49,7 @@ public class PharmacyAdapter extends FirebaseRecyclerAdapter<MedicineInfo, Pharm
     public PharmacyAdapter.ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent,
                                                          int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                                  .inflate(R.layout.singlepharmacy_row, parent, false);
+                .inflate(R.layout.singlepharmacy_row, parent, false);
         return new ViewHolder(view);
     }
 

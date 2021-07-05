@@ -53,58 +53,51 @@ public class BookAppointmentFragment extends Fragment {
 
         mBinding.spinnerDoctor.setTitle("Select your Preferred Doctor");
 
-        DatabaseReference rootRef = FirebaseDatabase.getInstance()
-                                                    .getReference();
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
 
-        rootRef.child(CHILD_NAME_DOCTOR)
-               .addListenerForSingleValueEvent(new ValueEventListener() {
-                   @Override
-                   public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                       docNameList = new ArrayList<>();
-                       docNameList.add("Choose your Doctor");
+        rootRef.child(CHILD_NAME_DOCTOR).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                docNameList = new ArrayList<>();
+                docNameList.add("Choose your Doctor");
 
-                       docIDList = new ArrayList<>();
-                       docIDList.add("BLANK ENTRY");
+                docIDList = new ArrayList<>();
+                docIDList.add("BLANK ENTRY");
 
-                       for (DataSnapshot snap : snapshot.getChildren()) {
-                           String docName = snap.child("name")
-                                                .getValue(String.class);
-                           String docID = snap.child("doctorID")
-                                              .getValue(String.class);
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    String docName = snap.child("name").getValue(String.class);
+                    String docID = snap.child("doctorID").getValue(String.class);
 
-                           docNameList.add(docName);
-                           docIDList.add(docID);
+                    docNameList.add(docName);
+                    docIDList.add(docID);
 
-                       }
+                }
 
-                       ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, docNameList);
-                       adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, docNameList);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                       mBinding.spinnerDoctor.setAdapter(adapter);
-                   }
+                mBinding.spinnerDoctor.setAdapter(adapter);
+            }
 
-                   @Override
-                   public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-                   }
-               });
+            }
+        });
 
         List<String> spinnerArray = new ArrayList<>();
         spinnerArray.add("Select");
 
         currentDate.add(Calendar.DATE, 1);
-        String currentDate1 = DateFormat.getDateInstance(DateFormat.FULL)
-                                        .format(currentDate.getTime());
+        String currentDate1 = DateFormat.getDateInstance(DateFormat.FULL).format(currentDate.getTime());
         spinnerArray.add(currentDate1);
 
         currentDate.add(Calendar.DATE, 1);
-        String currentDate2 = DateFormat.getDateInstance(DateFormat.FULL)
-                                        .format(currentDate.getTime());
+        String currentDate2 = DateFormat.getDateInstance(DateFormat.FULL).format(currentDate.getTime());
         spinnerArray.add(currentDate2);
 
         currentDate.add(Calendar.DATE, 1);
-        String currentDate3 = DateFormat.getDateInstance(DateFormat.FULL)
-                                        .format(currentDate.getTime());
+        String currentDate3 = DateFormat.getDateInstance(DateFormat.FULL).format(currentDate.getTime());
         spinnerArray.add(currentDate3);
 
         ArrayAdapter<String> dateAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
@@ -120,15 +113,11 @@ public class BookAppointmentFragment extends Fragment {
     }
 
     private void bookAppointment() {
-        String problemDesc = mBinding.edittextProblem.getEditText()
-                                                     .getText()
-                                                     .toString();
+        String problemDesc = mBinding.edittextProblem.getEditText().getText().toString();
 
-        String prefDoc = mBinding.spinnerDoctor.getSelectedItem()
-                                               .toString();
+        String prefDoc = mBinding.spinnerDoctor.getSelectedItem().toString();
 
-        String dateAppoint = mBinding.spinnerDate.getSelectedItem()
-                                                 .toString();
+        String dateAppoint = mBinding.spinnerDate.getSelectedItem().toString();
 
         if (problemDesc.equals("")) {
             showToast("Kindly Describe Your Problem First");
@@ -147,60 +136,51 @@ public class BookAppointmentFragment extends Fragment {
 
                     String docID = docIDList.get(docNameList.indexOf(prefDoc));
 
-                    String uid = FirebaseAuth.getInstance()
-                                             .getUid();
+                    String uid = FirebaseAuth.getInstance().getUid();
 
-                    DatabaseReference rootRef = FirebaseDatabase.getInstance()
-                                                                .getReference();
+                    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
 
                     if (uid != null) {
-                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                        String result = sharedPreferences.getString(SharedPreferencesInfo.PREF_CURRENT_USER_PID, "hi");
+                        SharedPreferences sharedPreferences = PreferenceManager
+                                .getDefaultSharedPreferences(getActivity());
+                        String result = sharedPreferences
+                                .getString(SharedPreferencesInfo.PREF_CURRENT_USER_PID, "hi");
 
                         PatientAppointment patientAppointment = new PatientAppointment(result, problemDesc, prefDoc, docID, dateAppoint, false);
 
-                        rootRef.child(CHILD_NAME_APPOINT)
-                               .child(uid)
-                               .addListenerForSingleValueEvent(new ValueEventListener() {
-                                   @Override
-                                   public void onDataChange(
-                                           @NonNull @NotNull DataSnapshot snapshot) {
-                                       if (snapshot.exists()) {
-                                           long num = snapshot.getChildrenCount();
+                        rootRef.child(CHILD_NAME_APPOINT).child(uid)
+                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                        if (snapshot.exists()) {
+                                            long num = snapshot.getChildrenCount();
 
-                                           String currentStat = String.valueOf(snapshot.child(num + "")
-                                                                                       .child("appointmentFulfilled")
-                                                                                       .getValue());
+                                            String currentStat = String
+                                                    .valueOf(snapshot.child(num + "").child("appointmentFulfilled").getValue());
 
-                                           if (currentStat.equals("false")) {
-                                               showToast("You already have one upcoming appointment scheduled at : " + snapshot.child(num + "")
-                                                                                                                               .child("dateAppoint")
-                                                                                                                               .getValue()
-                                                                                                                               .toString());
-                                           } else {
-                                               num++;
+                                            if (currentStat.equals("false")) {
+                                                showToast("You already have one upcoming appointment scheduled at : " + snapshot
+                                                        .child(num + "").child("dateAppoint").getValue().toString());
+                                            } else {
+                                                num++;
 
-                                               //Previous Appointment Fulfilled
-                                               rootRef.child(CHILD_NAME_APPOINT)
-                                                      .child(uid)
-                                                      .child(num + "")
-                                                      .setValue(patientAppointment)
-                                                      .addOnSuccessListener(e -> showToast("Appointment Booking Request Sent. We will contact you shortly"));
-                                           }
-                                       } else {
-                                           rootRef.child(CHILD_NAME_APPOINT)
-                                                  .child(uid)
-                                                  .child("1")
-                                                  .setValue(patientAppointment)
-                                                  .addOnSuccessListener(e -> showToast("Appointment Booking Request Sent. We will contact you shortly"));
-                                       }
-                                   }
+                                                //Previous Appointment Fulfilled
+                                                rootRef.child(CHILD_NAME_APPOINT).child(uid).child(num + "")
+                                                        .setValue(patientAppointment)
+                                                        .addOnSuccessListener(e -> showToast("Appointment Booking Request Sent. We will contact you shortly"));
+                                            }
+                                        } else {
+                                            rootRef.child(CHILD_NAME_APPOINT).child(uid).child("1")
+                                                    .setValue(patientAppointment)
+                                                    .addOnSuccessListener(e -> showToast("Appointment Booking Request Sent. We will contact you shortly"));
+                                        }
+                                    }
 
-                                   @Override
-                                   public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                                    @Override
+                                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-                                   }
-                               });
+                                    }
+                                });
 
 
                     } else {
@@ -227,9 +207,6 @@ public class BookAppointmentFragment extends Fragment {
     }
 
     private void showToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT)
-             .show();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
-
-
 }
